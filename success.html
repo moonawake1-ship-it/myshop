@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>付款成功｜軍一補救教室</title>
+    <style>
+        body {
+            background: #050505;
+            color: #f3f4f6;
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+
+        .card {
+            background: rgba(20, 20, 20, 0.95);
+            border: 1px solid rgba(0, 255, 102, 0.25);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 520px;
+            box-shadow: 0 0 30px rgba(0, 255, 102, 0.12);
+        }
+
+        h1 {
+            color: #00ff66;
+        }
+
+        .info {
+            margin-top: 20px;
+            color: #9ca3af;
+            line-height: 1.8;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 12px 24px;
+            background: #00ff66;
+            color: #000;
+            text-decoration: none;
+            border-radius: 999px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>✅ 付款成功</h1>
+        <p>感謝您的購買，系統正在確認付款資料。</p>
+        <div class="info" id="payment-info">付款資料確認中...</div>
+        <a href="courses.html">返回課程頁</a>
+    </div>
+
+    <script>
+        async function checkPayment() {
+            const params = new URLSearchParams(window.location.search);
+            const sessionId = params.get('session_id');
+
+            if (!sessionId) {
+                document.getElementById('payment-info').innerText = '找不到付款編號，但您已回到成功頁。';
+                return;
+            }
+
+            try {
+                const res = await fetch(`https://myshop-1-ocgr.onrender.com/api/check-payment?session_id=${sessionId}`);
+                const data = await res.json();
+
+                if (data.paid) {
+                    document.getElementById('payment-info').innerHTML =
+                        `課程名稱：${data.courseName}<br>
+                         付款金額：NT$${data.amount}<br>
+                         付款信箱：${data.email || '未提供'}<br>
+                         老師已收到付款通知 Email。`;
+                } else {
+                    document.getElementById('payment-info').innerText =
+                        '付款尚未完成，請回課程頁重新操作。';
+                }
+            } catch (error) {
+                document.getElementById('payment-info').innerText =
+                    '付款確認失敗，請稍後再試。';
+            }
+        }
+
+        checkPayment();
+    </script>
+</body>
+</html>

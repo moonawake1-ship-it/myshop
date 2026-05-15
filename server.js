@@ -11,6 +11,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+const NOTIFY_EMAIL = 'moonawake1@gmail.com';
+
 const courseDatabase = {
     digital_logic: { name: '數位邏輯補救班', amount: 6700 },
     microprocessor: { name: '微處理機補救班', amount: 6700 },
@@ -41,12 +43,13 @@ app.post('/api/checkout', async (req, res) => {
                 quantity: 1
             }],
             mode: 'payment',
-            success_url: 'https://moonawake1-ship-it.github.io/myshop/success.html',
+            metadata: {
+                courseId,
+                courseName: selectedCourse.name
+            },
+            success_url: 'https://moonawake1-ship-it.github.io/myshop/success.html?session_id={CHECKOUT_SESSION_ID}',
             cancel_url: 'https://moonawake1-ship-it.github.io/myshop/courses.html'
         });
-
-        const logEntry = `[${new Date().toLocaleString()}] 發起收費 - 科目: ${selectedCourse.name}, 金額: NT$${selectedCourse.amount / 100}\n`;
-        fs.appendFileSync(path.join(__dirname, 'payments.txt'), logEntry);
 
         res.json({ url: session.url });
 
@@ -56,22 +59,83 @@ app.post('/api/checkout', async (req, res) => {
     }
 });
 
+app.get('/api/check-payment', async (req, res) => {
+    try {
+        const { session_id } = req.query;
+
+        if (!session_id) {
+            return res.status(400).json({
+                success: false,
+                message: '缺少 session_id'
+            });
+        }
+
+        const session = await stripe.checkout.sessions.retrieve(session_id);
+
+        if (session.payment_status === 'paid') {
+            const amount = session.amount_total / 100;
+            const courseName = session.metadata?.courseName || '未提供';
+            const customerEmail = session.customer_details?.email || '未提供';
+
+            const logEntry =
+                `[${new Date().toLocaleString()}] 付款成功 - 課程: ${courseName}, 金額: NT$${amount}, Email: ${customerEmail}, Session: ${session.id}\n`;
+
+            fs.appendFileSync(path.join(__dirname, 'payments.txt'), logEntry);
+
+            const transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: process.env.GMAIL_USER,
+                    pass: process.env.GMAIL_APP_PASSWORD
+                }
+            });
+
+            await transporter.sendMail({
+                from: `"軍一補救教室付款通知" <${process.env.GMAIL_USER}>`,
+                to: NOTIFY_EMAIL,
+                subject: `✅ 有學生完成付款：${courseName}`,
+                text:
+`軍一老師您好：
+
+有學生完成付款。
+
+課程名稱：${courseName}
+付款金額：NT$${amount}
+付款信箱：${customerEmail}
+付款狀態：${session.payment_status}
+Session ID：${session.id}
+
+請至 Stripe 後台確認完整付款紀錄。`
+            });
+        }
+
+        res.json({
+            success: true,
+            paid: session.payment_status === 'paid',
+            status: session.payment_status,
+            amount: session.amount_total / 100,
+            courseName: session.metadata?.courseName || '',
+            email: session.customer_details?.email || ''
+        });
+
+    } catch (error) {
+        console.error('查詢付款錯誤：', error.message);
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+});
+
 app.post('/api/contact', async (req, res) => {
     try {
         const { name, email, message } = req.body;
         const timeStr = new Date().toLocaleString();
 
-        const contactData = `
-====================================
-時間: ${timeStr}
-姓名: ${name}
-信箱: ${email}
-內容: ${message}
-====================================
-
-`;
-
-        fs.appendFileSync(path.join(__dirname, 'contacts.txt'), contactData);
+        fs.appendFileSync(
+            path.join(__dirname, 'contacts.txt'),
+            `時間:${timeStr}\n姓名:${name}\n信箱:${email}\n內容:${message}\n\n`
+        );
 
         const transporter = nodemailer.createTransport({
             service: 'gmail',
@@ -81,26 +145,20 @@ app.post('/api/contact', async (req, res) => {
             }
         });
 
-        const mailOptions = {
+        await transporter.sendMail({
             from: `"軍一補救教室後台" <${process.env.GMAIL_USER}>`,
-            to: process.env.GMAIL_USER,
+            to: NOTIFY_EMAIL,
             subject: `🔔 新訊息通知：${name} 的課務諮詢`,
             text:
-`軍一老師您好：
-
-有新的學生諮詢訊息。
+`有新的學生諮詢訊息。
 
 填單時間：${timeStr}
 學生姓名：${name}
 學生信箱：${email}
 
 諮詢內容：
-${message}
-
-（此郵件由網站自動發送）`
-        };
-
-        await transporter.sendMail(mailOptions);
+${message}`
+        });
 
         res.json({
             success: true,
