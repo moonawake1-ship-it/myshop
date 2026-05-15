@@ -116,6 +116,108 @@
         .submit-btn { background: var(--primary-light); color: white; border: none; padding: 14px; width: 100%; border-radius: 8px; font-size: 1rem; font-weight: bold; transition: opacity 0.2s; }
         [data-theme="dark"] .submit-btn { color: #000; }
         .submit-btn:hover { opacity: 0.9; }
+        /* ===== 手機版 RWD ===== */
+@media (max-width: 768px) {
+
+    body {
+        padding-top: 170px;
+    }
+
+    nav {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: auto;
+        padding: 12px;
+        gap: 12px;
+    }
+
+    .logo {
+        font-size: 1.2rem !important;
+        text-align: center;
+    }
+
+    .nav-right {
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+    }
+
+    nav ul {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+
+    nav ul li a {
+        font-size: 0.95rem;
+        writing-mode: horizontal-tb !important;
+    }
+
+    .controls-group {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .music-player-container {
+        width: 95%;
+        justify-content: center;
+    }
+
+    .main-content,
+    .course-container,
+    .contact-container,
+    .main-layout {
+        width: 100%;
+        padding: 0 12px;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .course-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .course-card {
+        width: 100%;
+    }
+
+    .course-card video,
+    .course-card img {
+        width: 100%;
+        height: auto;
+    }
+
+    .contact-form {
+        width: 100%;
+    }
+
+    input,
+    textarea,
+    button {
+        width: 100%;
+        font-size: 1rem;
+    }
+
+    .submit-btn,
+    .pay-btn,
+    .cta-btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    h1 {
+        font-size: 2rem !important;
+        text-align: center;
+    }
+
+    p {
+        font-size: 1rem;
+        line-height: 1.7;
+    }
+}
     </style>
 </head>
 <body>
