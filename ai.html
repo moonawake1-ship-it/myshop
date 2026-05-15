@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI電子科題庫｜軍一補救教室</title>
+
+    <style>
+
+        body{
+            margin:0;
+            padding:40px;
+            background:#050505;
+            color:white;
+            font-family:sans-serif;
+        }
+
+        .container{
+            max-width:900px;
+            margin:auto;
+        }
+
+        h1{
+            color:#00ff66;
+            text-align:center;
+            margin-bottom:40px;
+        }
+
+        .card{
+            background:#111;
+            border:1px solid rgba(0,255,100,.2);
+            border-radius:20px;
+            padding:30px;
+        }
+
+        .controls{
+            display:flex;
+            gap:12px;
+            flex-wrap:wrap;
+            margin-bottom:30px;
+        }
+
+        select,
+        button{
+            padding:14px;
+            border:none;
+            border-radius:12px;
+            background:#1f1f1f;
+            color:white;
+            font-size:1rem;
+        }
+
+        button{
+            background:#00ff66;
+            color:black;
+            font-weight:bold;
+            cursor:pointer;
+        }
+
+        #question-box{
+            line-height:1.9;
+        }
+
+        .choice{
+            padding:12px;
+            background:#1b1b1b;
+            border-radius:12px;
+            margin-top:10px;
+        }
+
+        .answer{
+            margin-top:25px;
+            color:#00ff66;
+        }
+
+        .explanation{
+            margin-top:15px;
+            color:#ccc;
+        }
+
+        @media(max-width:768px){
+
+            body{
+                padding:20px;
+            }
+
+            .controls{
+                flex-direction:column;
+            }
+
+            select,
+            button{
+                width:100%;
+            }
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>🤖 AI 電子科題庫</h1>
+
+        <div class="card">
+
+            <div class="controls">
+
+                <select id="subject">
+                    <option value="電子學">電子學</option>
+                    <option value="數位邏輯">數位邏輯</option>
+                    <option value="微處理機">微處理機</option>
+                    <option value="基本電學">基本電學</option>
+                    <option value="數學">數學</option>
+                </select>
+
+                <select id="difficulty">
+                    <option value="簡單">簡單</option>
+                    <option value="普通">普通</option>
+                    <option value="困難">困難</option>
+                </select>
+
+                <button onclick="generateQuestion()">
+                    AI生成題目
+                </button>
+
+            </div>
+
+            <div id="question-box">
+
+                點擊按鈕開始 AI 出題
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        async function generateQuestion(){
+
+            const subject =
+                document.getElementById('subject').value;
+
+            const difficulty =
+                document.getElementById('difficulty').value;
+
+            const box =
+                document.getElementById('question-box');
+
+            box.innerHTML =
+                '🤖 AI 題目生成中...';
+
+            try{
+
+                const res = await fetch(
+                    'https://myshop-1-ocgr.onrender.com/api/generate-question',
+                    {
+                        method:'POST',
+                        headers:{
+                            'Content-Type':'application/json'
+                        },
+                        body:JSON.stringify({
+                            subject,
+                            topic:'基礎概念',
+                            difficulty
+                        })
+                    }
+                );
+
+                const data = await res.json();
+
+                if(!data.success){
+
+                    box.innerHTML =
+                        '❌ AI 題目生成失敗';
+
+                    return;
+                }
+
+                const q = data.question;
+
+                box.innerHTML = `
+                    <h2>${q.question}</h2>
+
+                    <div class="choice">
+                        A. ${q.choices[0]}
+                    </div>
+
+                    <div class="choice">
+                        B. ${q.choices[1]}
+                    </div>
+
+                    <div class="choice">
+                        C. ${q.choices[2]}
+                    </div>
+
+                    <div class="choice">
+                        D. ${q.choices[3]}
+                    </div>
+
+                    <div class="answer">
+                        ✅ 答案：${q.answer}
+                    </div>
+
+                    <div class="explanation">
+                        📘 解析：${q.explanation}
+                    </div>
+                `;
+
+            }catch(error){
+
+                console.error(error);
+
+                box.innerHTML =
+                    '❌ 無法連線 AI 系統';
+
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>
