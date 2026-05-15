@@ -254,7 +254,7 @@
             btn.addEventListener('click', async (e) => {
                 const courseId = btn.getAttribute('data-id');
                 try {
-                    const res = await fetch('http://localhost:3000/api/checkout', { 
+                    const res = await fetch('https://myshop-1-ocgr.onrender.com/api/checkout', { 
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ courseId: courseId })
