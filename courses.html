@@ -120,152 +120,53 @@
             <div class="controls-group">
                 <!-- 黑膠唱片控制面板 -->
                 <div class="music-player-container">
-                    <button class="disc-btn" id="music-toggle" title="播放/暫停唱片"></button>
+                    <button class="disc-btn" id="play-pause-btn"></button>
                     <div class="progress-box">
                         <div class="time-info">
                             <span id="current-time">00:00</span>
-                            <span id="total-time">04:00</span>
+                            <span id="total-time">00:00</span>
                         </div>
-                        <input type="range" id="seek-bar" class="slider-bar" value="0" min="0" max="100">
+                        <input type="range" class="slider-bar" id="music-progress" value="0" max="100">
                     </div>
                 </div>
-                <button class="icon-btn" id="theme-toggle">🌙</button>
+                <button class="icon-btn" id="theme-toggle">🌓</button>
             </div>
         </div>
     </nav>
 
     <div class="container">
-        <h2>🔬 統測電子科 ｜ 核心科目選購庫</h2>
         <div class="course-container">
+            <!-- 課程卡片 1 (影片預覽) -->
             <div class="course-card">
-                <div class="video-wrapper"><video controls><source src="digital_logic.mp4" type="video/mp4"></video></div>
-                <h2>數位邏輯補救班</h2>
-                <p style="color: var(--text-muted); margin-top: 10px;">精準剖析布林代數、卡諾圖化簡與組合邏輯電路設計。</p>
-                <div class="price-tag">NT$ 15</div>
-                <button class="pay-btn" data-id="digital_logic">💳 立即結帳</button>
+                <div>
+                    <div class="video-wrapper">
+                        <video src="preview1.mp4" muted loop autoplay playsinline></video>
+                    </div>
+                    <h3>核心精修補救課程</h3>
+                    <p style="color: var(--text-muted); margin-top: 8px; font-size: 0.9rem;">快速掌握關鍵考點，突破學習瓶頸。</p>
+                </div>
+                <div>
+                    <div class="price-tag">NT$ 67</div>
+                    <button class="pay-btn">立即選購</button>
+                </div>
             </div>
+
+            <!-- 課程卡片 2 (圖片預覽) -->
             <div class="course-card">
-                <div class="video-wrapper"><video controls><source src="microprocessor.mp4" type="video/mp4"></video></div>
-                <h2>微處理機補救班</h2>
-                <p style="color: var(--text-muted); margin-top: 10px;">系統化拆解 8051 架構、記憶體配置與中斷控制子程式。</p>
-                <div class="price-tag">NT$ 15</div>
-                <button class="pay-btn" data-id="microprocessor">💳 立即結帳</button>
-            </div>
-            <div class="course-card">
-                <div class="image-wrapper"><img src="electronics.jpg"></div>
-                <h2>電子學補救班</h2>
-                <p style="color: var(--text-muted); margin-top: 10px;">攻克二極體電路、BJT 與 FET 放大器偏壓與小訊號分析。</p>
-                <div class="price-tag">NT$ 15</div>
-                <button class="pay-btn" data-id="electronics">💳 立即結帳</button>
-            </div>
-            <div class="course-card">
-                <div class="image-wrapper"><img src="basic_electricity.jpg"></div>
-                <h2>基本電學補救班</h2>
-                <p style="color: var(--text-muted); margin-top: 10px;">徹底搞懂戴維寧等效電路、交流 RLC 阻抗與諧振電路計算。</p>
-                <div class="price-tag">NT$ 15</div>
-                <button class="pay-btn" data-id="basic_electricity">💳 立即結帳</button>
-            </div>
-            <div class="course-card">
-                <div class="image-wrapper"><img src="math.jpg"></div>
-                <h2>統測數學高分班</h2>
-                <p style="color: var(--text-muted); margin-top: 10px;">專攻電子科必備之三角函數、微積分基礎與複數向量運算。</p>
-                <div class="price-tag">NT$ 15</div>
-                <button class="pay-btn" data-id="math">💳 立即結帳</button>
+                <div>
+                    <div class="image-wrapper">
+                        <img src="preview2.jpg" alt="課程封面">
+                    </div>
+                    <h3>進階實戰衝刺班</h3>
+                    <p style="color: var(--text-muted); margin-top: 8px; font-size: 0.9rem;">全方位模擬演練，高效提升答題速度。</p>
+                </div>
+                <div>
+                    <div class="price-tag">NT$ 67</div>
+                    <button class="pay-btn">立即選購</button>
+                </div>
             </div>
         </div>
     </div>
 
-    <script>
-        /* 💥 瞬發音效與擴散圈 */
-        const clickSound = document.getElementById('click-sound');
-        window.addEventListener('click', (e) => {
-            clickSound.currentTime = 0; clickSound.play().catch(()=>{});
-            const ripple = document.createElement('div'); ripple.className = 'click-ripple';
-            ripple.style.left = e.clientX + 'px'; ripple.style.top = e.clientY + 'px';
-            document.body.appendChild(ripple); setTimeout(() => { ripple.remove(); }, 400);
-        });
-
-        /* 🌓 黑白切換 */
-        const themeToggle = document.getElementById('theme-toggle');
-        themeToggle.addEventListener('click', (e) => {
-            e.stopPropagation();
-            if (document.documentElement.getAttribute('data-theme') === 'light') {
-                document.documentElement.setAttribute('data-theme', 'dark'); themeToggle.innerText = '🌙';
-            } else {
-                document.documentElement.setAttribute('data-theme', 'light'); themeToggle.innerText = '☀️';
-            }
-        });
-
-        /* 🎵 4分鐘唱片控制核心 */
-        const musicToggle = document.getElementById('music-toggle'); const bgMusic = document.getElementById('bg-music');
-        const seekBar = document.getElementById('seek-bar'); const currentTimeEl = document.getElementById('current-time');
-        const maxDuration = 240; 
-
-        musicToggle.addEventListener('click', (e) => {
-            e.stopPropagation();
-            if (bgMusic.paused) { bgMusic.play().catch(() => alert('請先點擊網頁任意處激活音訊通道！')); musicToggle.classList.add('playing'); } 
-            else { bgMusic.pause(); musicToggle.classList.remove('playing'); }
-        });
-
-        function formatTime(seconds) {
-            let min = Math.floor(seconds / 60); let sec = Math.floor(seconds % 60);
-            return `${min < 10 ? "0" + min : min}:${sec < 10 ? "0" + sec : sec}`;
-        }
-
-        bgMusic.addEventListener('timeupdate', () => {
-            if (bgMusic.currentTime >= maxDuration) {
-                bgMusic.pause(); bgMusic.currentTime = 0; musicToggle.classList.remove('playing'); seekBar.value = 0; currentTimeEl.innerText = "00:00"; return;
-            }
-            currentTimeEl.innerText = formatTime(bgMusic.currentTime);
-            seekBar.value = (bgMusic.currentTime / maxDuration) * 100 || 0;
-        });
-        seekBar.addEventListener('input', () => { bgMusic.currentTime = (seekBar.value / 100) * maxDuration; });
-
-        /* 🔬 特效渲染區 */
-        const cursorEl = document.getElementById('custom-cursor'); const canvas = document.getElementById('fx-canvas'); const ctx = canvas.getContext('2d');
-        let pcbTraces = []; let neonMatrixParticles = [];
-        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-        window.addEventListener('resize', resizeCanvas); resizeCanvas();
-
-        for(let i = 0; i < 35; i++) { neonMatrixParticles.push({ x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight, size: Math.random() * 4 + 2, speedX: Math.random() * 0.4 - 0.2, speedY: Math.random() * 0.4 + 0.2, opacity: Math.random() * 0.4 + 0.2 }); }
-        
-        window.addEventListener('mousemove', (e) => {
-            cursorEl.style.left = e.clientX + 'px'; cursorEl.style.top = e.clientY + 'px';
-            if (Math.random() < 0.35) {
-                let directions = [0, Math.PI/4, Math.PI/2, Math.PI, -Math.PI/4];
-                pcbTraces.push({ startX: e.clientX, startY: e.clientY, length: Math.random() * 20 + 10, angle: directions[Math.floor(Math.random() * directions.length)], opacity: 1, width: Math.random() * 1.2 + 0.5 });
-            }
-        });
-
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height); const isDark = document.documentElement.getAttribute('data-theme') === 'dark'; let electroColor = isDark ? '#00ff66' : '#2563eb';
-            for (let i = pcbTraces.length - 1; i >= 0; i--) {
-                let t = pcbTraces[i]; ctx.save(); ctx.globalAlpha = t.opacity; ctx.strokeStyle = electroColor; ctx.lineWidth = t.width; if(isDark) { ctx.shadowBlur = 5; ctx.shadowColor = electroColor; } ctx.beginPath(); ctx.moveTo(t.startX, t.startY); let endX = t.startX + Math.cos(t.angle) * t.length; let endY = t.startY + Math.sin(t.angle) * t.length; ctx.lineTo(endX, endY); ctx.stroke(); ctx.fillStyle = electroColor; ctx.beginPath(); ctx.arc(endX, endY, t.width * 1.5, 0, Math.PI*2); ctx.fill(); ctx.restore(); t.opacity -= 0.025; if (t.opacity <= 0) pcbTraces.splice(i, 1);
-            }
-            for (let i = 0; i < neonMatrixParticles.length; i++) {
-                let s = neonMatrixParticles[i]; ctx.save(); ctx.globalAlpha = s.opacity; ctx.strokeStyle = isDark ? '#00ff66' : '#2563eb'; ctx.lineWidth = 1; ctx.strokeRect(s.x, s.y, s.size, s.size); ctx.restore(); s.x += s.speedX; s.y += s.speedY; if (s.y > canvas.height) { s.y = 0; s.x = Math.random() * canvas.width; }
-            }
-            requestAnimationFrame(animate);
-        }
-        animate();
-
-        // 金流後端通訊
-        document.querySelectorAll('.pay-btn').forEach(btn => {
-            btn.addEventListener('click', async (e) => {
-                const courseId = btn.getAttribute('data-id');
-                try {
-                    const res = await fetch('https://myshop-1-ocgr.onrender.com/api/checkout', { 
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ courseId: courseId })
-                    });
-                    const data = await res.json();
-                    if (data.url) { window.location.href = data.url; }
-                } catch (error) {
-                    alert('後端連線失敗！請確認終端機是否已開啟 node server.js！');
-                }
-            });
-        });
-    </script>
 </body>
 </html>
