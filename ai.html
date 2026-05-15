@@ -1,173 +1,415 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
-
+<html lang="zh-TW" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>AI電子科題庫｜軍一補救教室</title>
 
     <style>
-
-        body{
-            margin:0;
-            padding:40px;
-            background:#050505;
-            color:white;
-            font-family:sans-serif;
+        :root {
+            --bg-main: #050505;
+            --bg-gradient: linear-gradient(135deg, #020202 0%, #0d0d0d 100%);
+            --nav-bg: rgba(15, 15, 15, 0.85);
+            --card-bg: rgba(20, 20, 20, 0.85);
+            --card-border: rgba(0, 255, 102, 0.18);
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --primary-light: #00ff66;
+            --accent: #00f0ff;
+            --shadow: 0 10px 35px rgba(0, 255, 102, 0.08);
+            --logo-color: #ffffff;
         }
 
-        .container{
-            max-width:900px;
-            margin:auto;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: sans-serif;
         }
 
-        h1{
-            color:#00ff66;
-            text-align:center;
-            margin-bottom:40px;
+        body {
+            background: var(--bg-main);
+            background-image: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding-top: 100px;
+            overflow-x: hidden;
         }
 
-        .card{
-            background:#111;
-            border:1px solid rgba(0,255,100,.2);
-            border-radius:20px;
-            padding:30px;
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            background: var(--nav-bg);
+            border-bottom: 1px solid var(--card-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            z-index: 1000;
+            backdrop-filter: blur(12px);
         }
 
-        .controls{
-            display:flex;
-            gap:12px;
-            flex-wrap:wrap;
-            margin-bottom:30px;
+        nav .logo {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--logo-color);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav ul li a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        nav ul li a:hover {
+            color: var(--primary-light);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            color: var(--primary-light);
+            margin-bottom: 15px;
+            text-shadow: 0 0 18px rgba(0, 255, 102, 0.3);
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .ai-layout {
+            display: grid;
+            grid-template-columns: 330px 1fr;
+            gap: 25px;
+            align-items: start;
+        }
+
+        .panel,
+        .result-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 22px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(12px);
+        }
+
+        .panel {
+            padding: 25px;
+        }
+
+        .panel h2 {
+            color: var(--accent);
+            font-size: 1.3rem;
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin: 16px 0 8px;
+            color: var(--text-muted);
+            font-size: 0.95rem;
         }
 
         select,
-        button{
-            padding:14px;
-            border:none;
-            border-radius:12px;
-            background:#1f1f1f;
-            color:white;
-            font-size:1rem;
+        input,
+        button {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
+            background: rgba(0, 0, 0, 0.35);
+            color: var(--text-main);
+            font-size: 1rem;
+            outline: none;
         }
 
-        button{
-            background:#00ff66;
-            color:black;
-            font-weight:bold;
-            cursor:pointer;
+        select:focus,
+        input:focus {
+            border-color: var(--primary-light);
+            box-shadow: 0 0 12px rgba(0, 255, 102, 0.18);
         }
 
-        #question-box{
-            line-height:1.9;
+        .generate-btn {
+            margin-top: 22px;
+            background: var(--primary-light);
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .choice{
-            padding:12px;
-            background:#1b1b1b;
-            border-radius:12px;
-            margin-top:10px;
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(0, 255, 102, 0.45);
         }
 
-        .answer{
-            margin-top:25px;
-            color:#00ff66;
+        .hint {
+            margin-top: 18px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.6;
         }
 
-        .explanation{
-            margin-top:15px;
-            color:#ccc;
+        .result-card {
+            padding: 30px;
+            min-height: 520px;
         }
 
-        @media(max-width:768px){
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            align-items: center;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 18px;
+            margin-bottom: 22px;
+        }
 
-            body{
-                padding:20px;
+        .result-header h2 {
+            color: var(--primary-light);
+            font-size: 1.5rem;
+        }
+
+        .badge {
+            padding: 8px 12px;
+            border-radius: 999px;
+            background: rgba(0, 255, 102, 0.1);
+            color: var(--primary-light);
+            border: 1px solid var(--card-border);
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+
+        #question-box {
+            line-height: 1.9;
+        }
+
+        .empty-state {
+            text-align: center;
+            color: var(--text-muted);
+            padding: 90px 20px;
+        }
+
+        .empty-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .question-title {
+            font-size: 1.25rem;
+            color: var(--text-main);
+            margin-bottom: 20px;
+        }
+
+        .choice {
+            background: rgba(255, 255, 255, 0.035);
+            border: 1px solid rgba(0, 255, 102, 0.1);
+            border-radius: 14px;
+            padding: 14px 16px;
+            margin: 12px 0;
+        }
+
+        .answer {
+            margin-top: 25px;
+            padding: 16px;
+            border-radius: 14px;
+            background: rgba(0, 255, 102, 0.1);
+            color: var(--primary-light);
+            font-weight: bold;
+        }
+
+        .explanation {
+            margin-top: 16px;
+            padding: 16px;
+            border-radius: 14px;
+            background: rgba(0, 240, 255, 0.08);
+            color: #d1d5db;
+        }
+
+        .loading {
+            color: var(--primary-light);
+            text-align: center;
+            padding: 90px 20px;
+            font-size: 1.2rem;
+        }
+
+        .loading span {
+            animation: blink 1s infinite alternate;
+        }
+
+        @keyframes blink {
+            from { opacity: 0.35; }
+            to { opacity: 1; }
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 25px;
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding-top: 150px;
             }
 
-            .controls{
-                flex-direction:column;
+            nav {
+                height: auto;
+                padding: 12px;
+                flex-direction: column;
+                gap: 12px;
             }
 
-            select,
-            button{
-                width:100%;
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 16px;
             }
 
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .ai-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .result-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .result-card {
+                min-height: auto;
+                padding: 24px;
+            }
         }
-
     </style>
 </head>
 
 <body>
 
-    <div class="container">
+    <nav>
+        <div class="logo">⚡ 軍一補救教室</div>
+        <ul>
+            <li><a href="index.html">🏠 主頁</a></li>
+            <li><a href="courses.html">🛒 購買課程</a></li>
+            <li><a href="ai.html">🤖 AI題庫</a></li>
+            <li><a href="contact.html">✉️ 聯絡我們</a></li>
+        </ul>
+    </nav>
 
-        <h1>🤖 AI 電子科題庫</h1>
+    <main class="container">
 
-        <div class="card">
+        <section class="hero">
+            <h1>🤖 軍一 AI 電子科題庫</h1>
+            <p>
+                由 Gemini AI 即時生成高職電子科練習題，支援電子學、數位邏輯、微處理機、基本電學與統測數學。
+            </p>
+        </section>
 
-            <div class="controls">
+        <section class="ai-layout">
 
+            <div class="panel">
+                <h2>⚙️ 出題設定</h2>
+
+                <label>科目</label>
                 <select id="subject">
                     <option value="電子學">電子學</option>
                     <option value="數位邏輯">數位邏輯</option>
                     <option value="微處理機">微處理機</option>
                     <option value="基本電學">基本電學</option>
-                    <option value="數學">數學</option>
+                    <option value="統測數學">統測數學</option>
                 </select>
 
+                <label>章節 / 主題</label>
+                <input id="topic" value="基礎概念" placeholder="例如：二極體、卡諾圖、8051、中斷">
+
+                <label>難度</label>
                 <select id="difficulty">
                     <option value="簡單">簡單</option>
-                    <option value="普通">普通</option>
+                    <option value="普通" selected>普通</option>
                     <option value="困難">困難</option>
                 </select>
 
-                <button onclick="generateQuestion()">
-                    AI生成題目
+                <button class="generate-btn" onclick="generateQuestion()">
+                    ⚡ AI 生成題目
                 </button>
 
+                <div class="hint">
+                    建議主題可以輸入：二極體、BJT、卡諾圖、邏輯閘、8051、RLC、三角函數。
+                </div>
+
+                <a class="back-link" href="courses.html">← 回課程選購</a>
             </div>
 
-            <div id="question-box">
+            <div class="result-card">
+                <div class="result-header">
+                    <h2>📘 AI 題目結果</h2>
+                    <div class="badge">Gemini 即時生成</div>
+                </div>
 
-                點擊按鈕開始 AI 出題
-
+                <div id="question-box">
+                    <div class="empty-state">
+                        <div class="empty-icon">🧠</div>
+                        <p>請先選擇科目、章節與難度，再點擊「AI 生成題目」。</p>
+                    </div>
+                </div>
             </div>
 
-        </div>
+        </section>
 
-    </div>
+    </main>
 
     <script>
+        async function generateQuestion() {
+            const subject = document.getElementById('subject').value;
+            const topic = document.getElementById('topic').value || '基礎概念';
+            const difficulty = document.getElementById('difficulty').value;
+            const box = document.getElementById('question-box');
 
-        async function generateQuestion(){
+            box.innerHTML = `
+                <div class="loading">
+                    🤖 AI 正在生成題目<span>...</span><br>
+                    <small>請稍候幾秒</small>
+                </div>
+            `;
 
-            const subject =
-                document.getElementById('subject').value;
-
-            const difficulty =
-                document.getElementById('difficulty').value;
-
-            const box =
-                document.getElementById('question-box');
-
-            box.innerHTML =
-                '🤖 AI 題目生成中...';
-
-            try{
-
+            try {
                 const res = await fetch(
                     'https://myshop-1-ocgr.onrender.com/api/generate-question',
                     {
-                        method:'POST',
-                        headers:{
-                            'Content-Type':'application/json'
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
                         },
-                        body:JSON.stringify({
+                        body: JSON.stringify({
                             subject,
-                            topic:'基礎概念',
+                            topic,
                             difficulty
                         })
                     }
@@ -175,34 +417,27 @@
 
                 const data = await res.json();
 
-                if(!data.success){
-
-                    box.innerHTML =
-                        '❌ AI 題目生成失敗';
-
+                if (!data.success) {
+                    box.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-icon">❌</div>
+                            <p>AI 題目生成失敗：${data.error || '未知錯誤'}</p>
+                        </div>
+                    `;
                     return;
                 }
 
                 const q = data.question;
 
                 box.innerHTML = `
-                    <h2>${q.question}</h2>
-
-                    <div class="choice">
-                        A. ${q.choices[0]}
+                    <div class="question-title">
+                        ${q.question}
                     </div>
 
-                    <div class="choice">
-                        B. ${q.choices[1]}
-                    </div>
-
-                    <div class="choice">
-                        C. ${q.choices[2]}
-                    </div>
-
-                    <div class="choice">
-                        D. ${q.choices[3]}
-                    </div>
+                    <div class="choice">A. ${q.choices[0]}</div>
+                    <div class="choice">B. ${q.choices[1]}</div>
+                    <div class="choice">C. ${q.choices[2]}</div>
+                    <div class="choice">D. ${q.choices[3]}</div>
 
                     <div class="answer">
                         ✅ 答案：${q.answer}
@@ -213,19 +448,18 @@
                     </div>
                 `;
 
-            }catch(error){
-
+            } catch (error) {
                 console.error(error);
 
-                box.innerHTML =
-                    '❌ 無法連線 AI 系統';
-
+                box.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">⚠️</div>
+                        <p>無法連線 AI 系統，請確認 Render 是否部署完成。</p>
+                    </div>
+                `;
             }
-
         }
-
     </script>
 
 </body>
-
 </html>
