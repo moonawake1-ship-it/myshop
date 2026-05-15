@@ -4,16 +4,17 @@ const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
 require('dotenv').config();
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-const model = genAI.getGenerativeModel({
-  model: "gemini-1.5-flash"
-});
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const app = express();
-
 app.use(cors());
 app.use(express.json());
+
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const model = genAI.getGenerativeModel({
+    model: "gemini-1.5-flash"
+});
 
 const courseDatabase = {
     digital_logic: { name: '數位邏輯補救班', amount: 6700 },
@@ -32,12 +33,8 @@ async function sendDiscordNotification(message) {
     try {
         await fetch(process.env.DISCORD_WEBHOOK_URL, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                content: message
-            })
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ content: message })
         });
     } catch (error) {
         console.error('Discord 通知失敗：', error.message);
@@ -58,9 +55,7 @@ app.post('/api/checkout', async (req, res) => {
             line_items: [{
                 price_data: {
                     currency: 'twd',
-                    product_data: {
-                        name: selectedCourse.name
-                    },
+                    product_data: { name: selectedCourse.name },
                     unit_amount: selectedCourse.amount
                 },
                 quantity: 1
@@ -170,15 +165,8 @@ ${message}`
     }
 });
 
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-    console.log(`🚀 Server running on port ${PORT}`);
-});
 app.post('/api/generate-question', async (req, res) => {
-
     try {
-
         const { subject, topic, difficulty } = req.body;
 
         const prompt = `
@@ -186,18 +174,18 @@ app.post('/api/generate-question', async (req, res) => {
 
 請生成一題：
 
-科目：${subject}
-章節：${topic}
-難度：${difficulty}
+科目：${subject || '電子學'}
+章節：${topic || '基礎概念'}
+難度：${difficulty || '普通'}
 
 規則：
 1. 四選一
 2. 僅回傳 JSON
 3. 不要 markdown
 4. 附詳細解析
+5. 題目要適合高職電子科學生
 
 格式：
-
 {
  "question":"",
  "choices":["","","",""],
@@ -207,9 +195,7 @@ app.post('/api/generate-question', async (req, res) => {
 `;
 
         const result = await model.generateContent(prompt);
-
         const response = await result.response;
-
         const text = response.text();
 
         const cleanText = text
@@ -225,14 +211,17 @@ app.post('/api/generate-question', async (req, res) => {
         });
 
     } catch (err) {
-
-        console.error(err);
+        console.error('Gemini 題目生成錯誤：', err.message);
 
         res.status(500).json({
             success: false,
             error: err.message
         });
-
     }
+});
 
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+    console.log(`🚀 Server running on port ${PORT}`);
 });
