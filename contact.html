@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-TW" data-theme="dark"> <!-- 預設初始為深黑色模式 -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>聯絡我們</title>
+    <style>
+        /* 🎨 CSS 主題色彩變數：100% 同步所有頁面 */
+        :root {
+            --bg-main: #050505;
+            --bg-gradient: linear-gradient(135deg, #020202 0%, #0d0d0d 100%);
+            --nav-bg: rgba(15, 15, 15, 0.85);
+            --card-bg: rgba(20, 20, 20, 0.85);
+            --card-border: rgba(0, 255, 102, 0.15); 
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --input-bg: #1a1a1a;
+            --primary-light: #00ff66; /* 晶片螢光綠 */
+            --accent: #00f0ff; 
+            --shadow: 0 10px 35px rgba(0, 255, 102, 0.05);
+            --logo-color: #ffffff;
+        }
+
+        [data-theme="light"] {
+            --bg-main: #f8fafc;
+            --bg-gradient: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+            --nav-bg: rgba(255, 255, 255, 0.85);
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --card-border: rgba(15, 23, 42, 0.08);
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --chat-bg: #ffffff;
+            --input-bg: #f1f5f9;
+            --primary-light: #2563eb; /* 科技藍 */
+            --accent: #d97706;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            --logo-color: #000000;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+        html, body, button, a, input, textarea { cursor: none !important; }
+
+        body {
+            background: var(--bg-main); background-image: var(--bg-gradient); color: var(--text-main);
+            min-height: 100vh; padding-top: 90px;
+            transition: background 0.8s cubic-bezier(0.4, 0, 0.2, 1), background-image 0.8s cubic-bezier(0.4, 0, 0.2, 1), color 0.6s ease;
+            overflow-x: hidden; position: relative;
+        }
+
+        /* ⚡ 發光漸層雷電游標 */
+        #custom-cursor {
+            position: fixed; width: 32px; height: 32px; pointer-events: none; z-index: 10000; top: 0; left: 0;
+            transform: translate(-10%, -10%); display: block;
+        }
+        #custom-cursor::before {
+            content: ''; display: block; width: 100%; height: 100%;
+            background: linear-gradient(135deg, #ffe600 0%, #ff6600 50%, #ff0000 100%);
+            clip-path: polygon(55% 0%, 10% 55%, 50% 55%, 40% 100%, 90% 40%, 50% 40%);
+            animation: pulse-glow 1.5s infinite alternate;
+        }
+        @keyframes pulse-glow { 0% { filter: drop-shadow(0px 0px 4px #ff6600); } 100% { filter: drop-shadow(0px 0px 10px #ff3300); } }
+
+        /* 💥 點擊實體擴散圈 */
+        .click-ripple {
+            position: fixed; width: 10px; height: 10px; background: transparent; border: 3px solid var(--primary-light);
+            border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%);
+            animation: ripple-out 0.4s cubic-bezier(0.1, 0.8, 0.3, 1) forwards; box-shadow: 0 0 8px var(--primary-light);
+        }
+        @keyframes ripple-out { 0% { width: 10px; height: 10px; opacity: 1; border-width: 3px; } 100% { width: 55px; height: 55px; opacity: 0; border-width: 1px; } }
+
+        #fx-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9998; }
+
+        /* 🟢 固定導覽列：1:1 還原複製 index.html 頂級流暢排版與寬度留白 */
+        nav {
+            position: fixed; top: 0; left: 0; width: 100%; height: 70px;
+            background: var(--nav-bg); border-bottom: 1px solid var(--card-border);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 40px; z-index: 1000; transition: background 0.8s;
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+        }
+        nav .logo { font-size: 1.3rem; font-weight: bold; color: var(--logo-color) !important; transition: color 0.6s; }
+        
+        /* 右側群組排版 */
+        .nav-right { display: flex; align-items: center; gap: 30px; }
+        nav ul { display: flex; list-style: none; gap: 25px; }
+        nav ul li a { color: var(--text-main); text-decoration: none; font-size: 1rem; font-weight: 500; }
+        nav ul li a:hover { color: var(--primary-light); }
+        
+        .controls-group { display: flex; align-items: center; gap: 15px; }
+
+        /* 黑膠唱片面板組件 */
+        .music-player-container { display: flex; align-items: center; gap: 12px; background: var(--card-bg); padding: 6px 16px; border-radius: 30px; border: 1px solid var(--card-border); }
+        .disc-btn { width: 36px; height: 36px; background: #111; border: 2px solid #333; border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; }
+        .disc-btn::after { content: ''; position: absolute; width: 8px; height: 8px; background: var(--primary-light); border-radius: 50%; }
+        .disc-btn.playing { animation: spin-disc 4s linear infinite; box-shadow: 0 0 10px var(--primary-light); border-color: var(--primary-light); }
+        @keyframes spin-disc { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .progress-box { display: flex; flex-direction: column; width: 110px; font-size: 0.75rem; color: var(--text-main); }
+        .time-info { display: flex; justify-content: space-between; margin-bottom: 2px; font-family: monospace; }
+        .slider-bar { width: 100%; -webkit-appearance: none; appearance: none; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; outline: none; }
+        [data-theme="light"] .slider-bar { background: rgba(0,0,0,0.1); }
+        .slider-bar::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 8px; height: 8px; background: var(--primary-light); border-radius: 50%; cursor: pointer; box-shadow: 0 0 5px var(--primary-light); }
+
+        .icon-btn { background: var(--card-bg); border: 1px solid var(--card-border); color: var(--text-main); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+
+        /* 聯絡盒子排版 */
+        .contact-box { max-width: 540px; margin: 50px auto; background: var(--card-bg); border: 1px solid var(--card-border); padding: 35px; border-radius: 20px; box-shadow: var(--shadow); transition: background 0.8s, border-color 0.8s; text-align: center; }
+        .contact-box h2 { font-size: 1.8rem; margin-bottom: 5px; color: var(--primary-light); }
+        .contact-box p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 25px; }
+        
+        .form-group { margin-bottom: 20px; text-align: left; }
+        .form-group label { display: block; margin-bottom: 6px; font-size: 0.95rem; font-weight: 500; }
+        .form-group input, .form-group textarea { width: 100%; padding: 12px; background: var(--input-bg); border: 1px solid var(--card-border); color: var(--text-main); border-radius: 8px; outline: none; transition: border-color 0.3s, background 0.8s; }
+        .form-group input:focus, .form-group textarea:focus { border-color: var(--primary-light); }
+        
+        .submit-btn { background: var(--primary-light); color: white; border: none; padding: 14px; width: 100%; border-radius: 8px; font-size: 1rem; font-weight: bold; transition: opacity 0.2s; }
+        [data-theme="dark"] .submit-btn { color: #000; }
+        .submit-btn:hover { opacity: 0.9; }
+    </style>
+</head>
+<body>
+
+    <!-- 漸層發光閃電游標 -->
+    <div id="custom-cursor"></div>
+    <canvas id="fx-canvas"></canvas>
+
+    <!-- 音訊本機加載 -->
+    <audio id="bg-music" loop src="music.mp3"></audio>
+    <audio id="click-sound" src="pop.mp3" preload="auto"></audio>
+
+    <!-- 🟢 100% 複製 index.html 頂部結構 -->
+    <nav>
+        <div class="logo">⚡ 軍一補救教室</div>
+        <div class="nav-right">
+            <ul>
+                <li><a href="index.html">🏠 主頁</a></li>
+                <li><a href="courses.html">🛒 購買課程</a></li>
+                <li><a href="contact.html">✉️ 聯絡我們</a></li>
+            </ul>
+            <div class="controls-group">
+                <!-- 黑膠唱片控制面板 -->
+                <div class="music-player-container">
+                    <button class="disc-btn" id="music-toggle"></button>
+                    <div class="progress-box">
+                        <div class="time-info">
+                            <span id="current-time">00:00</span>
+                            <span id="total-time">04:00</span>
+                        </div>
+                        <input type="range" id="seek-bar" class="slider-bar" value="0" min="0" max="100">
+                    </div>
+                </div>
+                <button class="icon-btn" id="theme-toggle">🌙</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="contact-box">
+        <h2>✉️ 聯絡我們</h2>
+        <p>填寫表單後我們會回復你:)</p>
+        <form id="c-form">
+            <div class="form-group">
+                <label>您的姓名</label>
+                <input type="text" id="c-name" required placeholder="請輸入姓名">
+            </div>
+            <div class="form-group">
+                <label>電子郵件</label>
+                <input type="email" id="c-email" required placeholder="請輸入聯絡電子信箱">
+            </div>
+            <div class="form-group">
+                <label>諮詢內容</label>
+                <textarea id="c-message" rows="5" required placeholder="是軍一不好嗎..?"></textarea>
+            </div>
+            <button type="submit" class="submit-btn">🚀 發送</button>
+        </form>
+    </div>
+
+    <script>
+        /* 💥 瞬發音效與 CSS 小擴散圈 */
+        const clickSound = document.getElementById('click-sound');
+        window.addEventListener('click', (e) => {
+            clickSound.currentTime = 0; clickSound.play().catch(()=>{});
+            const ripple = document.createElement('div'); ripple.className = 'click-ripple';
+            ripple.style.left = e.clientX + 'px'; ripple.style.top = e.clientY + 'px';
+            document.body.appendChild(ripple); setTimeout(() => { ripple.remove(); }, 400);
+        });
+
+        /* 🌓 黑白切換 */
+        const themeToggle = document.getElementById('theme-toggle');
+        themeToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (document.documentElement.getAttribute('data-theme') === 'light') {
+                document.documentElement.setAttribute('data-theme', 'dark'); themeToggle.innerText = '🌙';
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light'); themeToggle.innerText = '☀️';
+            }
+        });
+
+        /* 🎵 4分鐘唱片控制核心邏輯 */
+        const musicToggle = document.getElementById('music-toggle'); const bgMusic = document.getElementById('bg-music');
+        const seekBar = document.getElementById('seek-bar'); const currentTimeEl = document.getElementById('current-time');
+        const maxDuration = 240; 
+
+        musicToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (bgMusic.paused) { bgMusic.play().catch(() => alert('請先點擊網頁任意處激活音訊通道！')); musicToggle.classList.add('playing'); } 
+            else { bgMusic.pause(); musicToggle.classList.remove('playing'); }
+        });
+
+        function formatTime(seconds) {
+            let min = Math.floor(seconds / 60); let sec = Math.floor(seconds % 60);
+            return `${min < 10 ? "0" + min : min}:${sec < 10 ? "0" + sec : sec}`;
+        }
+
+        bgMusic.addEventListener('timeupdate', () => {
+            if (bgMusic.currentTime >= maxDuration) {
+                bgMusic.pause(); bgMusic.currentTime = 0; musicToggle.classList.remove('playing'); seekBar.value = 0; currentTimeEl.innerText = "00:00"; return;
+            }
+            currentTimeEl.innerText = formatTime(bgMusic.currentTime);
+            seekBar.value = (bgMusic.currentTime / maxDuration) * 100 || 0;
+        });
+        seekBar.addEventListener('input', () => { bgMusic.currentTime = (seekBar.value / 100) * maxDuration; });
+
+        /* 🔬 特效與游標連動渲染區 */
+        const cursorEl = document.getElementById('custom-cursor'); const canvas = document.getElementById('fx-canvas'); const ctx = canvas.getContext('2d');
+        let pcbTraces = []; let neonMatrixParticles = [];
+        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resizeCanvas); resizeCanvas();
+
+        for(let i = 0; i < 35; i++) { neonMatrixParticles.push({ x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight, size: Math.random() * 4 + 2, speedX: Math.random() * 0.4 - 0.2, speedY: Math.random() * 0.4 + 0.2, opacity: Math.random() * 0.4 + 0.2 }); }
+        
+        window.addEventListener('mousemove', (e) => {
+            cursorEl.style.left = e.clientX + 'px'; cursorEl.style.top = e.clientY + 'px';
+            if (Math.random() < 0.35) {
+                let directions = [0, Math.PI/4, Math.PI/2, Math.PI, -Math.PI/4];
+                pcbTraces.push({ startX: e.clientX, startY: e.clientY, length: Math.random() * 20 + 10, angle: directions[Math.floor(Math.random() * directions.length)], opacity: 1, width: Math.random() * 1.2 + 0.5 });
+            }
+        });
+        window.addEventListener('mousedown', () => { cursorEl.style.transform = 'translate(-10%, -10%) scale(0.7)'; });
+        window.addEventListener('mouseup', () => { cursorEl.style.transform = 'translate(-10%, -10%) scale(1)'; });
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height); const isDark = document.documentElement.getAttribute('data-theme') === 'dark'; let electroColor = isDark ? '#00ff66' : '#2563eb';
+            for (let i = pcbTraces.length - 1; i >= 0; i--) {
+                let t = pcbTraces[i]; ctx.save(); ctx.globalAlpha = t.opacity; ctx.strokeStyle = electroColor; ctx.lineWidth = t.width; if(isDark) { ctx.shadowBlur = 5; ctx.shadowColor = electroColor; } ctx.beginPath(); ctx.moveTo(t.startX, t.startY); let endX = t.startX + Math.cos(t.angle) * t.length; let endY = t.startY + Math.sin(t.angle) * t.length; ctx.lineTo(endX, endY); ctx.stroke(); ctx.fillStyle = electroColor; ctx.beginPath(); ctx.arc(endX, endY, t.width * 1.5, 0, Math.PI*2); ctx.fill(); ctx.restore(); t.opacity -= 0.025; if (t.opacity <= 0) pcbTraces.splice(i, 1);
+            }
+            for (let i = 0; i < neonMatrixParticles.length; i++) {
+                let s = neonMatrixParticles[i]; ctx.save(); ctx.globalAlpha = s.opacity; ctx.strokeStyle = isDark ? '#00ff66' : '#2563eb'; ctx.lineWidth = 1; ctx.strokeRect(s.x, s.y, s.size, s.size); ctx.restore(); s.x += s.speedX; s.y += s.speedY; if (s.y > canvas.height) { s.y = 0; s.x = Math.random() * canvas.width; }
+            }
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        /* ✉️ 真實後台表單傳送 */
+        document.getElementById('c-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('c-name').value;
+            const email = document.getElementById('c-email').value;
+            const message = document.getElementById('c-message').value;
+
+            try {
+                const res = await fetch('http://localhost:3000/api/contact', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, message })
+                });
+                const data = await res.json();
+                if(data.success) {
+                    alert('🎉 後台傳送成功！內容已安全儲存入 contacts.txt 檔案。');
+                    e.target.reset();
+                }
+            } catch (error) {
+                alert('連線失敗！請確認您的後端 node server.js 是否有上線執行中！');
+            }
+        });
+    </script>
+</body>
+</html>

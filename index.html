@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh-TW" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>軍一補救教室 ｜ 數位核心全功能主頁</title>
+    <style>
+        /* 🎨 CSS 主題色彩變數 */
+        :root {
+            --bg-main: #050505;
+            --bg-gradient: linear-gradient(135deg, #020202 0%, #0d0d0d 100%);
+            --nav-bg: rgba(15, 15, 15, 0.85);
+            --card-bg: rgba(20, 20, 20, 0.85);
+            --card-border: rgba(0, 255, 102, 0.15); 
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --chat-bg: rgba(10, 10, 10, 0.95);
+            --input-bg: #1a1a1a;
+            --primary-light: #00ff66; 
+            --accent: #00f0ff; 
+            --shadow: 0 10px 35px rgba(0, 255, 102, 0.05);
+            --logo-color: #ffffff;
+        }
+
+        [data-theme="light"] {
+            --bg-main: #f8fafc;
+            --bg-gradient: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+            --nav-bg: rgba(255, 255, 255, 0.85);
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --card-border: rgba(15, 23, 42, 0.08);
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --chat-bg: #ffffff;
+            --input-bg: #f1f5f9;
+            --primary-light: #2563eb; 
+            --accent: #d97706;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            --logo-color: #000000;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+        html, body, button, a, input, textarea { cursor: none !important; }
+
+        body {
+            background: var(--bg-main); background-image: var(--bg-gradient); color: var(--text-main);
+            min-height: 100vh; padding-top: 90px;
+            transition: background 0.8s cubic-bezier(0.4, 0, 0.2, 1), background-image 0.8s cubic-bezier(0.4, 0, 0.2, 1), color 0.6s ease;
+            overflow-x: hidden; position: relative;
+        }
+
+        /* ⚡ 發光漸層雷電游標 */
+        #custom-cursor {
+            position: fixed; width: 32px; height: 32px; pointer-events: none; z-index: 10000; top: 0; left: 0;
+            transform: translate(-10%, -10%); display: block;
+        }
+        #custom-cursor::before {
+            content: ''; display: block; width: 100%; height: 100%;
+            background: linear-gradient(135deg, #ffe600 0%, #ff6600 50%, #ff0000 100%);
+            clip-path: polygon(55% 0%, 10% 55%, 50% 55%, 40% 100%, 90% 40%, 50% 40%);
+            animation: pulse-glow 1.5s infinite alternate;
+        }
+        @keyframes pulse-glow { 0% { filter: drop-shadow(0px 0px 4px #ff6600); } 100% { filter: drop-shadow(0px 0px 10px #ff3300); } }
+
+        /* 💥 點擊實體擴散圈 */
+        .click-ripple {
+            position: fixed; width: 10px; height: 10px; background: transparent; border: 3px solid var(--primary-light);
+            border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%);
+            animation: ripple-out 0.4s cubic-bezier(0.1, 0.8, 0.3, 1) forwards; box-shadow: 0 0 8px var(--primary-light);
+        }
+        @keyframes ripple-out { 0% { width: 10px; height: 10px; opacity: 1; border-width: 3px; } 100% { width: 55px; height: 55px; opacity: 0; border-width: 1px; } }
+
+        #fx-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9998; }
+
+        /* 固定導覽列 */
+        nav {
+            position: fixed; top: 0; left: 0; width: 100%; height: 70px; background: var(--nav-bg); border-bottom: 1px solid var(--card-border);
+            display: flex; justify-content: space-between; align-items: center; padding: 0 40px; z-index: 1000; transition: background 0.8s;
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+        }
+        nav .logo { font-size: 1.3rem; font-weight: bold; color: var(--logo-color) !important; transition: color 0.6s; }
+        .nav-right { display: flex; align-items: center; gap: 30px; }
+        nav ul { display: flex; list-style: none; gap: 25px; }
+        nav ul li a { color: var(--text-main); text-decoration: none; font-size: 1rem; font-weight: 500; }
+        nav ul li a:hover { color: var(--primary-light); }
+        .controls-group { display: flex; align-items: center; gap: 15px; }
+
+        /* 🎵 黑膠唱片面板組件 */
+        .music-player-container { display: flex; align-items: center; gap: 12px; background: var(--card-bg); padding: 6px 16px; border-radius: 30px; border: 1px solid var(--card-border); }
+        .disc-btn {
+            width: 36px; height: 36px; background: #111; border: 2px solid #333; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; position: relative; box-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }
+        .disc-btn::after { content: ''; position: absolute; width: 8px; height: 8px; background: var(--primary-light); border-radius: 50%; }
+        .disc-btn.playing { animation: spin-disc 4s linear infinite; box-shadow: 0 0 10px var(--primary-light); border-color: var(--primary-light); }
+        @keyframes spin-disc { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* 📊 進度條面板 */
+        .progress-box { display: flex; flex-direction: column; width: 110px; font-size: 0.75rem; color: var(--text-main); }
+        .time-info { display: flex; justify-content: space-between; margin-bottom: 2px; font-family: monospace; }
+        .slider-bar {
+            width: 100%; -webkit-appearance: none; appearance: none; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; outline: none;
+        }
+        [data-theme="light"] .slider-bar { background: rgba(0,0,0,0.1); }
+        .slider-bar::-webkit-slider-thumb {
+            -webkit-appearance: none; appearance: none; width: 8px; height: 8px; background: var(--primary-light); border-radius: 50%; cursor: pointer; box-shadow: 0 0 5px var(--primary-light);
+        }
+
+        .icon-btn { background: var(--card-bg); border: 1px solid var(--card-border); color: var(--text-main); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+
+        /* 主佈局區 */
+        .main-layout { display: flex; max-width: 1200px; margin: 40px auto; padding: 0 20px; gap: 40px; align-items: flex-start; }
+        .hero-section { flex: 1; text-align: left; padding: 20px 0; }
+        .hero-section h1 { font-size: 3rem; margin-bottom: 20px; color: var(--primary-light); }
+        .hero-section p { color: var(--text-muted); font-size: 1.2rem; line-height: 1.8; margin-bottom: 30px; }
+        .cta-btn { background: var(--primary-light); color: #000; padding: 14px 35px; border-radius: 50px; font-size: 1.1rem; text-decoration: none; display: inline-block; font-weight: bold; box-shadow: var(--shadow); }
+        [data-theme="light"] .cta-btn { color: #fff; }
+
+        .media-box { width: 100%; border-radius: 15px; overflow: hidden; border: 2px solid var(--card-border); margin: 25px 0; box-shadow: var(--shadow); position: relative; }
+        .media-box img { width: 100%; height: auto; display: block; object-fit: cover; }
+
+        /* 公共聊天室 */
+        .chat-container { width: 400px; background: var(--chat-bg); border: 1px solid var(--card-border); border-radius: 20px; display: flex; flex-direction: column; height: 580px; box-shadow: var(--shadow); overflow: hidden; transition: background 0.8s; }
+        .chat-header { background: rgba(59, 130, 246, 0.1); padding: 15px; font-weight: bold; border-bottom: 1px solid var(--card-border); }
+        .chat-messages { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+        .msg { background: rgba(255,255,255,0.03); padding: 8px 12px; border-radius: 12px; max-width: 85%; font-size: 0.95rem; }
+        [data-theme="light"] .msg { background: rgba(0,0,0,0.03); }
+        .msg .user { font-weight: bold; color: var(--primary-light); font-size: 0.85rem; }
+        .msg .time-stamp { font-size: 0.7rem; color: var(--text-muted); display: block; text-align: right; margin-top: 4px; }
+        
+        .chat-input-area { padding: 12px; border-top: 1px solid var(--card-border); display: flex; flex-direction: column; gap: 8px; background: rgba(0,0,0,0.02); }
+        .input-row { display: flex; gap: 8px; width: 100%; }
+        .chat-input-area .name-input { width: 90px; padding: 10px; background: var(--input-bg); border: 1px solid var(--card-border); color: var(--text-main); border-radius: 8px; outline: none; text-align: center; }
+        .chat-input-area .msg-input { flex: 1; padding: 10px; background: var(--input-bg); border: 1px solid var(--card-border); color: var(--text-main); border-radius: 8px; outline: none; }
+        .chat-send-btn { background: var(--primary-light); color: white; border: none; padding: 0 16px; border-radius: 8px; font-weight: bold; }
+        [data-theme="dark"] .chat-send-btn { color: #000; }
+    </style>
+</head>
+<body>
+
+    <div id="custom-cursor"></div>
+    <canvas id="fx-canvas"></canvas>
+
+    <audio id="bg-music" loop src="music.mp3"></audio>
+    <audio id="click-sound" src="pop.mp3" preload="auto"></audio>
+
+    <nav>
+        <div class="logo">⚡ 軍一補救教室</div>
+        <div class="nav-right">
+            <ul>
+                <li><a href="index.html">🏠 主頁</a></li>
+                <li><a href="courses.html">🛒 購買課程</a></li>
+                <li><a href="contact.html">✉️ 聯絡我們</a></li>
+            </ul>
+            <div class="controls-group">
+                <!-- 🎵 音樂播放黑膠唱片控制面板 -->
+                <div class="music-player-container">
+                    <button class="disc-btn" id="music-toggle" title="播放/暫停唱片"></button>
+                    <div class="progress-box">
+                        <div class="time-info">
+                            <span id="current-time">00:00</span>
+                            <!-- 🟢 已修正：時間長度精準修改為 04:00 -->
+                            <span id="total-time">04:00</span>
+                        </div>
+                        <input type="range" id="seek-bar" class="slider-bar" value="0" min="0" max="100">
+                    </div>
+                </div>
+                <button class="icon-btn" id="theme-toggle">🌙</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-layout">
+        <div class="hero-section">
+            <h1>數位核心補救教學</h1>
+            <p>歡迎來到軍一補救教室！提供全台最精準的數位邏輯與微處理機複習，由淺入深帶您突破學習瓶頸。</p>
+            
+            <div class="media-box">
+                <img src="hero.jpg" alt="主頁大圖">
+            </div>
+
+            <a href="courses.html" class="cta-btn">立即前往選購課程</a>
+        </div>
+
+        <div class="chat-container">
+            <div class="chat-header">💬 線上公共聊天室</div>
+            <div class="chat-messages" id="chat-box">
+                <div class="msg">
+                    <span class="user">系統管理員</span>歡迎！本系統已配置精密時脈模組。
+                    <span class="time-stamp">2026/05/15 22:31</span>
+                </div>
+            </div>
+            <div class="chat-input-area">
+                <div class="input-row">
+                    <input type="text" id="chat-name" class="name-input" value="訪客" maxlength="6">
+                    <input type="text" id="chat-input" class="msg-input" placeholder="鍵入訊息...">
+                    <button class="chat-send-btn" id="chat-send">送出</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* 💥 瞬發音效與 CSS 小擴散圈 */
+        const clickSound = document.getElementById('click-sound');
+        window.addEventListener('click', (e) => {
+            clickSound.currentTime = 0; clickSound.play().catch(()=>{});
+            const ripple = document.createElement('div');
+            ripple.className = 'click-ripple'; ripple.style.left = e.clientX + 'px'; ripple.style.top = e.clientY + 'px';
+            document.body.appendChild(ripple);
+            setTimeout(() => { ripple.remove(); }, 400);
+        });
+
+        /* 🌓 黑白切換 */
+        const themeToggle = document.getElementById('theme-toggle');
+        themeToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (document.documentElement.getAttribute('data-theme') === 'light') {
+                document.documentElement.setAttribute('data-theme', 'dark'); themeToggle.innerText = '🌙';
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light'); themeToggle.innerText = '☀️';
+            }
+        });
+
+        /* 🎵 4分鐘唱片控制核心 JavaScript 邏輯 */
+        const musicToggle = document.getElementById('music-toggle');
+        const bgMusic = document.getElementById('bg-music');
+        const seekBar = document.getElementById('seek-bar');
+        const currentTimeEl = document.getElementById('current-time');
+        const totalTimeEl = document.getElementById('total-time');
+
+        // 🟢 音樂最大限制設定為 4 分鐘整 (240秒)
+        const maxDuration = 240; 
+
+        musicToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (bgMusic.paused) {
+                bgMusic.play().catch(() => alert('請先點擊網頁任意處激活音訊通道！'));
+                musicToggle.classList.add('playing');
+            } else {
+                bgMusic.pause();
+                musicToggle.classList.remove('playing');
+            }
+        });
+
+        function formatTime(seconds) {
+            let min = Math.floor(seconds / 60);
+            let sec = Math.floor(seconds % 60);
+            return `${min < 10 ? "0" + min : min}:${sec < 10 ? "0" + sec : sec}`;
+        }
+
+        bgMusic.addEventListener('timeupdate', () => {
+            // 🟢 如果歌曲超過 4 分鐘，強制歸零並終止唱片旋轉
+            if (bgMusic.currentTime >= maxDuration) {
+                bgMusic.pause();
+                bgMusic.currentTime = 0;
+                musicToggle.classList.remove('playing');
+                seekBar.value = 0;
+                currentTimeEl.innerText = "00:00";
+                return;
+            }
+
+            currentTimeEl.innerText = formatTime(bgMusic.currentTime);
+            // 依據 4 分鐘總長度(240秒)來精準換算滑桿百分比
+            const progress = (bgMusic.currentTime / maxDuration) * 100;
+            seekBar.value = progress || 0;
+        });
+
+        seekBar.addEventListener('input', () => {
+            // 依據進度條位置重新導向音訊秒數
+            const time = (seekBar.value / 100) * maxDuration;
+            bgMusic.currentTime = time;
+        });
+
+        /* 💬 聊天室訊息加載日期時間 */
+        const chatName = document.getElementById('chat-name');
+        const chatInput = document.getElementById('chat-input');
+        const chatBox = document.getElementById('chat-box');
+
+        function sendMessage() {
+            const text = chatInput.value.trim();
+            let userNickname = chatName.value.trim() || "匿名同學";
+            if(text !== "") {
+                const now = new Date();
+                const timeString = `${now.getFullYear()}/${String(now.getMonth() + 1).padStart(2, '0')}/${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+
+                const newMsg = document.createElement('div');
+                newMsg.className = 'msg';
+                newMsg.innerHTML = `<span class="user">${userNickname}</span>：${text}<span class="time-stamp">${timeString}</span>`;
+                chatBox.appendChild(newMsg);
+                chatInput.value = "";
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }
+        }
+        document.getElementById('chat-send').addEventListener('click', (e) => { e.stopPropagation(); sendMessage(); });
+        chatInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') { sendMessage(); } });
+
+        /* 🔬 Canvas 走線引擎 */
+        const cursorEl = document.getElementById('custom-cursor'); const canvas = document.getElementById('fx-canvas'); const ctx = canvas.getContext('2d');
+        let pcbTraces = []; let electronPulses = []; let neonMatrixParticles = [];
+        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resizeCanvas); resizeCanvas();
+
+        for(let i = 0; i < 35; i++) { neonMatrixParticles.push({ x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight, size: Math.random() * 4 + 2, speedX: Math.random() * 0.4 - 0.2, speedY: Math.random() * 0.4 + 0.2, opacity: Math.random() * 0.4 + 0.2 }); }
+        
+        window.addEventListener('mousemove', (e) => {
+            cursorEl.style.left = e.clientX + 'px'; cursorEl.style.top = e.clientY + 'px';
+            if (Math.random() < 0.35) {
+                let directions = [0, Math.PI/4, Math.PI/2, Math.PI, -Math.PI/4];
+                pcbTraces.push({ startX: e.clientX, startY: e.clientY, length: Math.random() * 20 + 10, angle: directions[Math.floor(Math.random() * directions.length)], opacity: 1, width: Math.random() * 1.2 + 0.5 });
+            }
+        });
+        window.addEventListener('mousedown', () => { cursorEl.style.transform = 'translate(-10%, -10%) scale(0.7)'; });
+        window.addEventListener('mouseup', (e) => {
+            cursorEl.style.transform = 'translate(-10%, -10%) scale(1)';
+            for(let i=0; i<3; i++) { electronPulses.push({ x: e.clientX, y: e.clientY, radius: 2, maxRadius: Math.random() * 40 + 30 + (i * 12), speed: 3, opacity: 1 }); }
+        });
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height); const isDark = document.documentElement.getAttribute('data-theme') === 'dark'; let electroColor = isDark ? '#00ff66' : '#2563eb';
+            for (let i = pcbTraces.length - 1; i >= 0; i--) {
+                let t = pcbTraces[i]; ctx.save(); ctx.globalAlpha = t.opacity; ctx.strokeStyle = electroColor; ctx.lineWidth = t.width; if(isDark) { ctx.shadowBlur = 5; ctx.shadowColor = electroColor; } ctx.beginPath(); ctx.moveTo(t.startX, t.startY); let endX = t.startX + Math.cos(t.angle) * t.length; let endY = t.startY + Math.sin(t.angle) * t.length; ctx.lineTo(endX, endY); ctx.stroke(); ctx.fillStyle = electroColor; ctx.beginPath(); ctx.arc(endX, endY, t.width * 1.5, 0, Math.PI*2); ctx.fill(); ctx.restore(); t.opacity -= 0.025; if (t.opacity <= 0) pcbTraces.splice(i, 1);
+            }
+            for (let i = 0; i < neonMatrixParticles.length; i++) {
+                let s = neonMatrixParticles[i]; ctx.save(); ctx.globalAlpha = s.opacity; ctx.strokeStyle = isDark ? '#00ff66' : '#2563eb'; ctx.lineWidth = 1; ctx.strokeRect(s.x, s.y, s.size, s.size); ctx.restore(); s.x += s.speedX; s.y += s.speedY; if (s.y > canvas.height) { s.y = 0; s.x = Math.random() * canvas.width; }
+            }
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
+</body>
+</html>
