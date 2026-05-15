@@ -141,35 +141,35 @@
                 <div class="video-wrapper"><video controls><source src="digital_logic.mp4" type="video/mp4"></video></div>
                 <h2>數位邏輯補救班</h2>
                 <p style="color: var(--text-muted); margin-top: 10px;">精準剖析布林代數、卡諾圖化簡與組合邏輯電路設計。</p>
-                <div class="price-tag">NT$ 15</div>
+                <div class="price-tag">NT$ 67</div>
                 <button class="pay-btn" data-id="digital_logic">💳 立即結帳</button>
             </div>
             <div class="course-card">
                 <div class="video-wrapper"><video controls><source src="microprocessor.mp4" type="video/mp4"></video></div>
                 <h2>微處理機補救班</h2>
                 <p style="color: var(--text-muted); margin-top: 10px;">系統化拆解 8051 架構、記憶體配置與中斷控制子程式。</p>
-                <div class="price-tag">NT$ 15</div>
+                <div class="price-tag">NT$ 67</div>
                 <button class="pay-btn" data-id="microprocessor">💳 立即結帳</button>
             </div>
             <div class="course-card">
                 <div class="image-wrapper"><img src="electronics.jpg"></div>
                 <h2>電子學補救班</h2>
                 <p style="color: var(--text-muted); margin-top: 10px;">攻克二極體電路、BJT 與 FET 放大器偏壓與小訊號分析。</p>
-                <div class="price-tag">NT$ 15</div>
+                <div class="price-tag">NT$ 67</div>
                 <button class="pay-btn" data-id="electronics">💳 立即結帳</button>
             </div>
             <div class="course-card">
                 <div class="image-wrapper"><img src="basic_electricity.jpg"></div>
                 <h2>基本電學補救班</h2>
                 <p style="color: var(--text-muted); margin-top: 10px;">徹底搞懂戴維寧等效電路、交流 RLC 阻抗與諧振電路計算。</p>
-                <div class="price-tag">NT$ 15</div>
+                <div class="price-tag">NT$ 67</div>
                 <button class="pay-btn" data-id="basic_electricity">💳 立即結帳</button>
             </div>
             <div class="course-card">
                 <div class="image-wrapper"><img src="math.jpg"></div>
                 <h2>統測數學高分班</h2>
                 <p style="color: var(--text-muted); margin-top: 10px;">專攻電子科必備之三角函數、微積分基礎與複數向量運算。</p>
-                <div class="price-tag">NT$ 15</div>
+                <div class="price-tag">NT$ 67</div>
                 <button class="pay-btn" data-id="math">💳 立即結帳</button>
             </div>
         </div>
@@ -254,7 +254,7 @@
             btn.addEventListener('click', async (e) => {
                 const courseId = btn.getAttribute('data-id');
                 try {
-                    const res = await fetch('http://localhost:3000/api/checkout', { 
+                    const res = await fetch('https://myshop-1-ocgr.onrender.com/api/checkout', { 
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ courseId: courseId })
