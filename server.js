@@ -1,9 +1,14 @@
 const express = require('express');
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
 require('dotenv').config();
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
+const model = genAI.getGenerativeModel({
+  model: "gemini-1.5-flash"
+});
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const app = express();
 
@@ -169,4 +174,65 @@ const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
     console.log(`🚀 Server running on port ${PORT}`);
+});
+app.post('/api/generate-question', async (req, res) => {
+
+    try {
+
+        const { subject, topic, difficulty } = req.body;
+
+        const prompt = `
+你是台灣高職電子科老師。
+
+請生成一題：
+
+科目：${subject}
+章節：${topic}
+難度：${difficulty}
+
+規則：
+1. 四選一
+2. 僅回傳 JSON
+3. 不要 markdown
+4. 附詳細解析
+
+格式：
+
+{
+ "question":"",
+ "choices":["","","",""],
+ "answer":"",
+ "explanation":""
+}
+`;
+
+        const result = await model.generateContent(prompt);
+
+        const response = await result.response;
+
+        const text = response.text();
+
+        const cleanText = text
+            .replace(/```json/g, '')
+            .replace(/```/g, '')
+            .trim();
+
+        const jsonData = JSON.parse(cleanText);
+
+        res.json({
+            success: true,
+            question: jsonData
+        });
+
+    } catch (err) {
+
+        console.error(err);
+
+        res.status(500).json({
+            success: false,
+            error: err.message
+        });
+
+    }
+
 });
