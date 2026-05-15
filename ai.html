@@ -20,446 +20,316 @@
             --logo-color: #ffffff;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: sans-serif;
+        [data-theme="light"] {
+            --bg-main: #f8fafc;
+            --bg-gradient: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+            --nav-bg: rgba(255, 255, 255, 0.85);
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --card-border: rgba(15, 23, 42, 0.08);
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --primary-light: #2563eb; 
+            --accent: #d97706;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            --logo-color: #000000;
         }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+        html, body, button, a, input, textarea { cursor: none !important; }
 
         body {
-            background: var(--bg-main);
-            background-image: var(--bg-gradient);
-            color: var(--text-main);
-            min-height: 100vh;
-            padding-top: 100px;
-            overflow-x: hidden;
+            background: var(--bg-main); background-image: var(--bg-gradient); color: var(--text-main); min-height: 100vh; padding-top: 100px; overflow-x: hidden;
+            transition: background 0.8s cubic-bezier(0.4, 0, 0.2, 1), background-image 0.8s cubic-bezier(0.4, 0, 0.2, 1), color 0.6s ease;
         }
 
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 70px;
-            background: var(--nav-bg);
-            border-bottom: 1px solid var(--card-border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 40px;
-            z-index: 1000;
-            backdrop-filter: blur(12px);
-        }
+        /* ⚡ 發光漸層雷電游標 */
+        #custom-cursor { position: fixed; width: 32px; height: 32px; pointer-events: none; z-index: 10000; top: 0; left: 0; transform: translate(-10%, -10%); display: block; }
+        #custom-cursor::before { content: ''; display: block; width: 100%; height: 100%; background: linear-gradient(135deg, #ffe600 0%, #ff6600 50%, #ff0000 100%); clip-path: polygon(55% 0%, 10% 55%, 50% 55%, 40% 100%, 90% 40%, 50% 40%); animation: pulse-glow 1.5s infinite alternate; }
+        @keyframes pulse-glow { 0% { filter: drop-shadow(0px 0px 4px #ff6600); } 100% { filter: drop-shadow(0px 0px 10px #ff3300); } }
 
-        nav .logo {
-            font-size: 1.3rem;
-            font-weight: bold;
-            color: var(--logo-color);
-        }
+        /* 💥 點擊實體擴散圈 */
+        .click-ripple { position: fixed; width: 10px; height: 10px; background: transparent; border: 3px solid var(--primary-light); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); animation: ripple-out 0.4s cubic-bezier(0.1, 0.8, 0.3, 1) forwards; box-shadow: 0 0 8px var(--primary-light); }
+        @keyframes ripple-out { 0% { width: 10px; height: 10px; opacity: 1; border-width: 3px; } 100% { width: 55px; height: 55px; opacity: 0; border-width: 1px; } }
+        #fx-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9998; }
 
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 25px;
-        }
+        nav { position: fixed; top: 0; left: 0; width: 100%; height: 70px; background: var(--nav-bg); border-bottom: 1px solid var(--card-border); display: flex; justify-content: space-between; align-items: center; padding: 0 40px; z-index: 1000; backdrop-filter: blur(12px); transition: background 0.8s; }
+        nav .logo { font-size: 1.3rem; font-weight: bold; color: var(--logo-color); transition: color 0.6s; }
+        .nav-right { display: flex; align-items: center; gap: 30px; }
+        nav ul { display: flex; list-style: none; gap: 25px; }
+        nav ul li a { color: var(--text-main); text-decoration: none; font-size: 1rem; font-weight: 500; }
+        nav ul li a:hover { color: var(--primary-light); }
+        .controls-group { display: flex; align-items: center; gap: 15px; }
 
-        nav ul li a {
-            color: var(--text-main);
-            text-decoration: none;
-            font-size: 1rem;
-            font-weight: 500;
-        }
+        /* 黑膠唱片面板 */
+        .music-player-container { display: flex; align-items: center; gap: 12px; background: var(--card-bg); padding: 6px 16px; border-radius: 30px; border: 1px solid var(--card-border); }
+        .disc-btn { width: 36px; height: 36px; background: #111; border: 2px solid #333; border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; }
+        .disc-btn::after { content: ''; position: absolute; width: 8px; height: 8px; background: var(--primary-light); border-radius: 50%; }
+        .disc-btn.playing { animation: spin-disc 4s linear infinite; box-shadow: 0 0 10px var(--primary-light); border-color: var(--primary-light); }
+        @keyframes spin-disc { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .progress-box { display: flex; flex-direction: column; width: 110px; font-size: 0.75rem; color: var(--text-main); }
+        .time-info { display: flex; justify-content: space-between; margin-bottom: 2px; font-family: monospace; }
+        .slider-bar { width: 100%; -webkit-appearance: none; appearance: none; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; outline: none; }
+        [data-theme="light"] .slider-bar { background: rgba(0,0,0,0.1); }
+        .slider-bar::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 8px; height: 8px; background: var(--primary-light); border-radius: 50%; cursor: pointer; }
+        .icon-btn { background: var(--card-bg); border: 1px solid var(--card-border); color: var(--text-main); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
 
-        nav ul li a:hover {
-            color: var(--primary-light);
-        }
+        .container { max-width: 1100px; margin: 0 auto; padding: 30px 20px; }
+        .hero { text-align: center; margin-bottom: 35px; }
+        .hero h1 { font-size: 3rem; color: var(--primary-light); margin-bottom: 15px; text-shadow: 0 0 18px rgba(0, 255, 102, 0.3); }
+        .hero p { color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; }
 
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 30px 20px;
-        }
+        .ai-layout { display: grid; grid-template-columns: 330px 1fr; gap: 25px; align-items: start; }
+        .panel, .result-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 22px; box-shadow: var(--shadow); backdrop-filter: blur(12px); transition: background 0.8s, border-color 0.8s; }
+        .panel { padding: 25px; }
+        .panel h2 { color: var(--accent); font-size: 1.3rem; margin-bottom: 18px; }
+        
+        label { display: block; margin: 16px 0 8px; color: var(--text-muted); font-size: 0.95rem; }
+        select, input { width: 100%; padding: 14px; border-radius: 12px; border: 1px solid var(--card-border); background: rgba(0, 0, 0, 0.35); color: var(--text-main); font-size: 1rem; outline: none; transition: background 0.8s; }
+        [data-theme="light"] select, [data-theme="light"] input { background: rgba(255,255,255,0.8); }
+        select:focus, input:focus { border-color: var(--primary-light); box-shadow: 0 0 12px rgba(0, 255, 102, 0.18); }
 
-        .hero {
-            text-align: center;
-            margin-bottom: 35px;
-        }
+        .generate-btn { margin-top: 22px; background: var(--primary-light); color: #000; font-weight: bold; cursor: pointer; border: none; padding: 14px; border-radius: 12px; font-size: 1rem; transition: transform 0.2s, box-shadow 0.2s; }
+        .generate-btn:hover { transform: translateY(-2px); box-shadow: 0 0 20px rgba(0, 255, 102, 0.45); }
+        .hint { margin-top: 18px; color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; }
 
-        .hero h1 {
-            font-size: 3rem;
-            color: var(--primary-light);
-            margin-bottom: 15px;
-            text-shadow: 0 0 18px rgba(0, 255, 102, 0.3);
-        }
+        .result-card { padding: 30px; min-height: 520px; }
+        .result-header { display: flex; justify-content: space-between; gap: 15px; align-items: center; border-bottom: 1px solid var(--card-border); padding-bottom: 18px; margin-bottom: 22px; }
+        .result-header h2 { color: var(--primary-light); font-size: 1.5rem; }
+        .badge { padding: 8px 12px; border-radius: 999px; background: rgba(0, 255, 102, 0.1); color: var(--primary-light); border: 1px solid var(--card-border); font-size: 0.85rem; white-space: nowrap; }
 
-        .hero p {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-            line-height: 1.8;
-        }
-
-        .ai-layout {
-            display: grid;
-            grid-template-columns: 330px 1fr;
-            gap: 25px;
-            align-items: start;
-        }
-
-        .panel,
-        .result-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 22px;
-            box-shadow: var(--shadow);
-            backdrop-filter: blur(12px);
-        }
-
-        .panel {
-            padding: 25px;
-        }
-
-        .panel h2 {
-            color: var(--accent);
-            font-size: 1.3rem;
-            margin-bottom: 18px;
-        }
-
-        label {
-            display: block;
-            margin: 16px 0 8px;
-            color: var(--text-muted);
-            font-size: 0.95rem;
-        }
-
-        select,
-        input,
-        button {
-            width: 100%;
-            padding: 14px;
-            border-radius: 12px;
-            border: 1px solid var(--card-border);
-            background: rgba(0, 0, 0, 0.35);
-            color: var(--text-main);
-            font-size: 1rem;
-            outline: none;
-        }
-
-        select:focus,
-        input:focus {
-            border-color: var(--primary-light);
-            box-shadow: 0 0 12px rgba(0, 255, 102, 0.18);
-        }
-
-        .generate-btn {
-            margin-top: 22px;
-            background: var(--primary-light);
-            color: #000;
-            font-weight: bold;
-            cursor: pointer;
-            border: none;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .generate-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 20px rgba(0, 255, 102, 0.45);
-        }
-
-        .hint {
-            margin-top: 18px;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            line-height: 1.6;
-        }
-
-        .result-card {
-            padding: 30px;
-            min-height: 520px;
-        }
-
-        .result-header {
-            display: flex;
-            justify-content: space-between;
-            gap: 15px;
-            align-items: center;
-            border-bottom: 1px solid var(--card-border);
-            padding-bottom: 18px;
-            margin-bottom: 22px;
-        }
-
-        .result-header h2 {
-            color: var(--primary-light);
-            font-size: 1.5rem;
-        }
-
-        .badge {
-            padding: 8px 12px;
-            border-radius: 999px;
-            background: rgba(0, 255, 102, 0.1);
-            color: var(--primary-light);
-            border: 1px solid var(--card-border);
-            font-size: 0.85rem;
-            white-space: nowrap;
-        }
-
-        #question-box {
-            line-height: 1.9;
-        }
-
-        .empty-state {
-            text-align: center;
-            color: var(--text-muted);
-            padding: 90px 20px;
-        }
-
-        .empty-icon {
-            font-size: 4rem;
-            margin-bottom: 20px;
-        }
-
-        .question-title {
-            font-size: 1.25rem;
-            color: var(--text-main);
-            margin-bottom: 20px;
-        }
-
-        .choice {
-            background: rgba(255, 255, 255, 0.035);
-            border: 1px solid rgba(0, 255, 102, 0.1);
-            border-radius: 14px;
-            padding: 14px 16px;
-            margin: 12px 0;
-        }
-
-        .answer {
-            margin-top: 25px;
-            padding: 16px;
-            border-radius: 14px;
-            background: rgba(0, 255, 102, 0.1);
-            color: var(--primary-light);
-            font-weight: bold;
-        }
-
-        .explanation {
-            margin-top: 16px;
-            padding: 16px;
-            border-radius: 14px;
-            background: rgba(0, 240, 255, 0.08);
-            color: #d1d5db;
-        }
-
-        .loading {
-            color: var(--primary-light);
-            text-align: center;
-            padding: 90px 20px;
-            font-size: 1.2rem;
-        }
-
-        .loading span {
-            animation: blink 1s infinite alternate;
-        }
-
-        @keyframes blink {
-            from { opacity: 0.35; }
-            to { opacity: 1; }
-        }
-
-        .back-link {
-            display: inline-block;
-            margin-top: 25px;
-            color: var(--accent);
-            text-decoration: none;
-        }
+        #question-box { line-height: 1.9; }
+        .empty-state { text-align: center; color: var(--text-muted); padding: 90px 20px; }
+        .empty-icon { font-size: 4rem; margin-bottom: 20px; }
+        .question-title { font-size: 1.25rem; color: var(--text-main); margin-bottom: 20px; font-weight: bold; }
+        
+        .choice { background: rgba(255, 255, 255, 0.035); border: 1px solid rgba(0, 255, 102, 0.1); border-radius: 14px; padding: 14px 16px; margin: 12px 0; font-size: 1rem; }
+        [data-theme="light"] .choice { background: rgba(0, 0, 0, 0.02); }
+        .answer { margin-top: 25px; padding: 16px; border-radius: 14px; background: rgba(0, 255, 102, 0.1); color: var(--primary-light); font-weight: bold; }
+        .explanation { margin-top: 16px; padding: 16px; border-radius: 14px; background: rgba(0, 240, 255, 0.08); color: var(--text-main); line-height: 1.6; }
+        [data-theme="light"] .explanation { background: rgba(0, 240, 255, 0.04); }
+        
+        .loading { color: var(--primary-light); text-align: center; padding: 90px 20px; font-size: 1.2rem; }
+        .loading span { animation: blink 1s infinite alternate; }
+        @keyframes blink { from { opacity: 0.35; } to { opacity: 1; } }
+        .back-link { display: inline-block; margin-top: 25px; color: var(--accent); text-decoration: none; font-weight: bold; }
 
         @media (max-width: 768px) {
-            body {
-                padding-top: 150px;
-            }
-
-            nav {
-                height: auto;
-                padding: 12px;
-                flex-direction: column;
-                gap: 12px;
-            }
-
-            nav ul {
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 16px;
-            }
-
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .ai-layout {
-                grid-template-columns: 1fr;
-            }
-
-            .result-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .result-card {
-                min-height: auto;
-                padding: 24px;
-            }
+            body { padding-top: 150px; }
+            nav { height: auto; padding: 12px; flex-direction: column; gap: 12px; }
+            nav ul { flex-wrap: wrap; justify-content: center; gap: 16px; }
+            .hero h1 { font-size: 2rem; }
+            .ai-layout { grid-template-columns: 1fr; }
+            .result-header { flex-direction: column; align-items: flex-start; }
+            .result-card { min-height: auto; padding: 24px; }
         }
     </style>
 </head>
 
 <body>
 
+    <div id="custom-cursor"></div>
+    <canvas id="fx-canvas"></canvas>
+
+    <audio id="bg-music" loop src="music.mp3"></audio>
+    <audio id="click-sound" src="pop.mp3" preload="auto"></audio>
+
     <nav>
         <div class="logo">⚡ 軍一補救教室</div>
-        <ul>
-            <li><a href="index.html">🏠 主頁</a></li>
-            <li><a href="courses.html">🛒 購買課程</a></li>
-            <li><a href="ai.html">🤖 AI題庫</a></li>
-            <li><a href="contact.html">✉️ 聯絡我們</a></li>
-        </ul>
+        <div class="nav-right">
+            <ul>
+                <li><a href="index.html">🏠 主頁</a></li>
+                <li><a href="courses.html">🛒 購買課程</a></li>
+                <li><a href="ai.html">🤖 AI題庫</a></li>
+                <li><a href="contact.html">✉️ 聯絡我們</a></li>
+            </ul>
+            <div class="controls-group">
+                <div class="music-player-container">
+                    <button class="disc-btn" id="music-toggle"></button>
+                    <div class="progress-box">
+                        <div class="time-info">
+                            <span id="current-time">00:00</span>
+                            <span id="total-time">04:00</span>
+                        </div>
+                        <input type="range" id="seek-bar" class="slider-bar" value="0" min="0" max="100">
+                    </div>
+                </div>
+                <button class="icon-btn" id="theme-toggle">🌙</button>
+            </div>
+        </div>
     </nav>
 
     <main class="container">
-
         <section class="hero">
             <h1>🤖 軍一 AI 電子科題庫</h1>
-            <p>
-                由 Gemini AI 即時生成高職電子科練習題，支援電子學、數位邏輯、微處理機、基本電學與統測數學。
-            </p>
+            <p>由 Gemini AI 即時生成高職電子科練習題，支援電子學、數位邏輯、微處理機、基本電學與統測數學。</p>
+            <a href="courses.html" class="back-link">← 返回課程選購</a>
         </section>
 
+        <!-- 🟢 補齊被切斷的完整雙欄排版與操作面板結構 -->
         <section class="ai-layout">
-
+            
+            <!-- 左欄：出題控制面板 -->
             <div class="panel">
                 <h2>⚙️ 出題設定</h2>
-
-                <label>科目</label>
-                <select id="subject">
-                    <option value="電子學">電子學</option>
+                
+                <label for="subject-select">科目</label>
+                <select id="subject-select">
                     <option value="數位邏輯">數位邏輯</option>
                     <option value="微處理機">微處理機</option>
+                    <option value="電子學">電子學</option>
                     <option value="基本電學">基本電學</option>
                     <option value="統測數學">統測數學</option>
                 </select>
 
-                <label>章節 / 主題</label>
-                <input id="topic" value="基礎概念" placeholder="例如：二極體、卡諾圖、8051、中斷">
+                <label for="topic-input">章節 / 主題</label>
+                <input type="text" id="topic-input" value="基礎概念" placeholder="例如：卡諾圖、8051、二極體">
 
-                <label>難度</label>
-                <select id="difficulty">
+                <label for="difficulty-select">難度</label>
+                <select id="difficulty-select">
                     <option value="簡單">簡單</option>
                     <option value="普通" selected>普通</option>
                     <option value="困難">困難</option>
                 </select>
 
-                <button class="generate-btn" onclick="generateQuestion()">
-                    ⚡ AI 生成題目
-                </button>
-
-                <div class="hint">
-                    建議主題可以輸入：二極體、BJT、卡諾圖、邏輯閘、8051、RLC、三角函數。
-                </div>
-
-                <a class="back-link" href="courses.html">← 回課程選購</a>
+                <button class="generate-btn" id="generate-btn">⚡ AI 生成題目</button>
+                <div class="hint">💡 建議主題可以輸入：卡諾圖、組合邏輯、8051中斷、二極體偏壓、RLC諧振、三角函數。</div>
             </div>
 
+            <!-- 右欄：題目結果發光渲染區 -->
             <div class="result-card">
                 <div class="result-header">
-                    <h2>📘 AI 題目結果</h2>
-                    <div class="badge">Gemini 即時生成</div>
+                    <h2>📊 AI 題目結果</h2>
+                    <span class="badge">Gemini 即時生成</span>
                 </div>
-
                 <div id="question-box">
                     <div class="empty-state">
                         <div class="empty-icon">🧠</div>
-                        <p>請先選擇科目、章節與難度，再點擊「AI 生成題目」。</p>
+                        <p>請在左側選擇學科與章節，並點選生成按鈕。</p>
                     </div>
                 </div>
             </div>
 
         </section>
-
     </main>
 
     <script>
-        async function generateQuestion() {
-            const subject = document.getElementById('subject').value;
-            const topic = document.getElementById('topic').value || '基礎概念';
-            const difficulty = document.getElementById('difficulty').value;
-            const box = document.getElementById('question-box');
+        /* 💥 瞬發音效與 CSS 小擴散圈 */
+        const clickSound = document.getElementById('click-sound');
+        window.addEventListener('click', (e) => {
+            clickSound.currentTime = 0; clickSound.play().catch(()=>{});
+            const ripple = document.createElement('div'); ripple.className = 'click-ripple';
+            ripple.style.left = e.clientX + 'px'; ripple.style.top = e.clientY + 'px';
+            document.body.appendChild(ripple); setTimeout(() => { ripple.remove(); }, 400);
+        });
 
-            box.innerHTML = `
+        /* 🌓 黑白切換 */
+        const themeToggle = document.getElementById('theme-toggle');
+        themeToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (document.documentElement.getAttribute('data-theme') === 'light') {
+                document.documentElement.setAttribute('data-theme', 'dark'); themeToggle.innerText = '🌙';
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light'); themeToggle.innerText = '☀️';
+            }
+        });
+
+        /* 🎵 4分鐘唱片控制核心 */
+        const musicToggle = document.getElementById('music-toggle'); const bgMusic = document.getElementById('bg-music');
+        const seekBar = document.getElementById('seek-bar'); const currentTimeEl = document.getElementById('current-time');
+        const maxDuration = 240; 
+
+        musicToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (bgMusic.paused) { bgMusic.play().catch(() => alert('請先點擊網頁任意處激活音訊通道！')); musicToggle.classList.add('playing'); } 
+            else { bgMusic.pause(); musicToggle.classList.remove('playing'); }
+        });
+
+        function formatTime(seconds) {
+            let min = Math.floor(seconds / 60); let sec = Math.floor(seconds % 60);
+            return `${min < 10 ? "0" + min : min}:${sec < 10 ? "0" + sec : sec}`;
+        }
+
+        bgMusic.addEventListener('timeupdate', () => {
+            if (bgMusic.currentTime >= maxDuration) {
+                bgMusic.pause(); bgMusic.currentTime = 0; musicToggle.classList.remove('playing'); seekBar.value = 0; currentTimeEl.innerText = "00:00"; return;
+            }
+            currentTimeEl.innerText = formatTime(bgMusic.currentTime);
+            seekBar.value = (bgMusic.currentTime / maxDuration) * 100 || 0;
+        });
+        seekBar.addEventListener('input', () => { bgMusic.currentTime = (seekBar.value / 100) * maxDuration; });
+
+        /* 🔬 特效與自訂游標 Canvas 引擎 */
+        const cursorEl = document.getElementById('custom-cursor'); const canvas = document.getElementById('fx-canvas'); const ctx = canvas.getContext('2d');
+        let pcbTraces = []; let neonMatrixParticles = [];
+        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resizeCanvas); resizeCanvas();
+
+        for(let i = 0; i < 35; i++) { neonMatrixParticles.push({ x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight, size: Math.random() * 4 + 2, speedX: Math.random() * 0.4 - 0.2, speedY: Math.random() * 0.4 + 0.2, opacity: Math.random() * 0.4 + 0.2 }); }
+        
+        window.addEventListener('mousemove', (e) => {
+            cursorEl.style.left = e.clientX + 'px'; cursorEl.style.top = e.clientY + 'px';
+            if (Math.random() < 0.35) {
+                let directions = [0, Math.PI/4, Math.PI/2, Math.PI, -Math.PI/4];
+                pcbTraces.push({ startX: e.clientX, startY: e.clientY, length: Math.random() * 20 + 10, angle: directions[Math.floor(Math.random() * directions.length)], opacity: 1, width: Math.random() * 1.2 + 0.5 });
+            }
+        });
+        window.addEventListener('mousedown', () => { cursorEl.style.transform = 'translate(-10%, -10%) scale(0.7)'; });
+        window.addEventListener('mouseup', () => { cursorEl.style.transform = 'translate(-10%, -10%) scale(1)'; });
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height); const isDark = document.documentElement.getAttribute('data-theme') === 'dark'; let electroColor = isDark ? '#00ff66' : '#2563eb';
+            for (let i = pcbTraces.length - 1; i >= 0; i--) {
+                let t = pcbTraces[i]; ctx.save(); ctx.globalAlpha = t.opacity; ctx.strokeStyle = electroColor; ctx.lineWidth = t.width; if(isDark) { ctx.shadowBlur = 5; ctx.shadowColor = electroColor; } ctx.beginPath(); ctx.moveTo(t.startX, t.startY); let endX = t.startX + Math.cos(t.angle) * t.length; let endY = t.startY + Math.sin(t.angle) * t.length; ctx.lineTo(endX, endY); ctx.stroke(); ctx.fillStyle = electroColor; ctx.beginPath(); ctx.arc(endX, endY, t.width * 1.5, 0, Math.PI*2); ctx.fill(); ctx.restore(); t.opacity -= 0.025; if (t.opacity <= 0) pcbTraces.splice(i, 1);
+            }
+            for (let i = 0; i < neonMatrixParticles.length; i++) {
+                let s = neonMatrixParticles[i]; ctx.save(); ctx.globalAlpha = s.opacity; ctx.strokeStyle = isDark ? '#00ff66' : '#2563eb'; ctx.lineWidth = 1; ctx.strokeRect(s.x, s.y, s.size, s.size); ctx.restore(); s.x += s.speedX; s.y += s.speedY; if (s.y > canvas.height) { s.y = 0; s.x = Math.random() * canvas.width; }
+            }
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        /* 🟢 核心對接：綁定後台 /api/generate-question 路由通道，徹底修復 404 盲點 */
+        document.getElementById('generate-btn').addEventListener('click', async () => {
+            const subject = document.getElementById('subject-select').value;
+            const topic = document.getElementById('topic-input').value;
+            const difficulty = document.getElementById('difficulty-select').value;
+            const qBox = document.getElementById('question-box');
+
+            // 進入高頻負載載入動畫
+            qBox.innerHTML = `
                 <div class="loading">
-                    🤖 AI 正在生成題目<span>...</span><br>
-                    <small>請稍候幾秒</small>
+                    <span>⚡ 正在呼叫軍一後台核心處理器，AI 即時出題中...</span>
                 </div>
             `;
 
             try {
-                const res = await fetch(
-                    'https://myshop-1-ocgr.onrender.com/api/generate-question',
-                    {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            subject,
-                            topic,
-                            difficulty
-                        })
-                    }
-                );
-
+                // 發送 POST 請求傳給您的 server.js 後端
+                const res = await fetch('http://localhost:3000/api/generate-question', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ subject, topic, difficulty })
+                });
                 const data = await res.json();
 
-                if (!data.success) {
-                    box.innerHTML = `
-                        <div class="empty-state">
-                            <div class="empty-icon">❌</div>
-                            <p>AI 題目生成失敗：${data.error || '未知錯誤'}</p>
-                        </div>
+                if (data.success && data.question) {
+                    const q = data.question;
+                    // 將後端解析完成的乾淨 JSON 資料動態渲染至發光面板上
+                    qBox.innerHTML = `
+                        <div class="question-title">❓ 題目：${q.question}</div>
+                        <div class="choice">A. ${q.choices[0]}</div>
+                        <div class="choice">B. ${q.choices[1]}</div>
+                        <div class="choice">C. ${q.choices[2]}</div>
+                        <div class="choice">D. ${q.choices[3]}</div>
+                        <div class="answer">🎯 官方標準答案：${q.answer}</div>
+                        <div class="explanation">🔬 老師深度解析：<br>${q.explanation}</div>
                     `;
-                    return;
+                } else {
+                    qBox.innerHTML = `<div class="empty-state" style="color: #ff3333;">❌ 生成失敗：後台未成功解析 JSON 數據。</div>`;
                 }
-
-                const q = data.question;
-
-                box.innerHTML = `
-                    <div class="question-title">
-                        ${q.question}
-                    </div>
-
-                    <div class="choice">A. ${q.choices[0]}</div>
-                    <div class="choice">B. ${q.choices[1]}</div>
-                    <div class="choice">C. ${q.choices[2]}</div>
-                    <div class="choice">D. ${q.choices[3]}</div>
-
-                    <div class="answer">
-                        ✅ 答案：${q.answer}
-                    </div>
-
-                    <div class="explanation">
-                        📘 解析：${q.explanation}
-                    </div>
-                `;
-
             } catch (error) {
-                console.error(error);
-
-                box.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-icon">⚠️</div>
-                        <p>無法連線 AI 系統，請確認 Render 是否部署完成。</p>
-                    </div>
-                `;
+                qBox.innerHTML = `<div class="empty-state" style="color: #ff3333;">❌ 連線逾時！請確認 VS Code 終端機內 node server.js 是否有上線。</div>`;
             }
-        }
+        });
     </script>
-
 </body>
 </html>
