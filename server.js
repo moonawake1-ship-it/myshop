@@ -82,31 +82,7 @@ app.get('/api/check-payment', async (req, res) => {
 
             fs.appendFileSync(path.join(__dirname, 'payments.txt'), logEntry);
 
-            const transporter = nodemailer.createTransport({
-                service: 'gmail',
-                auth: {
-                    user: process.env.GMAIL_USER,
-                    pass: process.env.GMAIL_APP_PASSWORD
-                }
-            });
-
-            await transporter.sendMail({
-                from: `"軍一補救教室付款通知" <${process.env.GMAIL_USER}>`,
-                to: NOTIFY_EMAIL,
-                subject: `✅ 有學生完成付款：${courseName}`,
-                text:
-`軍一老師您好：
-
-有學生完成付款。
-
-課程名稱：${courseName}
-付款金額：NT$${amount}
-付款信箱：${customerEmail}
-付款狀態：${session.payment_status}
-Session ID：${session.id}
-
-請至 Stripe 後台確認完整付款紀錄。`
-            });
+            console.log("付款確認成功：", courseName, amount, customerEmail);
         }
 
         res.json({
