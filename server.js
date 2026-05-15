@@ -2,7 +2,6 @@ const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
-const nodemailer = require('nodemailer');
 require('dotenv').config();
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
@@ -11,8 +10,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const NOTIFY_EMAIL = 'moonawake1@gmail.com';
-
 const courseDatabase = {
     digital_logic: { name: '數位邏輯補救班', amount: 6700 },
     microprocessor: { name: '微處理機補救班', amount: 6700 },
@@ -20,6 +17,27 @@ const courseDatabase = {
     basic_electricity: { name: '基本電學補救班', amount: 6700 },
     math: { name: '統測數學高分班', amount: 6700 }
 };
+
+async function sendDiscordNotification(message) {
+    if (!process.env.DISCORD_WEBHOOK_URL) {
+        console.log('尚未設定 DISCORD_WEBHOOK_URL');
+        return;
+    }
+
+    try {
+        await fetch(process.env.DISCORD_WEBHOOK_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                content: message
+            })
+        });
+    } catch (error) {
+        console.error('Discord 通知失敗：', error.message);
+    }
+}
 
 app.get('/', (req, res) => {
     res.send('軍一補救教室後端 API 正常運作中');
@@ -82,7 +100,16 @@ app.get('/api/check-payment', async (req, res) => {
 
             fs.appendFileSync(path.join(__dirname, 'payments.txt'), logEntry);
 
-            console.log("付款確認成功：", courseName, amount, customerEmail);
+            await sendDiscordNotification(
+`💰 有學生完成付款！
+
+📘 課程：${courseName}
+💵 金額：NT$${amount}
+📧 Email：${customerEmail}
+🧾 Session：${session.id}`
+            );
+
+            console.log('付款確認成功：', courseName, amount, customerEmail);
         }
 
         res.json({
@@ -113,28 +140,16 @@ app.post('/api/contact', async (req, res) => {
             `時間:${timeStr}\n姓名:${name}\n信箱:${email}\n內容:${message}\n\n`
         );
 
-        const transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: process.env.GMAIL_USER,
-                pass: process.env.GMAIL_APP_PASSWORD
-            }
-        });
+        await sendDiscordNotification(
+`📩 新的課務諮詢！
 
-        await transporter.sendMail({
-            from: `"軍一補救教室後台" <${process.env.GMAIL_USER}>`,
-            to: NOTIFY_EMAIL,
-            subject: `🔔 新訊息通知：${name} 的課務諮詢`,
-            text:
-`有新的學生諮詢訊息。
+👤 姓名：${name}
+📧 信箱：${email}
+🕒 時間：${timeStr}
 
-填單時間：${timeStr}
-學生姓名：${name}
-學生信箱：${email}
-
-諮詢內容：
+📝 內容：
 ${message}`
-        });
+        );
 
         res.json({
             success: true,
@@ -142,7 +157,7 @@ ${message}`
         });
 
     } catch (error) {
-        console.error('郵件發送失敗：', error.message);
+        console.error('聯絡表單通知失敗：', error.message);
         res.status(500).json({
             success: false,
             message: error.message
