@@ -34,6 +34,13 @@
             line-height: 1.8;
         }
 
+        .debug {
+            margin-top: 18px;
+            color: #666;
+            font-size: 0.8rem;
+            word-break: break-all;
+        }
+
         a {
             display: inline-block;
             margin-top: 25px;
@@ -46,41 +53,67 @@
         }
     </style>
 </head>
+
 <body>
     <div class="card">
         <h1>✅ 付款成功</h1>
         <p>感謝您的購買，系統正在確認付款資料。</p>
+
         <div class="info" id="payment-info">付款資料確認中...</div>
+        <div class="debug" id="debug-info"></div>
+
         <a href="courses.html">返回課程頁</a>
     </div>
 
     <script>
         async function checkPayment() {
+            const infoEl = document.getElementById('payment-info');
+            const debugEl = document.getElementById('debug-info');
+
             const params = new URLSearchParams(window.location.search);
             const sessionId = params.get('session_id');
 
+            console.log("success page loaded");
+            console.log("sessionId =", sessionId);
+
             if (!sessionId) {
-                document.getElementById('payment-info').innerText = '找不到付款編號，但您已回到成功頁。';
+                infoEl.innerText = '找不到付款編號，但您已回到成功頁。';
+                debugEl.innerText = '目前網址沒有 session_id。';
                 return;
             }
 
             try {
-                const res = await fetch(`https://myshop-1-ocgr.onrender.com/api/check-payment?session_id=${sessionId}`);
+                const apiUrl = `https://myshop-1-ocgr.onrender.com/api/check-payment?session_id=${sessionId}`;
+
+                console.log("apiUrl =", apiUrl);
+
+                const res = await fetch(apiUrl);
+
+                console.log("check-payment status =", res.status);
+
                 const data = await res.json();
 
+                console.log("check-payment data =", data);
+
+                debugEl.innerText = `付款查詢狀態：${res.status}`;
+
                 if (data.paid) {
-                    document.getElementById('payment-info').innerHTML =
+                    infoEl.innerHTML =
                         `課程名稱：${data.courseName}<br>
                          付款金額：NT$${data.amount}<br>
                          付款信箱：${data.email || '未提供'}<br>
-                         老師已收到付款通知 Email。`;
+                         系統已送出付款通知 Email。`;
                 } else {
-                    document.getElementById('payment-info').innerText =
-                        '付款尚未完成，請回課程頁重新操作。';
+                    infoEl.innerHTML =
+                        `付款尚未完成或尚未確認。<br>
+                         Stripe 狀態：${data.status || '未知'}`;
                 }
+
             } catch (error) {
-                document.getElementById('payment-info').innerText =
-                    '付款確認失敗，請稍後再試。';
+                console.error("付款確認失敗 =", error);
+
+                infoEl.innerText = '付款確認失敗，請稍後再試。';
+                debugEl.innerText = error.message;
             }
         }
 
