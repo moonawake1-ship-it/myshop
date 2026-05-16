@@ -255,6 +255,51 @@
             .progress-box { width: 120px; }
         }
 
+
+        /* 修正：避免 AI 頁面的全域 input 樣式把音樂進度條撐大 */
+        .music-player-container {
+            height: 50px;
+            max-width: 194px;
+            box-sizing: border-box;
+            flex-shrink: 0;
+        }
+
+        .music-player-container .disc-btn {
+            width: 36px !important;
+            height: 36px !important;
+            min-width: 36px !important;
+            padding: 0 !important;
+            flex: 0 0 36px;
+        }
+
+        .music-player-container .progress-box {
+            width: 110px !important;
+            flex: 0 0 110px;
+        }
+
+        .music-player-container input.slider-bar {
+            width: 100% !important;
+            height: 4px !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            border: none !important;
+            border-radius: 2px !important;
+            background: rgba(255,255,255,0.1) !important;
+            display: block !important;
+            -webkit-appearance: none !important;
+            appearance: none !important;
+        }
+
+        .music-player-container input.slider-bar::-webkit-slider-thumb {
+            -webkit-appearance: none !important;
+            appearance: none !important;
+            width: 8px !important;
+            height: 8px !important;
+            border-radius: 50% !important;
+            background: var(--primary-light) !important;
+            box-shadow: 0 0 5px var(--primary-light) !important;
+        }
+
     </style>
 </head>
 <body>
@@ -348,8 +393,15 @@
 
         function initAudio() {
             if (!audio) {
-                audio = new Audio('./bgm.mp3'); 
+                audio = new Audio('./music.mp3');
                 audio.loop = true;
+                audio.addEventListener('error', () => {
+                    if (!audio.dataset.fallback) {
+                        audio.dataset.fallback = '1';
+                        audio.src = './bgm.mp3';
+                        audio.load();
+                    }
+                });
                 
                 audio.addEventListener('timeupdate', () => {
                     const progress = document.getElementById('progress-bar');
@@ -376,7 +428,7 @@
             if (audio.paused) {
                 audio.play().then(() => {
                     disc.classList.add('playing');
-                }).catch(err => console.log(err.message));
+                }).catch(err => { console.log(err.message); alert('音樂播放失敗：請確認資料夾內有 music.mp3 或 bgm.mp3，並先點一下網頁再播放。'); });
             } else {
                 audio.pause();
                 disc.classList.remove('playing');
