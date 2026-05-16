@@ -73,9 +73,6 @@
             const params = new URLSearchParams(window.location.search);
             const sessionId = params.get('session_id');
 
-            console.log("success page loaded");
-            console.log("sessionId =", sessionId);
-
             if (!sessionId) {
                 infoEl.innerText = '找不到付款編號，但您已回到成功頁。';
                 debugEl.innerText = '目前網址沒有 session_id。';
@@ -85,15 +82,8 @@
             try {
                 const apiUrl = `https://junyi-myshop.onrender.com/api/check-payment?session_id=${sessionId}`;
 
-                console.log("apiUrl =", apiUrl);
-
                 const res = await fetch(apiUrl);
-
-                console.log("check-payment status =", res.status);
-
                 const data = await res.json();
-
-                console.log("check-payment data =", data);
 
                 debugEl.innerText = `付款查詢狀態：${res.status}`;
 
@@ -102,11 +92,12 @@
                         `課程名稱：${data.courseName}<br>
                          付款金額：NT$${data.amount}<br>
                          付款信箱：${data.email || '未提供'}<br>
-                         系統已送出付款通知 Email。`;
+                         付款狀態：已付款`;
                 } else {
                     infoEl.innerHTML =
                         `付款尚未完成或尚未確認。<br>
-                         Stripe 狀態：${data.status || '未知'}`;
+                         Stripe 狀態：${data.status || '未知'}<br>
+                         ${data.error || ''}`;
                 }
 
             } catch (error) {

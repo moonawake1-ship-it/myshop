@@ -52,19 +52,62 @@ app.post('/api/checkout', async (req, res) => {
                 quantity: 1
             }],
             mode: 'payment',
-            success_url: 'https://moonawake1-ship.github.io/myshop/success.html?session_id={CHECKOUT_SESSION_ID}',
-            cancel_url: 'https://moonawake1-ship.github.io/myshop/courses.html'
+
+            metadata: {
+                courseId: courseId || 'digital_logic',
+                courseName: selectedCourse.name
+            },
+
+            success_url:
+                'https://moonawake1-ship.github.io/myshop/success.html?session_id={CHECKOUT_SESSION_ID}',
+
+            cancel_url:
+                'https://moonawake1-ship.github.io/myshop/courses.html'
         });
 
         res.json({ url: session.url });
 
     } catch (error) {
-        console.error('Stripe 完整錯誤：', error);
+        console.error('Stripe 錯誤：', error);
 
         res.status(500).json({
             success: false,
             error: error.message || 'Stripe API 錯誤',
             detail: error.toString()
+        });
+    }
+});
+
+app.get('/api/check-payment', async (req, res) => {
+    try {
+        const { session_id } = req.query;
+
+        if (!session_id) {
+            return res.status(400).json({
+                success: false,
+                paid: false,
+                error: '缺少 session_id'
+            });
+        }
+
+        const session = await stripe.checkout.sessions.retrieve(session_id);
+
+        res.json({
+            success: true,
+            paid: session.payment_status === 'paid',
+            status: session.payment_status,
+            courseName: session.metadata?.courseName || '課程',
+            amount: session.amount_total || 0,
+            email: session.customer_details?.email || ''
+        });
+
+    } catch (error) {
+        console.error('付款查詢錯誤：', error);
+
+        res.status(500).json({
+            success: false,
+            paid: false,
+            error: error.message || '付款查詢失敗'
         });
     }
 });
@@ -91,8 +134,6 @@ app.post('/api/generate-question', async (req, res) => {
 
 請只回傳 JSON，不要加上 markdown，不要加上說明文字。
 
-JSON 格式如下：
-
 {
   "question": "題目",
   "choices": ["選項A內容", "選項B內容", "選項C內容", "選項D內容"],
@@ -109,30 +150,10 @@ JSON 格式如下：
             }
         });
 
-        const text = response.text || '';
+        const text = response.text;
         console.log('Gemini 原始回傳：', text);
 
-        let jsonData;
-
-        try {
-            jsonData = JSON.parse(text);
-        } catch {
-            const match = text.match(/\{[\s\S]*\}/);
-            if (!match) {
-                throw new Error('Gemini 沒有回傳有效 JSON');
-            }
-            jsonData = JSON.parse(match[0]);
-        }
-
-        if (
-            !jsonData.question ||
-            !Array.isArray(jsonData.choices) ||
-            jsonData.choices.length !== 4 ||
-            !jsonData.answer ||
-            !jsonData.explanation
-        ) {
-            throw new Error('Gemini 回傳格式不完整');
-        }
+        const jsonData = JSON.parse(text);
 
         res.json({
             success: true,
@@ -140,7 +161,7 @@ JSON 格式如下：
         });
 
     } catch (error) {
-        console.error('Gemini 完整錯誤：', error);
+        console.error('Gemini 錯誤：', error);
 
         res.status(500).json({
             success: false,
