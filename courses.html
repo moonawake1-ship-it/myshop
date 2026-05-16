@@ -5,111 +5,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>軍一教育平台</title>
     <style>
-        * {
-    transition:
-        background-color 0.45s ease,
-        color 0.45s ease,
-        border-color 0.45s ease,
-        box-shadow 0.45s ease;
-}
-
-body {
-    transition:
-        background 0.6s ease,
-        background-image 0.6s ease,
-        color 0.45s ease;
-}
-
-nav,
-.course-card,
-.chat-container,
-.panel,
-.result-card,
-.card,
-.music-player-container,
-.icon-btn,
-input,
-textarea,
-select,
-button {
-    transition:
-        background 0.45s ease,
-        background-color 0.45s ease,
-        color 0.45s ease,
-        border-color 0.45s ease,
-        box-shadow 0.45s ease,
-        transform 0.25s ease;
-}
-        /* 🎨 CSS 主題色彩變數：與主頁完美連通 */
+        * { transition: background-color 0.45s ease, color 0.45s ease, border-color 0.45s ease, box-shadow 0.45s ease; }
+        body { transition: background 0.6s ease, background-image 0.6s ease, color 0.45s ease; }
+        nav, .course-card, .chat-container, .panel, .result-card, .card, .music-player-container, .icon-btn, input, textarea, select, button { transition: background 0.45s ease, background-color 0.45s ease, color 0.45s ease, border-color 0.45s ease, box-shadow 0.45s ease, transform 0.25s ease; }
+        
         :root {
-            --bg-main: #050505;
-            --bg-gradient: linear-gradient(135deg, #020202 0%, #0d0d0d 100%);
-            --nav-bg: rgba(15, 15, 15, 0.85);
-            --card-bg: rgba(20, 20, 20, 0.85);
-            --card-border: rgba(0, 255, 102, 0.15); 
-            --text-main: #f3f4f6;
-            --text-muted: #9ca3af;
-            --primary-light: #00ff66; 
-            --accent: #00f0ff; 
-            --shadow: 0 10px 35px rgba(0, 255, 102, 0.05);
-            --logo-color: #ffffff;
+            --bg-main: #050505; --bg-gradient: linear-gradient(135deg, #020202 0%, #0d0d0d 100%);
+            --nav-bg: rgba(15, 15, 15, 0.85); --card-bg: rgba(20, 20, 20, 0.85); --card-border: rgba(0, 255, 102, 0.15); 
+            --text-main: #f3f4f6; --text-muted: #9ca3af; --primary-light: #00ff66; --accent: #00f0ff; --shadow: 0 10px 35px rgba(0, 255, 102, 0.05); --logo-color: #ffffff;
         }
-
         [data-theme="light"] {
-            --bg-main: #f8fafc;
-            --bg-gradient: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
-            --nav-bg: rgba(255, 255, 255, 0.85);
-            --card-bg: rgba(255, 255, 255, 0.9);
-            --card-border: rgba(15, 23, 42, 0.08);
-            --text-main: #0f172a;
-            --text-muted: #475569;
-            --primary-light: #2563eb; 
-            --accent: #d97706;
-            --shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-            --logo-color: #000000;
+            --bg-main: #f8fafc; --bg-gradient: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+            --nav-bg: rgba(255, 255, 255, 0.85); --card-bg: rgba(255, 255, 255, 0.9); --card-border: rgba(15, 23, 42, 0.08);
+            --text-main: #0f172a; --text-muted: #475569; --primary-light: #2563eb; --accent: #d97706; --shadow: 0 10px 30px rgba(0, 0, 0, 0.05); --logo-color: #000000;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
         html, body, button, a, input, textarea { cursor: none !important; }
         
-        body {
-            background: var(--bg-main); background-image: var(--bg-gradient); color: var(--text-main);
-            min-height: 100vh; padding-top: 100px;
-            transition: background 0.8s cubic-bezier(0.4, 0, 0.2, 1), background-image 0.8s cubic-bezier(0.4, 0, 0.2, 1), color 0.6s ease;
-            overflow-x: hidden; position: relative;
-        }
+        body { background: var(--bg-main); background-image: var(--bg-gradient); color: var(--text-main); min-height: 100vh; padding-top: 100px; overflow-x: hidden; position: relative; }
 
-        /* ⚡ 發光漸層雷電游標 */
         #custom-cursor { position: fixed; width: 32px; height: 32px; pointer-events: none; z-index: 10000; top: 0; left: 0; transform: translate(-10%, -10%); display: block; }
         #custom-cursor::before { content: ''; display: block; width: 100%; height: 100%; background: linear-gradient(135deg, #ffe600 0%, #ff6600 50%, #ff0000 100%); clip-path: polygon(55% 0%, 10% 55%, 50% 55%, 40% 100%, 90% 40%, 50% 40%); animation: pulse-glow 1.5s infinite alternate; }
         @keyframes pulse-glow { 0% { filter: drop-shadow(0px 0px 4px #ff6600); } 100% { filter: drop-shadow(0px 0px 10px #ff3300); } }
 
-        /* 💥 點擊實體擴散圈 */
         .click-ripple { position: fixed; width: 10px; height: 10px; background: transparent; border: 3px solid var(--primary-light); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); animation: ripple-out 0.4s cubic-bezier(0.1, 0.8, 0.3, 1) forwards; box-shadow: 0 0 8px var(--primary-light); }
         @keyframes ripple-out { 0% { width: 10px; height: 10px; opacity: 1; border-width: 3px; } 100% { width: 55px; height: 55px; opacity: 0; border-width: 1px; } }
         #fx-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9998; }
 
-        /* 固定導覽列 */
-        nav {
-            position: fixed; top: 0; left: 0; width: 100%; height: 70px; background: var(--nav-bg); border-bottom: 1px solid var(--card-border);
-            display: flex; justify-content: space-between; align-items: center; padding: 0 40px; z-index: 1000; transition: background 0.8s;
-            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-        }
-        nav .logo { font-size: 1.3rem; font-weight: bold; color: var(--logo-color) !important; transition: color 0.6s; }
+        nav { position: fixed; top: 0; left: 0; width: 100%; height: 70px; background: var(--nav-bg); border-bottom: 1px solid var(--card-border); display: flex; justify-content: space-between; align-items: center; padding: 0 40px; z-index: 1000; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+        nav .logo { font-size: 1.3rem; font-weight: bold; color: var(--logo-color) !important; }
         .nav-right { display: flex; align-items: center; gap: 30px; }
         nav ul { display: flex; list-style: none; gap: 25px; }
         nav ul li a { color: var(--text-main); text-decoration: none; font-size: 1rem; font-weight: 500; }
         nav ul li a:hover { color: var(--primary-light); }
-        .controls-group { display: flex; align-items: center; gap: 15px; }
-
-        /* 🎵 黑膠唱片面板組件 */
+        
         .music-player-container { display: flex; align-items: center; gap: 12px; background: var(--card-bg); padding: 6px 16px; border-radius: 30px; border: 1px solid var(--card-border); }
         .disc-btn { width: 36px; height: 36px; background: #111; border: 2px solid #333; border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; }
         .disc-btn::after { content: ''; position: absolute; width: 8px; height: 8px; background: var(--primary-light); border-radius: 50%; }
         .disc-btn.playing { animation: spin-disc 4s linear infinite; box-shadow: 0 0 10px var(--primary-light); border-color: var(--primary-light); }
         @keyframes spin-disc { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* 📊 進度條面板 */
         .progress-box { display: flex; flex-direction: column; width: 110px; font-size: 0.75rem; color: var(--text-main); }
         .time-info { display: flex; justify-content: space-between; margin-bottom: 2px; font-family: monospace; }
         .slider-bar { width: 100%; -webkit-appearance: none; appearance: none; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; outline: none; }
@@ -120,121 +56,21 @@ button {
 
         .container { max-width: 1200px; margin: 0 auto; padding: 20px; text-align: center; }
         .course-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 30px; margin-top: 40px; }
-        .course-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px; padding: 20px; text-align: left; box-shadow: var(--shadow); overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.3s, border-color 0.3s; }
+        .course-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px; padding: 20px; text-align: left; box-shadow: var(--shadow); overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; }
         .course-card:hover { transform: translateY(-5px); }
 
-        .video-wrapper { width: 100%; position: relative; padding-top: 56.25%; background: #000; border-radius: 12px; overflow: hidden; margin-bottom: 15px; }
-        .video-wrapper video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
-
-        .image-wrapper { width: 100%; height: 0; padding-top: 56.25%; position: relative; border-radius: 12px; overflow: hidden; margin-bottom: 15px; border: 1px solid var(--card-border); background: #0a0a0a; transition: box-shadow 0.3s; }
+        .image-wrapper { width: 100%; height: 0; padding-top: 56.25%; position: relative; border-radius: 12px; overflow: hidden; margin-bottom: 15px; border: 1px solid var(--card-border); background: #0a0a0a; }
         .image-wrapper img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: top !important; }
         .course-card:hover .image-wrapper { box-shadow: 0 0 15px var(--primary-light); }
 
         .price-tag { font-size: 1.5rem; color: var(--accent); font-weight: bold; margin: 15px 0; }
-        .pay-btn { background: var(--primary-light); color: white; border: none; padding: 14px; border-radius: 10px; font-size: 1rem; width: 100%; font-weight: bold; cursor: pointer; transition: opacity 0.2s; }
+        .pay-btn { background: var(--primary-light); color: white; border: none; padding: 14px; border-radius: 10px; font-size: 1rem; width: 100%; font-weight: bold; cursor: pointer; }
         [data-theme="dark"] .pay-btn { color: #000; }
-        /* ===== 手機版 RWD ===== */
-@media (max-width: 768px) {
 
-    body {
-        padding-top: 170px;
-    }
-
-    nav {
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: auto;
-        padding: 12px;
-        gap: 12px;
-    }
-
-    .logo {
-        font-size: 1.2rem !important;
-        text-align: center;
-    }
-
-    .nav-right {
-        width: 100%;
-        flex-direction: column;
-        align-items: center;
-        gap: 12px;
-    }
-
-    nav ul {
-        width: 100%;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 16px;
-    }
-
-    nav ul li a {
-        font-size: 0.95rem;
-        writing-mode: horizontal-tb !important;
-    }
-
-    .controls-group {
-        width: 100%;
-        justify-content: center;
-    }
-
-    .music-player-container {
-        width: 95%;
-        justify-content: center;
-    }
-
-    .main-content,
-    .course-container,
-    .contact-container,
-    .main-layout {
-        width: 100%;
-        padding: 0 12px;
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    .course-grid {
-        grid-template-columns: 1fr !important;
-    }
-
-    .course-card {
-        width: 100%;
-    }
-
-    .course-card video,
-    .course-card img {
-        width: 100%;
-        height: auto;
-    }
-
-    .contact-form {
-        width: 100%;
-    }
-
-    input,
-    textarea,
-    button {
-        width: 100%;
-        font-size: 1rem;
-    }
-
-    .submit-btn,
-    .pay-btn,
-    .cta-btn {
-        width: 100%;
-        text-align: center;
-    }
-
-    h1 {
-        font-size: 2rem !important;
-        text-align: center;
-    }
-
-    p {
-        font-size: 1rem;
-        line-height: 1.7;
-    }
-}
+        @media (max-width: 768px) {
+            body { padding-top: 90px; } nav { padding: 0 20px; height: 60px; } nav ul { display: none; }
+            .nav-right { gap: 15px; } .music-player-container { display: none; } .course-container { grid-template-columns: 1fr; gap: 20px; }
+        }
     </style>
 </head>
 <body>
@@ -242,168 +78,152 @@ button {
     <div id="custom-cursor"></div>
     <canvas id="fx-canvas"></canvas>
 
-    <!-- 音訊元件 -->
-    <audio id="bg-music" loop src="music.mp3"></audio>
-    <audio id="click-sound" src="pop.mp3" preload="auto"></audio>
-
     <nav>
-        <div class="logo">⚡ 軍一補救教室</div>
+        <div class="logo">軍一補救教室</div>
         <div class="nav-right">
             <ul>
-                <li><a href="index.html">🏠 主頁</a></li>
-                <li><a href="courses.html">🛒 購買課程</a></li>
-                <li><a href="ai.html">🤖 AI題庫</a></li>
-                <li><a href="contact.html">✉️ 聯絡我們</a></li>
+                <li><a href="./index.html">AI 出題題庫</a></li>
+                <li><a href="./courses.html" style="color: var(--primary-light);">補救班課程</a></li>
             </ul>
             <div class="controls-group">
-                <!-- 黑膠唱片控制面板 -->
                 <div class="music-player-container">
-                    <button class="disc-btn" id="music-toggle" title="播放/暫停唱片"></button>
+                    <button class="disc-btn" id="disc-btn" onclick="toggleMusic()"></button>
                     <div class="progress-box">
                         <div class="time-info">
-                            <span id="current-time">00:00</span>
-                            <span id="total-time">04:00</span>
+                            <span id="current-time">0:00</span>
+                            <span id="total-time">0:00</span>
                         </div>
-                        <input type="range" id="seek-bar" class="slider-bar" value="0" min="0" max="100">
+                        <input type="range" class="slider-bar" id="progress-bar" min="0" max="100" value="0" oninput="seekMusic(this.value)">
                     </div>
                 </div>
-                <button class="icon-btn" id="theme-toggle">🌙</button>
+                <button class="icon-btn" onclick="toggleTheme()">🌓</button>
             </div>
         </div>
     </nav>
 
     <div class="container">
-        <h2>🔬 統測電子科 ｜ 核心科目選購庫</h2>
+        <h1 style="color: var(--primary-light); font-size: 2.5rem; margin-bottom: 10px;">精選電子電機補救課程</h1>
+        <p style="color: var(--text-muted);">選擇您需要加強的學科，立即開通 AI 智慧學習專區</p>
+
         <div class="course-container">
             <div class="course-card">
-                <div class="video-wrapper"><video controls><source src="digital_logic.mp4" type="video/mp4"></video></div>
-                <h2>數位邏輯補救班</h2>
-                <p style="color: var(--text-muted); margin-top: 10px;">精準剖析布林代數、卡諾圖化簡與組合邏輯電路設計。</p>
-                <div class="price-tag">NT$ 67</div>
-                <button class="pay-btn" data-id="digital_logic">💳 立即結帳</button>
+                <div>
+                    <div class="image-wrapper"><img src="https://unsplash.com" alt="數位邏輯"></div>
+                    <h3>數位邏輯補救班</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 8px;">布林代數、卡諾圖、組合邏輯電路速成</p>
+                </div>
+                <div>
+                    <div class="price-tag">NT$ 6,700</div>
+                    <button class="pay-btn" onclick="handlePurchase('digital_logic', this)">立即報名付款</button>
+                </div>
             </div>
+
             <div class="course-card">
-                <div class="video-wrapper"><video controls><source src="microprocessor.mp4" type="video/mp4"></video></div>
-                <h2>微處理機補救班</h2>
-                <p style="color: var(--text-muted); margin-top: 10px;">系統化拆解 8051 架構、記憶體配置與中斷控制子程式。</p>
-                <div class="price-tag">NT$ 67</div>
-                <button class="pay-btn" data-id="microprocessor">💳 立即結帳</button>
+                <div>
+                    <div class="image-wrapper"><img src="https://unsplash.com" alt="微處理機"></div>
+                    <h3>微處理機補救班</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 8px;">組合語言、中斷結構、I/O 晶片應用控制</p>
+                </div>
+                <div>
+                    <div class="price-tag">NT$ 6,700</div>
+                    <button class="pay-btn" onclick="handlePurchase('microprocessor', this)">立即報名付款</button>
+                </div>
             </div>
+
             <div class="course-card">
-                <div class="image-wrapper"><img src="electronics.jpg"></div>
-                <h2>電子學補救班</h2>
-                <p style="color: var(--text-muted); margin-top: 10px;">攻克二極體電路、BJT 與 FET 放大器偏壓與小訊號分析。</p>
-                <div class="price-tag">NT$ 67</div>
-                <button class="pay-btn" data-id="electronics">💳 立即結帳</button>
-            </div>
-            <div class="course-card">
-                <div class="image-wrapper"><img src="basic_electricity.jpg"></div>
-                <h2>基本電學補救班</h2>
-                <p style="color: var(--text-muted); margin-top: 10px;">你是在不信任江公先生嗎?</p>
-                <div class="price-tag">NT$ 67</div>
-                <button class="pay-btn" data-id="basic_electricity">💳 立即結帳</button>
-            </div>
-            <div class="course-card">
-                <div class="image-wrapper"><img src="math.jpg"></div>
-                <h2>統測數學高分班</h2>
-                <p style="color: var(--text-muted); margin-top: 10px;">專攻電子科必備之三角函數、微積分基礎與複數向量運算。</p>
-                <div class="price-tag">NT$ 67</div>
-                <button class="pay-btn" data-id="math">💳 立即結帳</button>
+                <div>
+                    <div class="image-wrapper"><img src="https://unsplash.com" alt="電子學"></div>
+                    <h3>電子學補救班</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 8px;">二極體電路、BJT、FET 放大電路徹底搞懂</p>
+                </div>
+                <div>
+                    <div class="price-tag">NT$ 6,700</div>
+                    <button class="pay-btn" onclick="handlePurchase('electronics', this)">立即報名付款</button>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        /* 💥 瞬發音效與擴散圈 */
-        const clickSound = document.getElementById('click-sound');
-        window.addEventListener('click', (e) => {
-            clickSound.currentTime = 0; clickSound.play().catch(()=>{});
-            const ripple = document.createElement('div'); ripple.className = 'click-ripple';
-            ripple.style.left = e.clientX + 'px'; ripple.style.top = e.clientY + 'px';
-            document.body.appendChild(ripple); setTimeout(() => { ripple.remove(); }, 400);
-        });
+        // 已自動綁定為你預計設定的新 Render 名稱：myshop
+        const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? 'http://localhost:3000'
+            : 'https://onrender.com'; 
 
-        /* 🌓 黑白切換 */
-        const themeToggle = document.getElementById('theme-toggle');
-        themeToggle.addEventListener('click', (e) => {
-            e.stopPropagation();
-            if (document.documentElement.getAttribute('data-theme') === 'light') {
-                document.documentElement.setAttribute('data-theme', 'dark'); themeToggle.innerText = '🌙';
-            } else {
-                document.documentElement.setAttribute('data-theme', 'light'); themeToggle.innerText = '☀️';
+        async function handlePurchase(courseId, btnElement) {
+            const originalText = btnElement.innerText;
+            try {
+                btnElement.innerText = '正在建立付款訂單...';
+                btnElement.style.opacity = '0.6';
+                btnElement.disabled = true;
+
+                const response = await fetch(`${API_BASE_URL}/api/checkout`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ courseId: courseId })
+                });
+
+                if (!response.ok) {
+                    const errData = await response.json();
+                    throw new Error(errData.message || '後端伺服器回應異常');
+                }
+
+                const data = await response.json();
+                if (data.url) {
+                    window.location.href = data.url; 
+                } else {
+                    throw new Error('未成功取得付款網址');
+                }
+            } catch (error) {
+                console.error('付款請求錯誤:', error);
+                alert(`建立付款失敗！\n錯誤原因：${error.message}\n提示：伺服器若處於休眠，首次連線需等待約 50 秒。`);
+            } finally {
+                btnElement.innerText = originalText;
+                btnElement.style.opacity = '1';
+                btnElement.disabled = false;
             }
-        });
-
-        /* 🎵 4分鐘唱片控制核心 */
-        const musicToggle = document.getElementById('music-toggle'); const bgMusic = document.getElementById('bg-music');
-        const seekBar = document.getElementById('seek-bar'); const currentTimeEl = document.getElementById('current-time');
-        const maxDuration = 240; 
-
-        musicToggle.addEventListener('click', (e) => {
-            e.stopPropagation();
-            if (bgMusic.paused) { bgMusic.play().catch(() => alert('請先點擊網頁任意處激活音訊通道！')); musicToggle.classList.add('playing'); } 
-            else { bgMusic.pause(); musicToggle.classList.remove('playing'); }
-        });
-
-        function formatTime(seconds) {
-            let min = Math.floor(seconds / 60); let sec = Math.floor(seconds % 60);
-            return `${min < 10 ? "0" + min : min}:${sec < 10 ? "0" + sec : sec}`;
         }
 
-        bgMusic.addEventListener('timeupdate', () => {
-            if (bgMusic.currentTime >= maxDuration) {
-                bgMusic.pause(); bgMusic.currentTime = 0; musicToggle.classList.remove('playing'); seekBar.value = 0; currentTimeEl.innerText = "00:00"; return;
+        // 音樂控制
+        let audio = null;
+        function initAudio() {
+            if (!audio) {
+                audio = new Audio('./bgm.mp3'); audio.loop = true;
+                audio.addEventListener('timeupdate', () => {
+                    const progress = document.getElementById('progress-bar');
+                    const currentTxt = document.getElementById('current-time');
+                    const totalTxt = document.getElementById('total-time');
+                    if(audio.duration) {
+                        progress.value = (audio.currentTime / audio.duration) * 100;
+                        currentTxt.textContent = formatTime(audio.currentTime);
+                        totalTxt.textContent = formatTime(audio.duration);
+                    }
+                });
             }
-            currentTimeEl.innerText = formatTime(bgMusic.currentTime);
-            seekBar.value = (bgMusic.currentTime / maxDuration) * 100 || 0;
-        });
-        seekBar.addEventListener('input', () => { bgMusic.currentTime = (seekBar.value / 100) * maxDuration; });
+        }
+        function formatTime(secs) { let m = Math.floor(secs / 60); let s = Math.floor(secs % 60); return `${m}:${s < 10 ? '0' : ''}${s}`; }
+        function toggleMusic() { initAudio(); const disc = document.getElementById('disc-btn'); if (audio.paused) { audio.play().then(() => disc.classList.add('playing')).catch(e => console.log(e.message)); } else { audio.pause(); disc.classList.remove('playing'); } }
+        function seekMusic(val) { if(!audio) return; audio.currentTime = (val / 100) * audio.duration; }
+        function toggleTheme() { const currentTheme = document.documentElement.getAttribute('data-theme'); document.documentElement.setAttribute('data-theme', currentTheme === 'light' ? 'dark' : 'light'); }
 
-        /* 🔬 特效渲染區 */
-        const cursorEl = document.getElementById('custom-cursor'); const canvas = document.getElementById('fx-canvas'); const ctx = canvas.getContext('2d');
-        let pcbTraces = []; let neonMatrixParticles = [];
+        // 特效粒子系統
+        const cursor = document.getElementById('custom-cursor'); const canvas = document.getElementById('fx-canvas'); const ctx = canvas.getContext('2d');
         function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         window.addEventListener('resize', resizeCanvas); resizeCanvas();
-
-        for(let i = 0; i < 35; i++) { neonMatrixParticles.push({ x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight, size: Math.random() * 4 + 2, speedX: Math.random() * 0.4 - 0.2, speedY: Math.random() * 0.4 + 0.2, opacity: Math.random() * 0.4 + 0.2 }); }
-        
-        window.addEventListener('mousemove', (e) => {
-            cursorEl.style.left = e.clientX + 'px'; cursorEl.style.top = e.clientY + 'px';
-            if (Math.random() < 0.35) {
-                let directions = [0, Math.PI/4, Math.PI/2, Math.PI, -Math.PI/4];
-                pcbTraces.push({ startX: e.clientX, startY: e.clientY, length: Math.random() * 20 + 10, angle: directions[Math.floor(Math.random() * directions.length)], opacity: 1, width: Math.random() * 1.2 + 0.5 });
-            }
+        window.addEventListener('mousemove', (e) => { requestAnimationFrame(() => { cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px'; }); });
+        window.addEventListener('click', (e) => {
+            const ripple = document.createElement('div'); ripple.className = 'click-ripple'; ripple.style.left = e.clientX + 'px'; ripple.style.top = e.clientY + 'px';
+            document.body.appendChild(ripple); setTimeout(() => ripple.remove(), 400); createParticles(e.clientX, e.clientY);
         });
-
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height); const isDark = document.documentElement.getAttribute('data-theme') === 'dark'; let electroColor = isDark ? '#00ff66' : '#2563eb';
-            for (let i = pcbTraces.length - 1; i >= 0; i--) {
-                let t = pcbTraces[i]; ctx.save(); ctx.globalAlpha = t.opacity; ctx.strokeStyle = electroColor; ctx.lineWidth = t.width; if(isDark) { ctx.shadowBlur = 5; ctx.shadowColor = electroColor; } ctx.beginPath(); ctx.moveTo(t.startX, t.startY); let endX = t.startX + Math.cos(t.angle) * t.length; let endY = t.startY + Math.sin(t.angle) * t.length; ctx.lineTo(endX, endY); ctx.stroke(); ctx.fillStyle = electroColor; ctx.beginPath(); ctx.arc(endX, endY, t.width * 1.5, 0, Math.PI*2); ctx.fill(); ctx.restore(); t.opacity -= 0.025; if (t.opacity <= 0) pcbTraces.splice(i, 1);
-            }
-            for (let i = 0; i < neonMatrixParticles.length; i++) {
-                let s = neonMatrixParticles[i]; ctx.save(); ctx.globalAlpha = s.opacity; ctx.strokeStyle = isDark ? '#00ff66' : '#2563eb'; ctx.lineWidth = 1; ctx.strokeRect(s.x, s.y, s.size, s.size); ctx.restore(); s.x += s.speedX; s.y += s.speedY; if (s.y > canvas.height) { s.y = 0; s.x = Math.random() * canvas.width; }
-            }
-            requestAnimationFrame(animate);
+        let particles = [];
+        class Particle {
+            constructor(x, y) { this.x = x; this.y = y; this.size = Math.random() * 3 + 1; this.speedX = (Math.random() - 0.5) * 6; this.speedY = (Math.random() - 0.5) * 6; this.color = Math.random() > 0.5 ? '#00ff66' : '#00f0ff'; this.alpha = 1; }
+            update() { this.x += this.speedX; this.y += this.speedY; this.alpha -= 0.03; }
+            draw() { ctx.save(); ctx.globalAlpha = this.alpha; ctx.fillStyle = this.color; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); ctx.restore(); }
         }
-        animate();
-
-        // 金流後端通訊
-        document.querySelectorAll('.pay-btn').forEach(btn => {
-            btn.addEventListener('click', async (e) => {
-                const courseId = btn.getAttribute('data-id');
-                try {
-                    const res = await fetch('https://myshop-2-ocgr.onrender.com/api/checkout', { 
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ courseId: courseId })
-                    });
-                    const data = await res.json();
-                    if (data.url) { window.location.href = data.url; }
-                } catch (error) {
-                    alert('後端連線失敗！請確認終端機是否已開啟 node server.js！');
-                }
-            });
-        });
+        function createParticles(x, y) { for(let i=0; i<12; i++) { particles.push(new Particle(x, y)); } }
+        function animateParticles() { ctx.clearRect(0, 0, canvas.width, canvas.height); particles = particles.filter(p => p.alpha > 0); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animateParticles); }
+        animateParticles();
     </script>
 </body>
 </html>
