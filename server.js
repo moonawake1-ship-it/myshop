@@ -5,12 +5,12 @@ require('dotenv').config();
 
 const app = express();
 
-// CORS 萬能安全通行證，徹底粉碎網頁被跨網域阻擋的盲點
 app.use(cors({
-    origin: '*', 
+    origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
 app.use(express.json());
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
@@ -27,31 +27,17 @@ const courseDatabase = {
     math: { name: '統測數學高分班', amount: 6700 }
 };
 
-async function sendDiscordNotification(message) {
-    if (!process.env.DISCORD_WEBHOOK_URL) {
-        console.log('尚未設定 DISCORD_WEBHOOK_URL');
-        return;
-    }
-    try {
-        await fetch(process.env.DISCORD_WEBHOOK_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ content: message })
-        });
-    } catch (error) {
-        console.error('Discord 通知失敗：', error.message);
-    }
-}
-
 app.get('/', (req, res) => {
     res.send('軍一補救教室後端 API 正常運作中');
 });
 
-// 建立 Stripe Checkout 付款階段
 app.post('/api/checkout', async (req, res) => {
     try {
         const { courseId } = req.body;
-        const selectedCourse = courseDatabase[courseId] || courseDatabase.digital_logic;
+
+        const selectedCourse =
+            courseDatabase[courseId] ||
+            courseDatabase.digital_logic;
 
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
@@ -66,143 +52,81 @@ app.post('/api/checkout', async (req, res) => {
                 quantity: 1
             }],
             mode: 'payment',
-            metadata: {
-                courseId,
-                courseName: selectedCourse.name
-            },
-            success_url: 'https://moonawake1-ship.github.io/success.html?session_id={CHECKOUT_SESSION_ID}',
-            cancel_url: 'https://moonawake1-ship.github.io/cancel.html'
+
+            success_url:
+                'https://moonawake1-ship.github.io/success.html?session_id={CHECKOUT_SESSION_ID}',
+
+            cancel_url:
+                'https://moonawake1-ship.github.io/courses.html'
         });
 
         res.json({ url: session.url });
 
     } catch (error) {
         console.error('Stripe 錯誤：', error.message);
-        res.status(500).json({ message: error.message });
-    }
-});
 
-// 檢查付款狀態
-app.get('/api/check-payment', async (req, res) => {
-    try {
-        const { session_id } = req.query;
-
-        if (!session_id) {
-            return res.status(400).json({ success: false, message: '缺少 session_id' });
-        }
-
-        const session = await stripe.checkout.sessions.retrieve(session_id);
-
-        if (session.payment_status === 'paid') {
-            const amount = session.amount_total; // TWD 無小數點，不除以 100
-            const courseName = session.metadata?.courseName || '未提供';
-            const customerEmail = session.customer_details?.email || '未提供';
-
-            await sendDiscordNotification(
-`💰 有學生完成付款！
-
-📘 課程：${courseName}
-💵 金額：NT$${amount}
-📧 Email：${customerEmail}
-🧾 Session：${session.id}`
-            );
-        }
-
-        res.json({
-            success: true,
-            paid: session.payment_status === 'paid',
-            status: session.payment_status,
-            amount: session.amount_total, 
-            courseName: session.metadata?.courseName || '',
-            email: session.customer_details?.email || ''
+        res.status(500).json({
+            success: false,
+            message: error.message
         });
-
-    } catch (error) {
-        console.error('查詢付款錯誤：', error.message);
-        res.status(500).json({ success: false, message: error.message });
     }
 });
 
-// 聯絡諮詢表單
-app.post('/api/contact', async (req, res) => {
-    try {
-        const { name, email, message } = req.body;
-        const timeStr = new Date().toLocaleString();
-
-        await sendDiscordNotification(
-`📩 新的課務諮詢！
-
-👤 姓名：${name}
-📧 信箱：${email}
-🕒 時間：${timeStr}
-
-📝 內容：
-${message}`
-        );
-
-        res.json({ success: true, message: '訊息已成功送出' });
-
-    } catch (error) {
-        console.error('聯絡表單錯誤：', error.message);
-        res.status(500).json({ success: false, message: error.message });
-    }
-});
-
-// AI 考題生成
 app.post('/api/generate-question', async (req, res) => {
     try {
         const { subject, topic, difficulty } = req.body;
 
         const prompt = `
 你是台灣高職電子科老師。
-請生成一題適合高職電子科電類學生的考題。
-科目：${subject || '電子學'}
-章節：${topic || '基礎概念'}
-難度：${difficulty || '普通'}
 
-請務必只回傳 JSON，不要 markdown，不要解釋，不要加任何前後文字。
-JSON 格式如下：
+請生成一題適合高職電子科學生的四選一題目。
+
+科目：${subject}
+章節：${topic}
+難度：${difficulty}
+
+請只回傳 JSON：
+
 {
-  "question": "題目文字",
-  "choices": ["選項A", "選項B", "選項C", "選項D"],
+  "question": "題目",
+  "choices": ["A", "B", "C", "D"],
   "answer": "A",
-  "explanation": "詳細中文解析"
+  "explanation": "解析"
 }
 `;
 
         const response = await ai.models.generateContent({
-            model: 'gemini-3-flash-preview',
+            model: 'gemini-2.0-flash',
             contents: prompt
         });
 
         const text = response.text || '';
+
         const match = text.match(/\{[\s\S]*\}/);
 
         if (!match) {
-            throw new Error('Gemini 沒有回傳 JSON：' + text);
+            throw new Error('Gemini 沒有回傳 JSON');
         }
 
         const jsonData = JSON.parse(match[0]);
 
-        if (
-            !jsonData.question ||
-            !Array.isArray(jsonData.choices) ||
-            jsonData.choices.length !== 4 ||
-            !jsonData.answer ||
-            !jsonData.explanation
-        ) {
-            throw new Error('Gemini 回傳格式不完整');
-        }
+        res.json({
+            success: true,
+            question: jsonData
+        });
 
-        res.json({ success: true, question: jsonData });
+    } catch (error) {
+        console.error('Gemini 錯誤：', error.message);
 
-    } catch (err) {
-        console.error('Gemini 出題錯誤：', err.message);
-        res.status(500).json({ success: false, error: err.message });
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
     }
 });
 
 const PORT = process.env.PORT || 3000;
+
 app.listen(PORT, () => {
     console.log(`🚀 Server running on port ${PORT}`);
 });

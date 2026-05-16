@@ -386,7 +386,7 @@
     <script>
         const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
             ? 'http://localhost:3000'
-            : 'https://junyi-myshop.onrender.com/';
+            : 'https://junyi-myshop.onrender.com';
 
         let audio = null;
         let currentQuestion = null;
@@ -465,7 +465,7 @@
             genBtn.disabled = true;
 
             try {
-                const response = await fetch(`${API_BASE_URL}/api/generate-question`, {
+                const response = await fetch(`${API_BASE_URL.replace(/\/$/, '')}/api/generate-question`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ subject, topic, difficulty })
