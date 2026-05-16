@@ -29,7 +29,10 @@ const courseDatabase = {
     microprocessor: { name: '微處理機補救班', amount: 6700 },
     electronics: { name: '電子學補救班', amount: 6700 },
     basic_electricity: { name: '基本電學補救班', amount: 6700 },
-    math: { name: '統測數學高分班', amount: 6700 }
+    math: { name: '統測數學高分班', amount: 6700 },
+
+    chinese: { name: '國文補救班', amount: 6700 },
+    english: { name: '英文補救班', amount: 6700 }
 };
 
 app.get('/', (req, res) => {
