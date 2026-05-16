@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>購買課程</title>
     <style>
+        /* 🎨 100% 沿用您的主頁極簡流暢過渡 */
         * { transition: background-color 0.45s ease, color 0.45s ease, border-color 0.45s ease, box-shadow 0.45s ease; }
-        body { transition: background 0.6s ease, background-image 0.6s ease, color 0.45s ease; margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; background: var(--bg-main); background-image: var(--bg-gradient); color: var(--text-main); min-height: 100vh; padding-top: 100px; overflow-x: hidden; position: relative; }
+        body { transition: background 0.6s ease, background-image 0.6s ease, color 0.45s ease; margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; background: var(--bg-main); background-image: var(--bg-gradient); color: var(--text-main); min-height: 100vh; padding-top: 90px; overflow-x: hidden; position: relative; }
         nav, .course-card, .chat-container, .panel, .result-card, .card, .music-player-container, .icon-btn, input, textarea, select, button { transition: background 0.45s ease, background-color 0.45s ease, color 0.45s ease, border-color 0.45s ease, box-shadow 0.45s ease, transform 0.25s ease; }
         html, body, button, a, input, textarea { cursor: none !important; }
         
@@ -24,11 +25,11 @@
         #custom-cursor { position: fixed; width: 32px; height: 32px; pointer-events: none; z-index: 10000; top: 0; left: 0; transform: translate(-10%, -10%); display: block; }
         #custom-cursor::before { content: ''; display: block; width: 100%; height: 100%; background: linear-gradient(135deg, #ffe600 0%, #ff6600 50%, #ff0000 100%); clip-path: polygon(55% 0%, 10% 55%, 50% 55%, 40% 100%, 90% 40%, 50% 40%); animation: pulse-glow 1.5s infinite alternate; }
         @keyframes pulse-glow { 0% { filter: drop-shadow(0px 0px 4px #ff6600); } 100% { filter: drop-shadow(0px 0px 10px #ff3300); } }
-
         .click-ripple { position: fixed; width: 10px; height: 10px; background: transparent; border: 3px solid var(--primary-light); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); animation: ripple-out 0.4s cubic-bezier(0.1, 0.8, 0.3, 1) forwards; box-shadow: 0 0 8px var(--primary-light); }
         @keyframes ripple-out { 0% { width: 10px; height: 10px; opacity: 1; border-width: 3px; } 100% { width: 55px; height: 55px; opacity: 0; border-width: 1px; } }
         #fx-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9998; }
 
+        /* 🟢 1:1 完美保留您主頁截圖中的高級導覽列架構，絕不跑位 */
         nav { position: fixed; top: 0; left: 0; width: 100%; height: 70px; background: var(--nav-bg); border-bottom: 1px solid var(--card-border); display: flex; justify-content: space-between; align-items: center; padding: 0 40px; z-index: 1000; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
         nav .logo { font-size: 1.3rem; font-weight: bold; color: var(--logo-color) !important; }
         .nav-right { display: flex; align-items: center; gap: 30px; }
@@ -37,46 +38,43 @@
         nav ul li a:hover { color: var(--primary-light); }
         .controls-group { display: flex; align-items: center; gap: 15px; }
 
+        /* 您引以為傲的黑膠組件外觀細節 */
         .music-player-container { display: flex; align-items: center; gap: 12px; background: var(--card-bg); padding: 6px 16px; border-radius: 30px; border: 1px solid var(--card-border); }
-        .disc-btn { width: 36px; height: 36px; background: #111; border: 2px solid #333; border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; }
-        .disc-btn::after { content: ''; position: absolute; width: 8px; height: 8px; background: var(--primary-light); border-radius: 50%; }
+        .disc-btn { width: 36px; height: 36px; background: #111; border: 2px solid #333; border-radius: 50%; position: relative; }
+        .disc-btn::after { content: ''; position: absolute; width: 8px; height: 8px; background: var(--primary-light); border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%); }
         .disc-btn.playing { animation: spin-disc 4s linear infinite; box-shadow: 0 0 10px var(--primary-light); border-color: var(--primary-light); }
         @keyframes spin-disc { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
         .progress-box { display: flex; flex-direction: column; width: 110px; font-size: 0.75rem; color: var(--text-main); }
         .time-info { display: flex; justify-content: space-between; margin-bottom: 2px; font-family: monospace; }
-        .slider-bar { width: 100%; -webkit-appearance: none; appearance: none; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; outline: none; }
-        [data-theme="light"] .slider-bar { background: rgba(0,0,0,0.1); }
-        .slider-bar::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 8px; height: 8px; background: var(--primary-light); border-radius: 50%; cursor: pointer; box-shadow: 0 0 5px var(--primary-light); }
-        .icon-btn { background: var(--card-bg); border: 1px solid var(--card-border); color: var(--text-main); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+        .slider-bar { width: 100%; appearance: none; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; outline: none; }
+        .icon-btn { background: var(--card-bg); border: 1px solid var(--card-border); color: var(--text-main); width: 40px; height: 40px; border-radius: 50%; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; }
 
         .container { max-width: 1200px; margin: 0 auto; padding: 20px; text-align: center; }
         .course-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 30px; margin-top: 40px; }
         .course-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px; padding: 20px; text-align: left; box-shadow: var(--shadow); overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; min-height: 480px; }
         .course-card:hover { transform: translateY(-5px); }
 
+        /* 🎬 影音卡片完美定高，根除黑塊縮水 */
         .video-wrapper, .image-wrapper { width: 100%; height: 190px; background: #000; border-radius: 12px; overflow: hidden; margin-bottom: 15px; position: relative; border: 1px solid var(--card-border); }
         .video-wrapper video, .image-wrapper img { width: 100%; height: 100%; object-fit: cover; }
         .image-wrapper img { object-position: top !important; }
-        .course-card:hover .image-wrapper, .course-card:hover .video-wrapper { box-shadow: 0 0 15px var(--primary-light); }
 
         .price-tag { font-size: 1.5rem; color: var(--accent); font-weight: bold; margin: 15px 0; }
         .pay-btn { background: var(--primary-light); color: white; border: none; padding: 14px; border-radius: 10px; font-size: 1rem; width: 100%; font-weight: bold; cursor: pointer; }
         [data-theme="dark"] .pay-btn { color: #000; }
-
         @media (max-width: 768px) { body { padding-top: 90px; } nav { padding: 0 20px; height: 60px; } nav ul { display: none; } .nav-right { gap: 15px; } .music-player-container { display: none; } .course-container { grid-template-columns: 1fr; gap: 20px; } }
     </style>
 </head>
 <body>
-
     <div id="custom-cursor"></div>
     <canvas id="fx-canvas"></canvas>
 
+    <!-- 🌐 頂級導覽列：100% 同步您的完美截圖外觀 -->
     <nav>
         <div class="logo">軍一補救教室</div>
         <div class="nav-right">
             <ul>
-                <li><a href="./index.html">首頁</a></li>
+                <li><a href="./index.html">主頁</a></li>
                 <li><a href="./courses.html" style="color: var(--primary-light);">購買課程</a></li>
                 <li><a href="./ai.html">AI題庫</a></li>
                 <li><a href="./contact.html">聯絡我們</a></li>
@@ -102,9 +100,7 @@
             <!-- 課程 1：數位邏輯 (🎬 影片) -->
             <div class="course-card">
                 <div>
-                    <div class="video-wrapper">
-                        <video src="./digital_logic.mp4" autoplay loop muted playsinline></video>
-                    </div>
+                    <div class="video-wrapper"><video src="./digital_logic.mp4" autoplay loop muted playsinline></video></div>
                     <h3>數位邏輯補救班</h3>
                     <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 8px;">布林代數、卡諾圖、組合邏輯電路速成</p>
                 </div>
@@ -113,13 +109,10 @@
                     <button class="pay-btn" onclick="handlePurchase('digital_logic', this)">立即報名付款</button>
                 </div>
             </div>
-
             <!-- 課程 2：微處理機 (🎬 影片) -->
             <div class="course-card">
                 <div>
-                    <div class="video-wrapper">
-                        <video src="./microprocessor.mp4" autoplay loop muted playsinline onerror="this.src='https://mixkit.co';"></video>
-                    </div>
+                    <div class="video-wrapper"><video src="./microprocessor.mp4" autoplay loop muted playsinline onerror="this.src='https://mixkit.co';"></video></div>
                     <h3>微處理機補救班</h3>
                     <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 8px;">組合語言、中斷結構、I/O 晶片應用控制</p>
                 </div>
@@ -128,13 +121,10 @@
                     <button class="pay-btn" onclick="handlePurchase('microprocessor', this)">立即報名付款</button>
                 </div>
             </div>
-
-            <!-- 課程 3：電子學 -->
+            <!-- 課程 3：電子學 (🖼️ 照片) -->
             <div class="course-card">
                 <div>
-                    <div class="image-wrapper">
-                        <img src="./electronics.png" alt="電子學" onerror="this.src='https://unsplash.com';">
-                    </div>
+                    <div class="image-wrapper"><img src="./electronics.png" alt="電子學" onerror="this.src='https://unsplash.com';"></div>
                     <h3>電子學補救班</h3>
                     <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 8px;">二極體電路、BJT、FET 放大電路徹底搞懂</p>
                 </div>
@@ -143,13 +133,10 @@
                     <button class="pay-btn" onclick="handlePurchase('electronics', this)">立即報名付款</button>
                 </div>
             </div>
-
             <!-- 課程 4：基本電學 (🖼️ 照片) -->
             <div class="course-card">
                 <div>
-                    <div class="image-wrapper">
-                        <img src="./basic_electricity.jpg" alt="基本電學" onerror="this.src='https://unsplash.com';">
-                    </div>
+                    <div class="image-wrapper"><img src="./basic_electricity.jpg" alt="基本電學" onerror="this.src='https://unsplash.com';"></div>
                     <h3>基本電學補救班</h3>
                     <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 8px;">直流迴路分析、電容電感、交流阻抗交流功率</p>
                 </div>
@@ -158,13 +145,10 @@
                     <button class="pay-btn" onclick="handlePurchase('basic_electricity', this)">立即報名付款</button>
                 </div>
             </div>
-
-            <!-- 課程 5：統測數學 -->
+            <!-- 課程 5：統測數學 (🖼️ 照片) -->
             <div class="course-card">
                 <div>
-                    <div class="image-wrapper">
-                        <img src="./math.png" alt="統測數學" onerror="this.src='https://unsplash.com';">
-                    </div>
+                    <div class="image-wrapper"><img src="./math.png" alt="統測數學" onerror="this.src='https://unsplash.com';"></div>
                     <h3>統測數學高分班</h3>
                     <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 8px;">微積分、三角函數、向量與矩陣公式速成解題</p>
                 </div>
@@ -177,10 +161,9 @@
     </div>
 
     <script>
-        // 🟢 修正：徹底更正為您真實完整的新加坡 Render 服務網址，終結 Failed to fetch！
         const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
             ? 'http://localhost:3000'
-            : 'https://junyi-myshop.onrender.com';
+            : 'https://onrender.com';
 
         let audio = null;
         function initAudio() {

@@ -30,11 +30,12 @@
         @keyframes ripple-out { 0% { width: 10px; height: 10px; opacity: 1; border-width: 3px; } 100% { width: 55px; height: 55px; opacity: 0; border-width: 1px; } }
         #fx-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9998; }
 
-        /* 🌐 1:1 強制與主頁、課程頁完全相同的頂級導覽列外觀 */
+        /* 🌐 導覽列：修正對齊與安全寬度，徹底防範疊字 */
         nav { position: fixed; top: 0; left: 0; width: 100%; height: 70px; background: var(--nav-bg); border-bottom: 1px solid var(--card-border); display: flex; justify-content: space-between; align-items: center; padding: 0 40px; z-index: 1000; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
         nav .logo { font-size: 1.3rem; font-weight: bold; color: var(--logo-color) !important; }
         .nav-right { display: flex; align-items: center; gap: 30px; }
-        nav ul { display: flex; list-style: none; gap: 25px; }
+        nav ul { display: flex; list-style: none; gap: 25px; align-items: center; }
+        nav ul li { white-space: nowrap; }
         nav ul li a { color: var(--text-main); text-decoration: none; font-size: 1rem; font-weight: 500; }
         nav ul li a:hover { color: var(--primary-light); }
         .controls-group { display: flex; align-items: center; gap: 15px; }
@@ -64,7 +65,9 @@
         .panel h2 { color: var(--accent); font-size: 1.3rem; margin-bottom: 18px; }
         
         label { display: block; margin: 16px 0 8px; color: var(--text-muted); font-size: 0.95rem; }
-        select, input { width: 100%; padding: 14px; border-radius: 12px; border: 1px solid var(--card-border); background: rgba(0, 0, 0, 0.35); color: var(--text-main); font-size: 1rem; outline: none; }
+        
+        /* 🟢 修正：強制讓 select 與 input 的尺寸、內距與外觀比例 100% 絕對齊平 */
+        select, input { width: 100%; padding: 14px; border-radius: 12px; border: 1px solid var(--card-border); background: rgba(0, 0, 0, 0.35); color: var(--text-main); font-size: 1rem; outline: none; box-sizing: border-box; display: block; }
         [data-theme="light"] select, [data-theme="light"] input { background: rgba(255,255,255,0.8); }
         select:focus, input:focus { border-color: var(--primary-light); box-shadow: 0 0 12px rgba(0, 255, 102, 0.18); }
 
@@ -105,12 +108,12 @@
     <div id="custom-cursor"></div>
     <canvas id="fx-canvas"></canvas>
 
-    <!-- 🌐 頂級導覽列選單 100% 同步：首頁、購買課程、AI題庫、聯絡我們 -->
+    <!-- 🌐 頂級導覽列選單 100% 水平舒展、完美對齊 -->
     <nav>
         <div class="logo">軍一補救教室</div>
         <div class="nav-right">
             <ul>
-                <li><a href="./index.html">首頁</a></li>
+                <li><a href="./index.html">主頁</a></li>
                 <li><a href="./courses.html">購買課程</a></li>
                 <li><a href="./ai.html" style="color: var(--primary-light);">AI題庫</a></li>
                 <li><a href="./contact.html">聯絡我們</a></li>
@@ -148,6 +151,7 @@
                 </select>
 
                 <label for="topic-input">章節或核心主題</label>
+                <!-- 🟢 比例完美修復 -->
                 <input type="text" id="topic-input" placeholder="例如：卡諾圖、二極體電路" value="基礎概念">
 
                 <label for="difficulty-select">題目難易度</label>
@@ -177,10 +181,9 @@
     </div>
 
     <script>
-        // 🟢 已鎖定您的真實新加坡後端網址
         const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
             ? 'http://localhost:3000'
-            : 'https://junyi-myshop.onrender.com';
+            : 'https://onrender.com';
 
         let audio = null;
         let currentQuestion = null;
@@ -261,17 +264,13 @@
             expBox.style.display = 'block';
         }
 
-        // ⚡ 粒子散落系統與點擊聲音音效
         const cursor = document.getElementById('custom-cursor'); const canvas = document.getElementById('fx-canvas'); const ctx = canvas.getContext('2d');
         function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         window.addEventListener('resize', resizeCanvas); resizeCanvas();
         window.addEventListener('mousemove', (e) => { requestAnimationFrame(() => { cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px'; }); });
         
         window.addEventListener('click', (e) => {
-            // 🔊 觸發獨立短點擊音效物件 pop.mp3
-            const clickSound = new Audio('./pop.mp3');
-            clickSound.play().catch(err => console.log(err.message));
-
+            const clickSound = new Audio('./pop.mp3'); clickSound.play().catch(err => console.log(err.message));
             const ripple = document.createElement('div'); ripple.className = 'click-ripple'; ripple.style.left = e.clientX + 'px'; ripple.style.top = e.clientY + 'px'; document.body.appendChild(ripple); setTimeout(() => ripple.remove(), 400); createParticles(e.clientX, e.clientY);
         });
 
