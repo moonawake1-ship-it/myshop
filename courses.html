@@ -276,6 +276,129 @@
             box-shadow: 0 0 5px var(--primary-light) !important;
         }
 
+
+        /* ===== 課程卡片版面修正版：三欄整齊排列、圖片固定高度、卡片同高 ===== */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 32px 24px 80px;
+            text-align: center;
+        }
+
+        .course-container {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 32px;
+            margin-top: 40px;
+            align-items: stretch;
+        }
+
+        .course-card {
+            min-height: 420px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 22px;
+            padding: 22px;
+            text-align: left;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .course-card > div:first-child {
+            flex: 1;
+        }
+
+        .video-wrapper,
+        .image-wrapper {
+            width: 100%;
+            height: 190px;
+            padding-top: 0 !important;
+            position: relative;
+            border-radius: 14px;
+            overflow: hidden;
+            margin-bottom: 18px;
+            border: 1px solid var(--card-border);
+            background: #050505;
+        }
+
+        .video-wrapper video,
+        .image-wrapper img {
+            position: absolute !important;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center !important;
+        }
+
+        .course-card h3 {
+            margin-top: 12px;
+            font-size: 1.25rem;
+            line-height: 1.4;
+            color: var(--text-main);
+        }
+
+        .course-card p {
+            min-height: 50px;
+            line-height: 1.7;
+            color: var(--text-muted);
+            font-size: 0.92rem;
+            margin-top: 8px;
+        }
+
+        .price-tag {
+            font-size: 1.55rem;
+            color: var(--accent);
+            font-weight: bold;
+            margin: 20px 0 18px;
+        }
+
+        .pay-btn {
+            height: 54px;
+            background: var(--primary-light);
+            color: #000;
+            border: none;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 1rem;
+            width: 100%;
+            font-weight: bold;
+        }
+
+        @media (max-width: 1024px) {
+            .course-container {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding-top: 180px;
+            }
+
+            .container {
+                padding: 24px 16px 60px;
+            }
+
+            .course-container {
+                grid-template-columns: 1fr;
+                gap: 22px;
+            }
+
+            .course-card {
+                min-height: auto;
+            }
+
+            .video-wrapper,
+            .image-wrapper {
+                height: 180px;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -313,14 +436,14 @@
         <p style="color: var(--text-muted);">選擇您需要加強的學科，立即開通智慧複習專區</p>
 
         <div class="course-container">
-            <!-- 課程 1：數位邏輯 (🎬 影片) -->
+            <!-- 課程 1：數位邏輯 -->
             <div class="course-card">
                 <div>
                     <div class="video-wrapper">
                         <video src="./digital_logic.mp4" autoplay loop muted playsinline></video>
                     </div>
                     <h3>數位邏輯補救班</h3>
-                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 8px;">布林代數、卡諾圖、組合邏輯電路速成</p>
+                    <p>布林代數、卡諾圖、組合邏輯電路速成</p>
                 </div>
                 <div>
                     <div class="price-tag">NT$ 67</div>
@@ -328,14 +451,14 @@
                 </div>
             </div>
 
-            <!-- 課程 2：微處理機 (🎬 影片) -->
+            <!-- 課程 2：微處理機 -->
             <div class="course-card">
                 <div>
                     <div class="video-wrapper">
-                        <video src="./microprocessor.mp4" autoplay loop muted playsinline onerror="this.src='https://mixkit.co';"></video>
+                        <video src="./microprocessor.mp4" autoplay loop muted playsinline></video>
                     </div>
                     <h3>微處理機補救班</h3>
-                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 8px;">組合語言、中斷結構、I/O 晶片應用控制</p>
+                    <p>組合語言、中斷結構、I/O 晶片應用控制</p>
                 </div>
                 <div>
                     <div class="price-tag">NT$ 67</div>
@@ -343,14 +466,14 @@
                 </div>
             </div>
 
-            <!-- 課程 3：電子學 (🖼️ 照片) -->
+            <!-- 課程 3：電子學 -->
             <div class="course-card">
                 <div>
                     <div class="image-wrapper">
-                        <img src="./electronics.png" alt="電子學" onerror="this.src='https://unsplash.com';">
+                        <img src="./electronics.png" alt="電子學補救班">
                     </div>
                     <h3>電子學補救班</h3>
-                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 8px;">二極體電路、BJT、FET 放大電路徹底搞懂</p>
+                    <p>二極體電路、BJT、FET 放大電路徹底搞懂</p>
                 </div>
                 <div>
                     <div class="price-tag">NT$ 67</div>
@@ -358,14 +481,14 @@
                 </div>
             </div>
 
-            <!-- 課程 4：基本電學 (🖼️ 照片) -->
+            <!-- 課程 4：基本電學 -->
             <div class="course-card">
                 <div>
                     <div class="image-wrapper">
-                        <img src="./basic_electricity.jpg" alt="基本電學" onerror="this.src='https://unsplash.com';">
+                        <img src="./basic_electricity.jpg" alt="基本電學補救班">
                     </div>
                     <h3>基本電學補救班</h3>
-                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 8px;">直流迴路分析、電容電感、交流阻抗交流功率</p>
+                    <p>直流迴路分析、電容電感、交流阻抗交流功率</p>
                 </div>
                 <div>
                     <div class="price-tag">NT$ 67</div>
@@ -373,52 +496,49 @@
                 </div>
             </div>
 
-            <!-- 課程 5：統測數學 (🖼️ 照片) -->
+            <!-- 課程 5：統測數學 -->
             <div class="course-card">
                 <div>
                     <div class="image-wrapper">
-                        <img src="./math.jpg" alt="統測數學" onerror="this.src='https://unsplash.com';">
+                        <img src="./math.jpg" alt="統測數學高分班">
                     </div>
                     <h3>統測數學高分班</h3>
-                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 8px;">微積分、三角函數、向量與矩陣公式速成解題</p>
+                    <p>微積分、三角函數、向量與矩陣公式速成解題</p>
                 </div>
                 <div>
                     <div class="price-tag">NT$ 67</div>
                     <button class="pay-btn" onclick="handlePurchase('math', this)">立即報名付款</button>
-            
-            <!-- 課程 6：國文 -->
-<div class="course-card">
-    <div>
-        <div class="image-wrapper">
-            <img src="./chinese.jpg" alt="國文補救班">
-        </div>
-        <h3>國文補救班</h3>
-        <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 8px;">
-            閱讀理解、文言文、作文寫作與統測國文重點整理
-        </p>
-    </div>
-    <div>
-        <div class="price-tag">NT$ 67</div>
-        <button class="pay-btn" onclick="handlePurchase('chinese', this)">立即報名付款</button>
-    </div>
-</div>
-
-<!-- 課程 7：英文 -->
-<div class="course-card">
-    <div>
-        <div class="image-wrapper">
-            <img src="./english.jpg" alt="英文補救班">
-        </div>
-        <h3>英文補救班</h3>
-        <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 8px;">
-            單字文法、閱讀測驗、克漏字與統測英文解題技巧
-        </p>
-    </div>
-    <div>
-        <div class="price-tag">NT$ 67</div>
-        <button class="pay-btn" onclick="handlePurchase('english', this)">立即報名付款</button>    
+                </div>
             </div>
-         </div>
+
+            <!-- 課程 6：國文 -->
+            <div class="course-card">
+                <div>
+                    <div class="image-wrapper">
+                        <img src="./chinese.jpg" alt="國文補救班">
+                    </div>
+                    <h3>國文補救班</h3>
+                    <p>閱讀理解、文言文、作文寫作與統測國文重點整理</p>
+                </div>
+                <div>
+                    <div class="price-tag">NT$ 67</div>
+                    <button class="pay-btn" onclick="handlePurchase('chinese', this)">立即報名付款</button>
+                </div>
+            </div>
+
+            <!-- 課程 7：英文 -->
+            <div class="course-card">
+                <div>
+                    <div class="image-wrapper">
+                        <img src="./english.jpg" alt="英文補救班">
+                    </div>
+                    <h3>英文補救班</h3>
+                    <p>單字文法、閱讀測驗、克漏字與統測英文解題技巧</p>
+                </div>
+                <div>
+                    <div class="price-tag">NT$ 67</div>
+                    <button class="pay-btn" onclick="handlePurchase('english', this)">立即報名付款</button>
+                </div>
             </div>
         </div>
     </div>
