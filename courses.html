@@ -138,6 +138,99 @@
             .music-player-container { display: none; }
             .course-container { grid-template-columns: 1fr; gap: 20px; }
         }
+    
+
+        /* ===== NAV 同步 index.html 排版 ===== */
+        nav .logo {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--logo-color) !important;
+            white-space: nowrap;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        nav ul {
+            display: flex;
+            align-items: center;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav ul li a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        nav ul li a:hover {
+            color: var(--primary-light);
+        }
+
+        .controls-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .music-player-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--card-bg);
+            padding: 6px 16px;
+            border-radius: 30px;
+            border: 1px solid var(--card-border);
+        }
+
+        .icon-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @media (max-width: 768px) {
+            body { padding-top: 180px; }
+            nav {
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                height: auto;
+                padding: 12px;
+                gap: 12px;
+            }
+            .nav-right {
+                width: 100%;
+                flex-direction: column;
+                align-items: center;
+                gap: 12px;
+            }
+            nav ul {
+                display: flex !important;
+                width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 18px;
+            }
+            nav ul li a { font-size: 0.95rem; }
+            .controls-group {
+                width: 100%;
+                justify-content: center;
+            }
+            .music-player-container {
+                display: flex !important;
+                width: 95%;
+                justify-content: center;
+            }
+            .progress-box { width: 120px; }
+        }
+
     </style>
 </head>
 <body>
@@ -146,26 +239,26 @@
     <canvas id="fx-canvas"></canvas>
 
     <nav>
-        <div class="logo">軍一補救教室</div>
+        <div class="logo">⚡ 軍一補救教室</div>
         <div class="nav-right">
             <ul>
-                <li><a href="./index.html">首頁</a></li>
-                <li><a href="./courses.html" style="color: var(--primary-light);">購買課程</a></li>
-                <li><a href="./ai.html">AI題庫</a></li>
-                <li><a href="./contact.html">聯絡我們</a></li>
+                <li><a href="index.html">🏠 主頁</a></li>
+                <li><a href="courses.html" style="color: var(--primary-light);">🛒 購買課程</a></li>
+                <li><a href="ai.html">🤖 AI題庫</a></li>
+                <li><a href="contact.html">✉️ 聯絡我們</a></li>
             </ul>
             <div class="controls-group">
                 <div class="music-player-container">
-                    <button class="disc-btn" id="disc-btn" onclick="toggleMusic()"></button>
+                    <button class="disc-btn" id="disc-btn" title="播放/暫停唱片" onclick="toggleMusic()"></button>
                     <div class="progress-box">
                         <div class="time-info">
-                            <span id="current-time">0:00</span>
-                            <span id="total-time">0:00</span>
+                            <span id="current-time">00:00</span>
+                            <span id="total-time">04:00</span>
                         </div>
                         <input type="range" class="slider-bar" id="progress-bar" min="0" max="100" value="0" oninput="seekMusic(this.value)">
                     </div>
                 </div>
-                <button class="icon-btn" onclick="toggleTheme()">🌓</button>
+                <button class="icon-btn" onclick="toggleTheme()">🌙</button>
             </div>
         </div>
     </nav>
@@ -239,7 +332,7 @@
             <div class="course-card">
                 <div>
                     <div class="image-wrapper">
-                        <img src="./math.png" alt="統測數學" onerror="this.src='https://unsplash.com';">
+                        <img src="./math.jpg" alt="統測數學" onerror="this.src='https://unsplash.com';">
                     </div>
                     <h3>統測數學高分班</h3>
                     <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 8px;">微積分、三角函數、向量與矩陣公式速成解題</p>
