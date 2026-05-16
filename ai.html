@@ -6,71 +6,50 @@
     <title>AI電子科題庫｜軍一補救教室</title>
 
     <style>
-        :root {
-            --bg-main: #050505;
-            --bg-gradient: linear-gradient(135deg, #020202 0%, #0d0d0d 100%);
-            --nav-bg: rgba(15, 15, 15, 0.85);
-            --card-bg: rgba(20, 20, 20, 0.85);
-            --card-border: rgba(0, 255, 102, 0.18);
-            --text-main: #f3f4f6;
-            --text-muted: #9ca3af;
-            --primary-light: #00ff66;
-            --accent: #00f0ff;
-            --shadow: 0 10px 35px rgba(0, 255, 102, 0.08);
-            --logo-color: #ffffff;
-        }
-
-        [data-theme="light"] {
-            --bg-main: #f8fafc;
-            --bg-gradient: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
-            --nav-bg: rgba(255, 255, 255, 0.85);
-            --card-bg: rgba(255, 255, 255, 0.9);
-            --card-border: rgba(15, 23, 42, 0.08);
-            --text-main: #0f172a;
-            --text-muted: #475569;
-            --primary-light: #2563eb; 
-            --accent: #d97706;
-            --shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-            --logo-color: #000000;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+        * { transition: background-color 0.45s ease, color 0.45s ease, border-color 0.45s ease, box-shadow 0.45s ease; }
+        body { transition: background 0.6s ease, background-image 0.6s ease, color 0.45s ease; margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; background: var(--bg-main); background-image: var(--bg-gradient); color: var(--text-main); min-height: 100vh; padding-top: 100px; overflow-x: hidden; position: relative; }
+        nav, .course-card, .chat-container, .panel, .result-card, .card, .music-player-container, .icon-btn, input, textarea, select, button { transition: background 0.45s ease, background-color 0.45s ease, color 0.45s ease, border-color 0.45s ease, box-shadow 0.45s ease, transform 0.25s ease; }
         html, body, button, a, input, textarea { cursor: none !important; }
 
-        body {
-            background: var(--bg-main); background-image: var(--bg-gradient); color: var(--text-main); min-height: 100vh; padding-top: 100px; overflow-x: hidden;
-            transition: background 0.8s cubic-bezier(0.4, 0, 0.2, 1), background-image 0.8s cubic-bezier(0.4, 0, 0.2, 1), color 0.6s ease;
+        :root {
+            --bg-main: #050505; --bg-gradient: linear-gradient(135deg, #020202 0%, #0d0d0d 100%);
+            --nav-bg: rgba(15, 15, 15, 0.85); --card-bg: rgba(20, 20, 20, 0.85); --card-border: rgba(0, 255, 102, 0.18);
+            --text-main: #f3f4f6; --text-muted: #9ca3af; --primary-light: #00ff66; --accent: #00f0ff; --shadow: 0 10px 35px rgba(0, 255, 102, 0.08); --logo-color: #ffffff;
+        }
+        [data-theme="light"] {
+            --bg-main: #f8fafc; --bg-gradient: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+            --nav-bg: rgba(255, 255, 255, 0.85); --card-bg: rgba(255, 255, 255, 0.9); --card-border: rgba(15, 23, 42, 0.08);
+            --text-main: #0f172a; --text-muted: #475569; --primary-light: #2563eb; --accent: #d97706; --shadow: 0 10px 30px rgba(0, 0, 0, 0.05); --logo-color: #000000;
         }
 
-        /* ⚡ 發光漸層雷電游標 */
         #custom-cursor { position: fixed; width: 32px; height: 32px; pointer-events: none; z-index: 10000; top: 0; left: 0; transform: translate(-10%, -10%); display: block; }
         #custom-cursor::before { content: ''; display: block; width: 100%; height: 100%; background: linear-gradient(135deg, #ffe600 0%, #ff6600 50%, #ff0000 100%); clip-path: polygon(55% 0%, 10% 55%, 50% 55%, 40% 100%, 90% 40%, 50% 40%); animation: pulse-glow 1.5s infinite alternate; }
         @keyframes pulse-glow { 0% { filter: drop-shadow(0px 0px 4px #ff6600); } 100% { filter: drop-shadow(0px 0px 10px #ff3300); } }
 
-        /* 💥 點擊實體擴散圈 */
         .click-ripple { position: fixed; width: 10px; height: 10px; background: transparent; border: 3px solid var(--primary-light); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); animation: ripple-out 0.4s cubic-bezier(0.1, 0.8, 0.3, 1) forwards; box-shadow: 0 0 8px var(--primary-light); }
         @keyframes ripple-out { 0% { width: 10px; height: 10px; opacity: 1; border-width: 3px; } 100% { width: 55px; height: 55px; opacity: 0; border-width: 1px; } }
         #fx-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9998; }
 
-        nav { position: fixed; top: 0; left: 0; width: 100%; height: 70px; background: var(--nav-bg); border-bottom: 1px solid var(--card-border); display: flex; justify-content: space-between; align-items: center; padding: 0 40px; z-index: 1000; backdrop-filter: blur(12px); transition: background 0.8s; }
-        nav .logo { font-size: 1.3rem; font-weight: bold; color: var(--logo-color); transition: color 0.6s; }
+        nav { position: fixed; top: 0; left: 0; width: 100%; height: 70px; background: var(--nav-bg); border-bottom: 1px solid var(--card-border); display: flex; justify-content: space-between; align-items: center; padding: 0 40px; z-index: 1000; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+        nav .logo { font-size: 1.3rem; font-weight: bold; color: var(--logo-color) !important; }
         .nav-right { display: flex; align-items: center; gap: 30px; }
         nav ul { display: flex; list-style: none; gap: 25px; }
         nav ul li a { color: var(--text-main); text-decoration: none; font-size: 1rem; font-weight: 500; }
         nav ul li a:hover { color: var(--primary-light); }
         .controls-group { display: flex; align-items: center; gap: 15px; }
 
-        /* 黑膠唱片面板 */
         .music-player-container { display: flex; align-items: center; gap: 12px; background: var(--card-bg); padding: 6px 16px; border-radius: 30px; border: 1px solid var(--card-border); }
         .disc-btn { width: 36px; height: 36px; background: #111; border: 2px solid #333; border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; }
-        .disc-btn::after { content: ''; position: absolute; width: 8px; height: 8px; background: var(--primary-light); border-radius: 50%; }
+        .disc-btn::after { content: ''; position: absolute; width: 8px; height: 8px; background: var(--primary-light); border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%); }
         .disc-btn.playing { animation: spin-disc 4s linear infinite; box-shadow: 0 0 10px var(--primary-light); border-color: var(--primary-light); }
         @keyframes spin-disc { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
         .progress-box { display: flex; flex-direction: column; width: 110px; font-size: 0.75rem; color: var(--text-main); }
         .time-info { display: flex; justify-content: space-between; margin-bottom: 2px; font-family: monospace; }
         .slider-bar { width: 100%; -webkit-appearance: none; appearance: none; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; outline: none; }
         [data-theme="light"] .slider-bar { background: rgba(0,0,0,0.1); }
-        .slider-bar::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 8px; height: 8px; background: var(--primary-light); border-radius: 50%; cursor: pointer; }
+        .slider-bar::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 8px; height: 8px; background: var(--primary-light); border-radius: 50%; cursor: pointer; box-shadow: 0 0 5px var(--primary-light); }
+        
         .icon-btn { background: var(--card-bg); border: 1px solid var(--card-border); color: var(--text-main); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
 
         .container { max-width: 1100px; margin: 0 auto; padding: 30px 20px; }
@@ -79,16 +58,16 @@
         .hero p { color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; }
 
         .ai-layout { display: grid; grid-template-columns: 330px 1fr; gap: 25px; align-items: start; }
-        .panel, .result-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 22px; box-shadow: var(--shadow); backdrop-filter: blur(12px); transition: background 0.8s, border-color 0.8s; }
+        .panel, .result-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 22px; box-shadow: var(--shadow); backdrop-filter: blur(12px); }
         .panel { padding: 25px; }
         .panel h2 { color: var(--accent); font-size: 1.3rem; margin-bottom: 18px; }
         
         label { display: block; margin: 16px 0 8px; color: var(--text-muted); font-size: 0.95rem; }
-        select, input { width: 100%; padding: 14px; border-radius: 12px; border: 1px solid var(--card-border); background: rgba(0, 0, 0, 0.35); color: var(--text-main); font-size: 1rem; outline: none; transition: background 0.8s; }
+        select, input { width: 100%; padding: 14px; border-radius: 12px; border: 1px solid var(--card-border); background: rgba(0, 0, 0, 0.35); color: var(--text-main); font-size: 1rem; outline: none; }
         [data-theme="light"] select, [data-theme="light"] input { background: rgba(255,255,255,0.8); }
         select:focus, input:focus { border-color: var(--primary-light); box-shadow: 0 0 12px rgba(0, 255, 102, 0.18); }
 
-        .generate-btn { width: 100%; margin-top: 22px; background: var(--primary-light); color: #000; font-weight: bold; cursor: pointer; border: none; padding: 14px; border-radius: 12px; font-size: 1rem; transition: transform 0.2s, box-shadow 0.2s; }
+        .generate-btn { width: 100%; margin-top: 22px; background: var(--primary-light); color: #000; font-weight: bold; cursor: pointer; border: none; padding: 14px; border-radius: 12px; font-size: 1rem; }
         .generate-btn:hover { transform: translateY(-2px); box-shadow: 0 0 20px rgba(0, 255, 102, 0.45); }
         .hint { margin-top: 18px; color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; }
 
@@ -102,9 +81,8 @@
         .empty-icon { font-size: 4rem; margin-bottom: 20px; }
         .question-title { font-size: 1.25rem; color: var(--text-main); margin-bottom: 20px; font-weight: bold; }
 
-        /* 🟢 原汁原味保留並優化動態生成的選項與解析板塊樣式 */
         .options-container { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
-        .option-card { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--card-border); padding: 14px 20px; border-radius: 12px; cursor: pointer; transition: all 0.25s ease; display: flex; align-items: center; gap: 15px; }
+        .option-card { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--card-border); padding: 14px 20px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; gap: 15px; }
         [data-theme="light"] .option-card { background: rgba(0, 0, 0, 0.02); }
         .option-card:hover { background: rgba(0, 255, 102, 0.08); border-color: var(--primary-light); transform: translateX(5px); }
         .option-prefix { font-weight: bold; color: var(--accent); background: rgba(0, 240, 255, 0.1); width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 0.9rem; }
@@ -117,44 +95,36 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         @media (max-width: 768px) {
-            .ai-layout { grid-template-columns: 1fr; }
-            .music-player-container { display: none; }
+            .ai-layout { grid-template-columns: 1fr; } .music-player-container { display: none; } nav ul { display: none; }
         }
     </style>
 </head>
 <body>
 
-    <!-- ⚡ 原版發光雷電特效元素 -->
     <div id="custom-cursor"></div>
     <canvas id="fx-canvas"></canvas>
 
-    <!-- 🌐 導覽列 -->
     <nav>
         <div class="logo">軍一補救教室</div>
         <div class="nav-right">
             <ul>
-                <li><a href="./index.html" style="color: var(--primary-light);">AI 出題題庫</a></li>
-                <li><a href="./courses.html">補救班課程</a></li>
+                <li><a href="./index.html">主頁</a></li>
+                <li><a href="./courses.html">購買課程</a></li>
+                <li><a href="./ai.html" style="color: var(--primary-light);">AI題庫</a></li>
             </ul>
             <div class="controls-group">
-                <!-- 🎵 原版黑膠唱片音樂組件 -->
                 <div class="music-player-container">
                     <button class="disc-btn" id="disc-btn" onclick="toggleMusic()"></button>
                     <div class="progress-box">
-                        <div class="time-info">
-                            <span id="current-time">0:00</span>
-                            <span id="total-time">0:00</span>
-                        </div>
+                        <div class="time-info"><span id="current-time">0:00</span><span id="total-time">0:00</span></div>
                         <input type="range" class="slider-bar" id="progress-bar" min="0" max="100" value="0" oninput="seekMusic(this.value)">
                     </div>
                 </div>
-                <!-- 🌓 主題切換按鈕 -->
                 <button class="icon-btn" onclick="toggleTheme()">🌓</button>
             </div>
         </div>
     </nav>
 
-    <!-- 🔮 主要佈局 -->
     <div class="container">
         <div class="hero">
             <h1>AI 智慧電子科題庫</h1>
@@ -162,7 +132,6 @@
         </div>
 
         <div class="ai-layout">
-            <!-- 左側：命題條件設定面板 -->
             <div class="panel">
                 <h2>⚙️ 命題條件設定</h2>
                 
@@ -186,44 +155,35 @@
                 </select>
 
                 <button class="generate-btn" onclick="generateQuestion()">🔮 立即生成單選題</button>
-                
                 <p class="hint">💡 提示：輸入具體的章節名稱（如：BJT 偏壓電路），AI 生成的解析內容會更精準喔！</p>
             </div>
 
-            <!-- 右側：智慧試題顯示面板 -->
             <div class="result-card">
                 <div class="result-header">
                     <h2>📝 智慧生成試題</h2>
                     <span class="badge" id="status-badge">等待命題</span>
                 </div>
-
                 <div id="question-box">
                     <div class="empty-state">
                         <div class="empty-icon">🤖</div>
                         <p>請於左側選取科目並點擊生成按鈕</p>
-                        <p style="font-size: 0.85rem; margin-top: 5px;">系統將自動秒級為您派發符合台灣課綱的考題</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 📜 控制核心腳本 (補齊動態網址與核心安全邏輯) -->
     <script>
-        // 🟢 智能對接您的新後端名稱：junyi-myshop
         const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
             ? 'http://localhost:3000'
-            : 'https://junyi-myshop.onrender.com'; // 自動適應您的新 Render 專案名稱
+            : 'https://onrender.com';
 
         let audio = null;
         let currentQuestion = null;
 
-        // 安全初始化背景音訊，防止瀏覽器阻擋
         function initAudio() {
             if (!audio) {
-                audio = new Audio('./bgm.mp3'); 
-                audio.loop = true;
-                
+                audio = new Audio('./bgm.mp3'); audio.loop = true;
                 audio.addEventListener('timeupdate', () => {
                     const progress = document.getElementById('progress-bar');
                     const currentTxt = document.getElementById('current-time');
@@ -236,191 +196,89 @@
                 });
             }
         }
+        function formatTime(secs) { let m = Math.floor(secs / 60); let s = Math.floor(secs % 60); return `${m}:${s < 10 ? '0' : ''}${s}`; }
+        function toggleMusic() { initAudio(); const disc = document.getElementById('disc-btn'); if (audio.paused) { audio.play().then(() => { disc.classList.add('playing'); }).catch(err => console.log(err.message)); } else { audio.pause(); disc.classList.remove('playing'); } }
+        function seekMusic(val) { if(!audio) return; audio.currentTime = (val / 100) * audio.duration; }
+        function toggleTheme() { const cur = document.documentElement.getAttribute('data-theme'); document.documentElement.setAttribute('data-theme', cur === 'light' ? 'dark' : 'light'); }
 
-        function formatTime(secs) {
-            let m = Math.floor(secs / 60);
-            let s = Math.floor(secs % 60);
-            return `${m}:${s < 10 ? '0' : ''}${s}`;
-        }
-
-        // 控制黑膠唱片播放狀態與動畫
-        function toggleMusic() {
-            initAudio();
-            const disc = document.getElementById('disc-btn');
-            if (audio.paused) {
-                audio.play().then(() => {
-                    disc.classList.add('playing');
-                }).catch(err => console.log("播放被阻擋，需點擊頁面激活音樂：", err.message));
-            } else {
-                audio.pause();
-                disc.classList.remove('playing');
-            }
-        }
-
-        function seekMusic(val) {
-            if(!audio) return;
-            audio.currentTime = (val / 100) * audio.duration;
-        }
-
-        // 切換 Light/Dark 主題
-        function toggleTheme() {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            document.documentElement.setAttribute('data-theme', currentTheme === 'light' ? 'dark' : 'light');
-        }
-
-        // 🟢 對接後端 API 生成題目
         async function generateQuestion() {
             const subject = document.getElementById('subject-select').value;
             const topic = document.getElementById('topic-input').value;
             const difficulty = document.getElementById('difficulty-select').value;
-            
             const qBox = document.getElementById('question-box');
             const badge = document.getElementById('status-badge');
             const genBtn = document.querySelector('.generate-btn');
 
             badge.innerText = '正在命題中...';
-            qBox.innerHTML = `
-                <div class="empty-state">
-                    <div class="empty-icon" style="animation: spin-disc 2s linear infinite;">🔮</div>
-                    <p>AI 正在構思高職電子科題目...</p>
-                    <p style="font-size:0.85rem; color:gray; margin-top:5px;">若免費伺服器正處於休眠，首次連線需等待約 50 秒開機</p>
-                </div>
-            `;
+            qBox.innerHTML = `<div class="empty-state"><div class="empty-icon" style="animation: spin-disc 2s linear infinite;">🔮</div><p>AI 正在構思高職電子科題目...</p></div>`;
             genBtn.disabled = true;
 
             try {
                 const response = await fetch(`${API_BASE_URL}/api/generate-question`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ subject, topic, difficulty })
+                    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ subject, topic, difficulty })
                 });
-
-                if (!response.ok) throw new Error('後端伺服器響應異常');
-
+                if (!response.ok) throw new Error('伺服器響應異常');
                 const data = await response.json();
-
                 if (data.success && data.question) {
-                    currentQuestion = data.question;
-                    badge.innerText = '出題成功';
-                    renderQuestion(data.question);
-                } else {
-                    throw new Error(data.error || '解析回傳格式不正確');
-                }
-
+                    currentQuestion = data.question; badge.innerText = '出題成功'; renderQuestion(data.question);
+                } else { throw new Error(data.error || '解析錯誤'); }
             } catch (error) {
-                console.error('出題失敗:', error);
                 badge.innerText = '生成錯誤';
-                qBox.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-icon">❌</div>
-                        <p style="color:#ff4d4d;">生成失敗</p>
-                        <p style="font-size:0.9rem; max-width:80%; margin:10px auto;">錯誤訊息：${error.message}</p>
-                    </div>
-                `;
-            } finally {
-                genBtn.disabled = false;
-            }
+                qBox.innerHTML = `<div class="empty-state"><p style="color:#ff4d4d;">生成失敗: ${error.message}</p></div>`;
+            } finally { genBtn.disabled = false; }
         }
 
-        // 渲染題目至視窗中
         function renderQuestion(q) {
             const qBox = document.getElementById('question-box');
-            let html = `
-                <div class="question-title">${q.question}</div>
-                <div class="options-container">
-            `;
+            let html = `<div class="question-title">${q.question}</div><div class="options-container">`;
             const labels = ['A', 'B', 'C', 'D'];
             q.choices.forEach((choice, index) => {
-                html += `
-                    <div class="option-card" onclick="checkAnswer('${labels[index]}', this)">
-                        <span class="option-prefix">${labels[index]}</span> ${choice}
-                    </div>
-                `;
+                html += `<div class="option-card" onclick="checkAnswer('${labels[index]}', this)"><span class="option-prefix">${labels[index]}</span> ${choice}</div>`;
             });
-            html += `
-                </div>
-                <div id="explanation-box" class="explanation-panel" style="display:none;">
-                    <div style="font-weight:bold; color:var(--primary-light); margin-bottom:8px;" id="result-status"></div>
-                    <p><strong>正確答案：</strong> <span class="badge" style="background:rgba(0,255,102,0.2);">${q.answer}</span></p>
-                    <p style="margin-top:10px; color:var(--text-muted); font-size:0.95rem; line-height:1.6;">${q.explanation}</p>
-                </div>
-            `;
+            html += `</div><div id="explanation-box" class="explanation-panel" style="display:none;"><div style="font-weight:bold; margin-bottom:8px;" id="result-status"></div><p><strong>正確答案：</strong> <span class="badge">${q.answer}</span></p><p style="margin-top:10px; color:var(--text-muted);">${q.explanation}</p></div>`;
             qBox.innerHTML = html;
         }
 
-        // 核對學生的答題結果
         function checkAnswer(selected, element) {
             if (!currentQuestion) return;
-            const cards = document.querySelectorAll('.option-card');
-            cards.forEach(c => c.style.pointerEvents = 'none');
-
+            document.querySelectorAll('.option-card').forEach(c => c.style.pointerEvents = 'none');
             const expBox = document.getElementById('explanation-box');
             const resStatus = document.getElementById('result-status');
 
             if (selected === currentQuestion.answer) {
-                element.classList.add('correct');
-                resStatus.innerText = "🎉 恭喜您答對了！";
-                resStatus.style.color = "var(--primary-light)";
+                element.classList.add('correct'); resStatus.innerText = "🎉 恭喜您答對了！"; resStatus.style.color = "var(--primary-light)";
             } else {
-                element.classList.add('wrong');
-                resStatus.innerText = "❌ 答錯囉，再接再厲！";
-                resStatus.style.color = "#ff4d4d";
-                
+                element.classList.add('wrong'); resStatus.innerText = "❌ 答錯囉，再接再厲！"; resStatus.style.color = "#ff4d4d";
                 const labels = ['A', 'B', 'C', 'D'];
                 const correctIndex = labels.indexOf(currentQuestion.answer);
+                const cards = document.querySelectorAll('.option-card');
                 if(cards[correctIndex]) cards[correctIndex].classList.add('correct');
             }
             expBox.style.display = 'block';
         }
 
-        // ⚡ 100% 原版酷炫雷電游標與粒子散落特效系統
-        const cursor = document.getElementById('custom-cursor');
-        const canvas = document.getElementById('fx-canvas');
-        const ctx = canvas.getContext('2d');
-
+        // ⚡ 粒子散落系統與點擊聲音音效
+        const cursor = document.getElementById('custom-cursor'); const canvas = document.getElementById('fx-canvas'); const ctx = canvas.getContext('2d');
         function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-
-        window.addEventListener('mousemove', (e) => {
-            requestAnimationFrame(() => {
-                cursor.style.left = e.clientX + 'px';
-                cursor.style.top = e.clientY + 'px';
-            });
-        });
-
+        window.addEventListener('resize', resizeCanvas); resizeCanvas();
+        window.addEventListener('mousemove', (e) => { requestAnimationFrame(() => { cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px'; }); });
+        
         window.addEventListener('click', (e) => {
-            const ripple = document.createElement('div');
-            ripple.className = 'click-ripple';
-            ripple.style.left = e.clientX + 'px'; ripple.style.top = e.clientY + 'px';
-            document.body.appendChild(ripple);
-            setTimeout(() => ripple.remove(), 400);
-            createParticles(e.clientX, e.clientY);
+            // 🔊 🟢 觸發獨立短點擊音效物件，支援連續狂點重疊音效
+            const clickSound = new Audio('./pop.mp3');
+            clickSound.play().catch(err => console.log('音效播放受瀏覽器限制，需點擊網頁任意處解鎖：', err.message));
+
+            const ripple = document.createElement('div'); ripple.className = 'click-ripple'; ripple.style.left = e.clientX + 'px'; ripple.style.top = e.clientY + 'px'; document.body.appendChild(ripple); setTimeout(() => ripple.remove(), 400); createParticles(e.clientX, e.clientY);
         });
 
         let particles = [];
         class Particle {
-            constructor(x, y) {
-                this.x = x; this.y = y;
-                this.size = Math.random() * 3 + 1;
-                this.speedX = (Math.random() - 0.5) * 6;
-                this.speedY = (Math.random() - 0.5) * 6;
-                this.color = Math.random() > 0.5 ? '#00ff66' : '#00f0ff';
-                this.alpha = 1;
-            }
+            constructor(x, y) { this.x = x; this.y = y; this.size = Math.random() * 3 + 1; this.speedX = (Math.random() - 0.5) * 6; this.speedY = (Math.random() - 0.5) * 6; this.color = Math.random() > 0.5 ? '#00ff66' : '#00f0ff'; this.alpha = 1; }
             update() { this.x += this.speedX; this.y += this.speedY; this.alpha -= 0.03; }
-            draw() {
-                ctx.save(); ctx.globalAlpha = this.alpha; ctx.fillStyle = this.color;
-                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); ctx.restore();
-            }
+            draw() { ctx.save(); ctx.globalAlpha = this.alpha; ctx.fillStyle = this.color; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); ctx.restore(); }
         }
         function createParticles(x, y) { for(let i=0; i<12; i++) { particles.push(new Particle(x, y)); } }
-        function animateParticles() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles = particles.filter(p => p.alpha > 0);
-            particles.forEach(p => { p.update(); p.draw(); });
-            requestAnimationFrame(animateParticles);
-        }
+        function animateParticles() { ctx.clearRect(0, 0, canvas.width, canvas.height); particles = particles.filter(p => p.alpha > 0); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animateParticles); }
         animateParticles();
     </script>
 </body>

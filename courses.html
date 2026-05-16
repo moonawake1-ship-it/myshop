@@ -6,8 +6,9 @@
     <title>軍一教育平台</title>
     <style>
         * { transition: background-color 0.45s ease, color 0.45s ease, border-color 0.45s ease, box-shadow 0.45s ease; }
-        body { transition: background 0.6s ease, background-image 0.6s ease, color 0.45s ease; }
+        body { transition: background 0.6s ease, background-image 0.6s ease, color 0.45s ease; margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; background: var(--bg-main); background-image: var(--bg-gradient); color: var(--text-main); min-height: 100vh; padding-top: 100px; overflow-x: hidden; position: relative; }
         nav, .course-card, .chat-container, .panel, .result-card, .card, .music-player-container, .icon-btn, input, textarea, select, button { transition: background 0.45s ease, background-color 0.45s ease, color 0.45s ease, border-color 0.45s ease, box-shadow 0.45s ease, transform 0.25s ease; }
+        html, body, button, a, input, textarea { cursor: none !important; }
         
         :root {
             --bg-main: #050505; --bg-gradient: linear-gradient(135deg, #020202 0%, #0d0d0d 100%);
@@ -20,11 +21,6 @@
             --text-main: #0f172a; --text-muted: #475569; --primary-light: #2563eb; --accent: #d97706; --shadow: 0 10px 30px rgba(0, 0, 0, 0.05); --logo-color: #000000;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
-        html, body, button, a, input, textarea { cursor: none !important; }
-        
-        body { background: var(--bg-main); background-image: var(--bg-gradient); color: var(--text-main); min-height: 100vh; padding-top: 100px; overflow-x: hidden; position: relative; }
-
         #custom-cursor { position: fixed; width: 32px; height: 32px; pointer-events: none; z-index: 10000; top: 0; left: 0; transform: translate(-10%, -10%); display: block; }
         #custom-cursor::before { content: ''; display: block; width: 100%; height: 100%; background: linear-gradient(135deg, #ffe600 0%, #ff6600 50%, #ff0000 100%); clip-path: polygon(55% 0%, 10% 55%, 50% 55%, 40% 100%, 90% 40%, 50% 40%); animation: pulse-glow 1.5s infinite alternate; }
         @keyframes pulse-glow { 0% { filter: drop-shadow(0px 0px 4px #ff6600); } 100% { filter: drop-shadow(0px 0px 10px #ff3300); } }
@@ -33,6 +29,7 @@
         @keyframes ripple-out { 0% { width: 10px; height: 10px; opacity: 1; border-width: 3px; } 100% { width: 55px; height: 55px; opacity: 0; border-width: 1px; } }
         #fx-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9998; }
 
+        /* 🌐 導覽列一致化排版 */
         nav { position: fixed; top: 0; left: 0; width: 100%; height: 70px; background: var(--nav-bg); border-bottom: 1px solid var(--card-border); display: flex; justify-content: space-between; align-items: center; padding: 0 40px; z-index: 1000; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
         nav .logo { font-size: 1.3rem; font-weight: bold; color: var(--logo-color) !important; }
         .nav-right { display: flex; align-items: center; gap: 30px; }
@@ -59,6 +56,9 @@
         .course-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px; padding: 20px; text-align: left; box-shadow: var(--shadow); overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; }
         .course-card:hover { transform: translateY(-5px); }
 
+        .video-wrapper { width: 100%; position: relative; padding-top: 56.25%; background: #000; border-radius: 12px; overflow: hidden; margin-bottom: 15px; }
+        .video-wrapper video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+
         .image-wrapper { width: 100%; height: 0; padding-top: 56.25%; position: relative; border-radius: 12px; overflow: hidden; margin-bottom: 15px; border: 1px solid var(--card-border); background: #0a0a0a; }
         .image-wrapper img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: top !important; }
         .course-card:hover .image-wrapper { box-shadow: 0 0 15px var(--primary-light); }
@@ -78,12 +78,14 @@
     <div id="custom-cursor"></div>
     <canvas id="fx-canvas"></canvas>
 
+    <!-- 🌐 一致的導覽列 -->
     <nav>
         <div class="logo">軍一補救教室</div>
         <div class="nav-right">
             <ul>
-                <li><a href="./index.html">AI 出題題庫</a></li>
-                <li><a href="./courses.html" style="color: var(--primary-light);">補救班課程</a></li>
+                <li><a href="./index.html">主頁</a></li>
+                <li><a href="./courses.html" style="color: var(--primary-light);">購買課程</a></li>
+                <li><a href="./ai.html">AI題庫</a></li>
             </ul>
             <div class="controls-group">
                 <div class="music-player-container">
@@ -103,12 +105,15 @@
 
     <div class="container">
         <h1 style="color: var(--primary-light); font-size: 2.5rem; margin-bottom: 10px;">精選電子電機補救課程</h1>
-        <p style="color: var(--text-muted);">選擇您需要加強的學科，立即開通 AI 智慧學習專區</p>
+        <p style="color: var(--text-muted);">選擇您需要加強的學科，立即開通智慧複習專區</p>
 
         <div class="course-container">
+            <!-- 課程 1：數位邏輯 (還原影片結構與路徑) -->
             <div class="course-card">
                 <div>
-                    <div class="image-wrapper"><img src="https://unsplash.com" alt="數位邏輯"></div>
+                    <div class="video-wrapper">
+                        <video src="./images/課程1.mp4" autoplay loop muted playsinline></video>
+                    </div>
                     <h3>數位邏輯補救班</h3>
                     <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 8px;">布林代數、卡諾圖、組合邏輯電路速成</p>
                 </div>
@@ -118,9 +123,12 @@
                 </div>
             </div>
 
+            <!-- 課程 2：微處理機 (還原圖片路記) -->
             <div class="course-card">
                 <div>
-                    <div class="image-wrapper"><img src="https://unsplash.com" alt="微處理機"></div>
+                    <div class="image-wrapper">
+                        <img src="./images/課程2.png" alt="微處理機">
+                    </div>
                     <h3>微處理機補救班</h3>
                     <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 8px;">組合語言、中斷結構、I/O 晶片應用控制</p>
                 </div>
@@ -130,9 +138,12 @@
                 </div>
             </div>
 
+            <!-- 課程 3：電子學 (還原圖片路徑) -->
             <div class="course-card">
                 <div>
-                    <div class="image-wrapper"><img src="https://unsplash.com" alt="電子學"></div>
+                    <div class="image-wrapper">
+                        <img src="./images/課程3.png" alt="電子學">
+                    </div>
                     <h3>電子學補救班</h3>
                     <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 8px;">二極體電路、BJT、FET 放大電路徹底搞懂</p>
                 </div>
@@ -141,50 +152,45 @@
                     <button class="pay-btn" onclick="handlePurchase('electronics', this)">立即報名付款</button>
                 </div>
             </div>
+
+            <!-- 課程 4：基本電學 (還原圖片路徑) -->
+            <div class="course-card">
+                <div>
+                    <div class="image-wrapper">
+                        <img src="./images/課程4.png" alt="基本電學">
+                    </div>
+                    <h3>基本電學補救班</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 8px;">直流迴路分析、電容電感、交流阻抗交流功率</p>
+                </div>
+                <div>
+                    <div class="price-tag">NT$ 6,700</div>
+                    <button class="pay-btn" onclick="handlePurchase('basic_electricity', this)">立即報名付款</button>
+                </div>
+            </div>
+
+            <!-- 課程 5：統測數學 (還原圖片路徑) -->
+            <div class="course-card">
+                <div>
+                    <div class="image-wrapper">
+                        <img src="./images/課程5.png" alt="統測數學">
+                    </div>
+                    <h3>統測數學高分班</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 8px;">微積分、三角函數、向量與矩陣公式速成解題</p>
+                </div>
+                <div>
+                    <div class="price-tag">NT$ 6,700</div>
+                    <button class="pay-btn" onclick="handlePurchase('math', this)">立即報名付款</button>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
-        // 已自動綁定為你預計設定的新 Render 名稱：myshop
+        // 🟢 精準連線到您在 Render 上最新的：junyi-myshop
         const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
             ? 'http://localhost:3000'
-            : 'https://junyi-myshop.onrender.com/'; // 自動適應你的 Render 專案名稱
+            : 'https://onrender.com';
 
-        async function handlePurchase(courseId, btnElement) {
-            const originalText = btnElement.innerText;
-            try {
-                btnElement.innerText = '正在建立付款訂單...';
-                btnElement.style.opacity = '0.6';
-                btnElement.disabled = true;
-
-                const response = await fetch(`${API_BASE_URL}/api/checkout`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ courseId: courseId })
-                });
-
-                if (!response.ok) {
-                    const errData = await response.json();
-                    throw new Error(errData.message || '後端伺服器回應異常');
-                }
-
-                const data = await response.json();
-                if (data.url) {
-                    window.location.href = data.url; 
-                } else {
-                    throw new Error('未成功取得付款網址');
-                }
-            } catch (error) {
-                console.error('付款請求錯誤:', error);
-                alert(`建立付款失敗！\n錯誤原因：${error.message}\n提示：伺服器若處於休眠，首次連線需等待約 50 秒。`);
-            } finally {
-                btnElement.innerText = originalText;
-                btnElement.style.opacity = '1';
-                btnElement.disabled = false;
-            }
-        }
-
-        // 音樂控制
         let audio = null;
         function initAudio() {
             if (!audio) {
@@ -202,19 +208,40 @@
             }
         }
         function formatTime(secs) { let m = Math.floor(secs / 60); let s = Math.floor(secs % 60); return `${m}:${s < 10 ? '0' : ''}${s}`; }
-        function toggleMusic() { initAudio(); const disc = document.getElementById('disc-btn'); if (audio.paused) { audio.play().then(() => disc.classList.add('playing')).catch(e => console.log(e.message)); } else { audio.pause(); disc.classList.remove('playing'); } }
+        function toggleMusic() { initAudio(); const disc = document.getElementById('disc-btn'); if (audio.paused) { audio.play().then(() => { disc.classList.add('playing'); }).catch(err => console.log(err.message)); } else { audio.pause(); disc.classList.remove('playing'); } }
         function seekMusic(val) { if(!audio) return; audio.currentTime = (val / 100) * audio.duration; }
-        function toggleTheme() { const currentTheme = document.documentElement.getAttribute('data-theme'); document.documentElement.setAttribute('data-theme', currentTheme === 'light' ? 'dark' : 'light'); }
+        function toggleTheme() { const cur = document.documentElement.getAttribute('data-theme'); document.documentElement.setAttribute('data-theme', cur === 'light' ? 'dark' : 'light'); }
 
-        // 特效粒子系統
+        async function handlePurchase(courseId, btnElement) {
+            const originalText = btnElement.innerText;
+            try {
+                btnElement.innerText = '正在建立付款訂單...'; btnElement.style.opacity = '0.6'; btnElement.disabled = true;
+                const response = await fetch(`${API_BASE_URL}/api/checkout`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ courseId })
+                });
+                if (!response.ok) { const errData = await response.json(); throw new Error(errData.message || '後端回應異常'); }
+                const data = await response.json();
+                if (data.url) { window.location.href = data.url; } else { throw new Error('未成功取得付款網址'); }
+            } catch (error) {
+                console.error(error);
+                alert(`建立付款失敗！\n原因：${error.message}\n提示：若伺服器在休眠，請等待約 1 分鐘後再試。`);
+            } finally { btnElement.innerText = originalText; btnElement.style.opacity = '1'; btnElement.disabled = false; }
+        }
+
+        // ⚡ 特效系統
         const cursor = document.getElementById('custom-cursor'); const canvas = document.getElementById('fx-canvas'); const ctx = canvas.getContext('2d');
         function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         window.addEventListener('resize', resizeCanvas); resizeCanvas();
         window.addEventListener('mousemove', (e) => { requestAnimationFrame(() => { cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px'; }); });
+        
         window.addEventListener('click', (e) => {
-            const ripple = document.createElement('div'); ripple.className = 'click-ripple'; ripple.style.left = e.clientX + 'px'; ripple.style.top = e.clientY + 'px';
-            document.body.appendChild(ripple); setTimeout(() => ripple.remove(), 400); createParticles(e.clientX, e.clientY);
+            // 🔊 觸發獨立短點擊音效物件 pop.mp3
+            const clickSound = new Audio('./pop.mp3');
+            clickSound.play().catch(err => console.log(err.message));
+
+            const ripple = document.createElement('div'); ripple.className = 'click-ripple'; ripple.style.left = e.clientX + 'px'; ripple.style.top = e.clientY + 'px'; document.body.appendChild(ripple); setTimeout(() => ripple.remove(), 400); createParticles(e.clientX, e.clientY);
         });
+
         let particles = [];
         class Particle {
             constructor(x, y) { this.x = x; this.y = y; this.size = Math.random() * 3 + 1; this.speedX = (Math.random() - 0.5) * 6; this.speedY = (Math.random() - 0.5) * 6; this.color = Math.random() > 0.5 ? '#00ff66' : '#00f0ff'; this.alpha = 1; }
