@@ -67,8 +67,8 @@ app.post('/api/checkout', async (req, res) => {
                 courseId,
                 courseName: selectedCourse.name
             },
-            success_url: 'https://moonawake1-ship-it.github.io/myshop/success.html?session_id={CHECKOUT_SESSION_ID}',
-            cancel_url: 'https://moonawake1-ship-it.github.io/myshop/courses.html'
+            success_url: 'https://moonawake1-ship-it.github.io/myshop-2/success.html?session_id={CHECKOUT_SESSION_ID}',
+            cancel_url: 'https://moonawake1-ship-it.github.io/myshop-2/courses.html'
         });
 
         res.json({ url: session.url });
