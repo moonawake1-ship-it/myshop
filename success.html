@@ -90,7 +90,7 @@
                 if (data.paid) {
                     infoEl.innerHTML =
                         `課程名稱：${data.courseName}<br>
-                         付款金額：NT$${data.amount}<br>
+                         付款金額：NT$${data.amount/100}<br>
                          付款信箱：${data.email || '未提供'}<br>
                          付款狀態：已付款<br>
                          Discord 通知：已送出`;
