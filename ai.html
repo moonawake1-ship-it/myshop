@@ -471,7 +471,10 @@
                     body: JSON.stringify({ subject, topic, difficulty })
                 });
 
-                if (!response.ok) throw new Error('後端伺服器未正常響應');
+                if (!response.ok) {
+                    const errData = await response.json().catch(() => ({}));
+                    throw new Error(errData.error || errData.detail || '後端伺服器未正常響應');
+                }
                 const data = await response.json();
 
                 if (data.success && data.question) {

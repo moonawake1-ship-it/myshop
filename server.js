@@ -52,22 +52,19 @@ app.post('/api/checkout', async (req, res) => {
                 quantity: 1
             }],
             mode: 'payment',
-
-            success_url:
-                'https://moonawake1-ship.github.io/success.html?session_id={CHECKOUT_SESSION_ID}',
-
-            cancel_url:
-                'https://moonawake1-ship.github.io/courses.html'
+            success_url: 'https://moonawake1-ship.github.io/myshop/success.html?session_id={CHECKOUT_SESSION_ID}',
+            cancel_url: 'https://moonawake1-ship.github.io/myshop/courses.html'
         });
 
         res.json({ url: session.url });
 
     } catch (error) {
-        console.error('Stripe 錯誤：', error.message);
+        console.error('Stripe 完整錯誤：', error);
 
         res.status(500).json({
             success: false,
-            message: error.message
+            error: error.message || 'Stripe API 錯誤',
+            detail: error.toString()
         });
     }
 });
@@ -75,6 +72,13 @@ app.post('/api/checkout', async (req, res) => {
 app.post('/api/generate-question', async (req, res) => {
     try {
         const { subject, topic, difficulty } = req.body;
+
+        if (!subject || !topic || !difficulty) {
+            return res.status(400).json({
+                success: false,
+                error: '缺少 subject、topic 或 difficulty'
+            });
+        }
 
         const prompt = `
 你是台灣高職電子科老師。
@@ -85,30 +89,50 @@ app.post('/api/generate-question', async (req, res) => {
 章節：${topic}
 難度：${difficulty}
 
-請只回傳 JSON：
+請只回傳 JSON，不要加上 markdown，不要加上說明文字。
+
+JSON 格式如下：
 
 {
   "question": "題目",
-  "choices": ["A", "B", "C", "D"],
+  "choices": ["選項A內容", "選項B內容", "選項C內容", "選項D內容"],
   "answer": "A",
   "explanation": "解析"
 }
 `;
 
         const response = await ai.models.generateContent({
-            model: 'gemini-2.0-flash',
-            contents: prompt
+            model: 'gemini-2.5-flash',
+            contents: prompt,
+            config: {
+                responseMimeType: 'application/json'
+            }
         });
 
         const text = response.text || '';
+        console.log('Gemini 原始回傳：', text);
 
-        const match = text.match(/\{[\s\S]*\}/);
+        let jsonData;
 
-        if (!match) {
-            throw new Error('Gemini 沒有回傳 JSON');
+        try {
+            jsonData = JSON.parse(text);
+        } catch {
+            const match = text.match(/\{[\s\S]*\}/);
+            if (!match) {
+                throw new Error('Gemini 沒有回傳有效 JSON');
+            }
+            jsonData = JSON.parse(match[0]);
         }
 
-        const jsonData = JSON.parse(match[0]);
+        if (
+            !jsonData.question ||
+            !Array.isArray(jsonData.choices) ||
+            jsonData.choices.length !== 4 ||
+            !jsonData.answer ||
+            !jsonData.explanation
+        ) {
+            throw new Error('Gemini 回傳格式不完整');
+        }
 
         res.json({
             success: true,
@@ -116,11 +140,12 @@ app.post('/api/generate-question', async (req, res) => {
         });
 
     } catch (error) {
-        console.error('Gemini 錯誤：', error.message);
+        console.error('Gemini 完整錯誤：', error);
 
         res.status(500).json({
             success: false,
-            error: error.message
+            error: error.message || 'Gemini API 錯誤',
+            detail: error.toString()
         });
     }
 });
