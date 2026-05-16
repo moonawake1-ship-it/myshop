@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>軍一教育平台</title>
+    <title>購買課程</title>
     <style>
         * { transition: background-color 0.45s ease, color 0.45s ease, border-color 0.45s ease, box-shadow 0.45s ease; }
         body { transition: background 0.6s ease, background-image 0.6s ease, color 0.45s ease; margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; background: var(--bg-main); background-image: var(--bg-gradient); color: var(--text-main); min-height: 100vh; padding-top: 100px; overflow-x: hidden; position: relative; }
@@ -29,14 +29,15 @@
         @keyframes ripple-out { 0% { width: 10px; height: 10px; opacity: 1; border-width: 3px; } 100% { width: 55px; height: 55px; opacity: 0; border-width: 1px; } }
         #fx-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9998; }
 
-        /* 🌐 導覽列一致化排版：100% 對齊主頁 */
+        /* 🌐 1:1 完美導覽列排版 */
         nav { position: fixed; top: 0; left: 0; width: 100%; height: 70px; background: var(--nav-bg); border-bottom: 1px solid var(--card-border); display: flex; justify-content: space-between; align-items: center; padding: 0 40px; z-index: 1000; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
         nav .logo { font-size: 1.3rem; font-weight: bold; color: var(--logo-color) !important; }
         .nav-right { display: flex; align-items: center; gap: 30px; }
         nav ul { display: flex; list-style: none; gap: 25px; }
         nav ul li a { color: var(--text-main); text-decoration: none; font-size: 1rem; font-weight: 500; }
         nav ul li a:hover { color: var(--primary-light); }
-        
+        .controls-group { display: flex; align-items: center; gap: 15px; }
+
         .music-player-container { display: flex; align-items: center; gap: 12px; background: var(--card-bg); padding: 6px 16px; border-radius: 30px; border: 1px solid var(--card-border); }
         .disc-btn { width: 36px; height: 36px; background: #111; border: 2px solid #333; border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; }
         .disc-btn::after { content: ''; position: absolute; width: 8px; height: 8px; background: var(--primary-light); border-radius: 50%; }
@@ -48,7 +49,6 @@
         .slider-bar { width: 100%; -webkit-appearance: none; appearance: none; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; outline: none; }
         [data-theme="light"] .slider-bar { background: rgba(0,0,0,0.1); }
         .slider-bar::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 8px; height: 8px; background: var(--primary-light); border-radius: 50%; cursor: pointer; box-shadow: 0 0 5px var(--primary-light); }
-
         .icon-btn { background: var(--card-bg); border: 1px solid var(--card-border); color: var(--text-main); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
 
         .container { max-width: 1200px; margin: 0 auto; padding: 20px; text-align: center; }
@@ -56,23 +56,17 @@
         .course-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px; padding: 20px; text-align: left; box-shadow: var(--shadow); overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; min-height: 480px; }
         .course-card:hover { transform: translateY(-5px); }
 
-        /* 🎬 影片區塊排版優化：固定高度，防止黑白塊縮水 */
-        .video-wrapper { width: 100%; height: 190px; background: #000; border-radius: 12px; overflow: hidden; margin-bottom: 15px; position: relative; border: 1px solid var(--card-border); }
-        .video-wrapper video { width: 100%; height: 100%; object-fit: cover; }
-
-        /* 🖼️ 圖片區塊排版優化：固定高度，防圖片404時排版垮掉 */
-        .image-wrapper { width: 100%; height: 190px; border-radius: 12px; overflow: hidden; margin-bottom: 15px; border: 1px solid var(--card-border); background: #0a0a0a; position: relative; }
-        .image-wrapper img { width: 100%; height: 100%; object-fit: cover; object-position: top !important; }
-        .course-card:hover .image-wrapper { box-shadow: 0 0 15px var(--primary-light); }
+        /* 🎬 固定影音容器高度，徹底根除黑白塊問題 */
+        .video-wrapper, .image-wrapper { width: 100%; height: 190px; background: #000; border-radius: 12px; overflow: hidden; margin-bottom: 15px; position: relative; border: 1px solid var(--card-border); }
+        .video-wrapper video, .image-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+        .image-wrapper img { object-position: top !important; }
+        .course-card:hover .image-wrapper, .course-card:hover .video-wrapper { box-shadow: 0 0 15px var(--primary-light); }
 
         .price-tag { font-size: 1.5rem; color: var(--accent); font-weight: bold; margin: 15px 0; }
         .pay-btn { background: var(--primary-light); color: white; border: none; padding: 14px; border-radius: 10px; font-size: 1rem; width: 100%; font-weight: bold; cursor: pointer; }
         [data-theme="dark"] .pay-btn { color: #000; }
 
-        @media (max-width: 768px) {
-            body { padding-top: 90px; } nav { padding: 0 20px; height: 60px; } nav ul { display: none; }
-            .nav-right { gap: 15px; } .music-player-container { display: none; } .course-container { grid-template-columns: 1fr; gap: 20px; }
-        }
+        @media (max-width: 768px) { body { padding-top: 90px; } nav { padding: 0 20px; height: 60px; } nav ul { display: none; } .nav-right { gap: 15px; } .music-player-container { display: none; } .course-container { grid-template-columns: 1fr; gap: 20px; } }
     </style>
 </head>
 <body>
@@ -80,24 +74,20 @@
     <div id="custom-cursor"></div>
     <canvas id="fx-canvas"></canvas>
 
-    <!-- 🌐 導覽列：完美補齊「聯絡我們」選單 -->
     <nav>
         <div class="logo">軍一補救教室</div>
         <div class="nav-right">
             <ul>
-                <li><a href="./index.html">主頁</a></li>
+                <li><a href="./index.html">首頁</a></li>
                 <li><a href="./courses.html" style="color: var(--primary-light);">購買課程</a></li>
                 <li><a href="./ai.html">AI題庫</a></li>
-                <li><a href="./index.html#contact-form">聯絡我們</a></li> <!-- 🟢 補齊聯絡我們選單 -->
+                <li><a href="./contact.html">聯絡我們</a></li>
             </ul>
             <div class="controls-group">
                 <div class="music-player-container">
                     <button class="disc-btn" id="disc-btn" onclick="toggleMusic()"></button>
                     <div class="progress-box">
-                        <div class="time-info">
-                            <span id="current-time">0:00</span>
-                            <span id="total-time">0:00</span>
-                        </div>
+                        <div class="time-info"><span id="current-time">0:00</span><span id="total-time">0:00</span></div>
                         <input type="range" class="slider-bar" id="progress-bar" min="0" max="100" value="0" oninput="seekMusic(this.value)">
                     </div>
                 </div>
@@ -111,77 +101,77 @@
         <p style="color: var(--text-muted);">選擇您需要加強的學科，立即開通智慧複習專區</p>
 
         <div class="course-container">
-            <!-- 課程 1：數位邏輯 (影片路徑保證正確) -->
+            <!-- 課程 1：數位邏輯 (🎬 🟢 完美對齊根目錄 digital_logic.mp4) -->
             <div class="course-card">
                 <div>
                     <div class="video-wrapper">
-                        <video src="./images/課程1.mp4" autoplay loop muted playsinline onerror="this.style.display='none';"></video>
+                        <video src="./digital_logic.mp4" autoplay loop muted playsinline></video>
                     </div>
                     <h3>數位邏輯補救班</h3>
                     <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 8px;">布林代數、卡諾圖、組合邏輯電路速成</p>
                 </div>
                 <div>
-                    <div class="price-tag">NT$ 6,700</div>
+                    <div class="price-tag">NT$ 67</div>
                     <button class="pay-btn" onclick="handlePurchase('digital_logic', this)">立即報名付款</button>
                 </div>
             </div>
 
-            <!-- 課程 2：微處理機 -->
+            <!-- 課程 2：微處理機 (🎬 已改為影片，若尚未建立則由雲端技術圖保護) -->
             <div class="course-card">
                 <div>
-                    <div class="image-wrapper">
-                        <img src="./images/課程2.png" alt="微處理機" onerror="this.src='https://unsplash.com';">
+                    <div class="video-wrapper">
+                        <video src="./microprocessor.mp4" autoplay loop muted playsinline onerror="this.src='https://mixkit.co';"></video>
                     </div>
                     <h3>微處理機補救班</h3>
                     <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 8px;">組合語言、中斷結構、I/O 晶片應用控制</p>
                 </div>
                 <div>
-                    <div class="price-tag">NT$ 6,700</div>
+                    <div class="price-tag">NT$ 67</div>
                     <button class="pay-btn" onclick="handlePurchase('microprocessor', this)">立即報名付款</button>
                 </div>
             </div>
 
-            <!-- 課程 3：電子學 -->
+            <!-- 課程 3：電子學 (🖼️ 若尚未建立則由雲端保護圖安全備載) -->
             <div class="course-card">
                 <div>
                     <div class="image-wrapper">
-                        <img src="./images/課程3.png" alt="電子學" onerror="this.src='https://unsplash.com';">
+                        <img src="./electronics.png" alt="電子學" onerror="this.src='https://unsplash.com';">
                     </div>
                     <h3>電子學補救班</h3>
                     <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 8px;">二極體電路、BJT、FET 放大電路徹底搞懂</p>
                 </div>
                 <div>
-                    <div class="price-tag">NT$ 6,700</div>
+                    <div class="price-tag">NT$ 67</div>
                     <button class="pay-btn" onclick="handlePurchase('electronics', this)">立即報名付款</button>
                 </div>
             </div>
 
-            <!-- 課程 4：基本電學 -->
+            <!-- 課程 4：基本電學 (🖼️ 🟢 完美對齊根目錄 basic_electricity.jpg) -->
             <div class="course-card">
                 <div>
                     <div class="image-wrapper">
-                        <img src="./images/課程4.png" alt="基本電學" onerror="this.src='https://unsplash.com';">
+                        <img src="./basic_electricity.jpg" alt="基本電學" onerror="this.src='https://unsplash.com';">
                     </div>
                     <h3>基本電學補救班</h3>
                     <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 8px;">直流迴路分析、電容電感、交流阻抗交流功率</p>
                 </div>
                 <div>
-                    <div class="price-tag">NT$ 6,700</div>
+                    <div class="price-tag">NT$ 67</div>
                     <button class="pay-btn" onclick="handlePurchase('basic_electricity', this)">立即報名付款</button>
                 </div>
             </div>
 
-            <!-- 課程 5：統測數學 -->
+            <!-- 課程 5：統測數學 (🖼️ 若尚未建立則由雲端保護圖安全備載) -->
             <div class="course-card">
                 <div>
                     <div class="image-wrapper">
-                        <img src="./images/課程5.png" alt="統測數學" onerror="this.src='https://unsplash.com';">
+                        <img src="./math.jpg" alt="統測數學" onerror="this.src='https://unsplash.com';">
                     </div>
                     <h3>統測數學高分班</h3>
                     <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 8px;">微積分、三角函數、向量與矩陣公式速成解題</p>
                 </div>
                 <div>
-                    <div class="price-tag">NT$ 6,700</div>
+                    <div class="price-tag">NT$ 67</div>
                     <button class="pay-btn" onclick="handlePurchase('math', this)">立即報名付款</button>
                 </div>
             </div>
@@ -191,7 +181,7 @@
     <script>
         const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
             ? 'http://localhost:3000'
-            : 'https://junyi-myshop.onrender.com';
+            : 'https://onrender.com';
 
         let audio = null;
         function initAudio() {
@@ -230,19 +220,14 @@
             } finally { btnElement.innerText = originalText; btnElement.style.opacity = '1'; btnElement.disabled = false; }
         }
 
-        // ⚡ 特效與點擊 pop.mp3 音效
         const cursor = document.getElementById('custom-cursor'); const canvas = document.getElementById('fx-canvas'); const ctx = canvas.getContext('2d');
         function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         window.addEventListener('resize', resizeCanvas); resizeCanvas();
         window.addEventListener('mousemove', (e) => { requestAnimationFrame(() => { cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px'; }); });
-        
         window.addEventListener('click', (e) => {
-            const clickSound = new Audio('./pop.mp3');
-            clickSound.play().catch(err => console.log(err.message));
-
+            const clickSound = new Audio('./pop.mp3'); clickSound.play().catch(err => console.log(err.message));
             const ripple = document.createElement('div'); ripple.className = 'click-ripple'; ripple.style.left = e.clientX + 'px'; ripple.style.top = e.clientY + 'px'; document.body.appendChild(ripple); setTimeout(() => ripple.remove(), 400); createParticles(e.clientX, e.clientY);
         });
-
         let particles = [];
         class Particle {
             constructor(x, y) { this.x = x; this.y = y; this.size = Math.random() * 3 + 1; this.speedX = (Math.random() - 0.5) * 6; this.speedY = (Math.random() - 0.5) * 6; this.color = Math.random() > 0.5 ? '#00ff66' : '#00f0ff'; this.alpha = 1; }

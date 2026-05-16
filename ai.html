@@ -30,7 +30,7 @@
         @keyframes ripple-out { 0% { width: 10px; height: 10px; opacity: 1; border-width: 3px; } 100% { width: 55px; height: 55px; opacity: 0; border-width: 1px; } }
         #fx-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9998; }
 
-        /* 🌐 導覽列一致化排版：完美對齊主頁與課程頁 */
+        /* 🌐 1:1 強制與主頁、課程頁完全相同的頂級導覽列外觀 */
         nav { position: fixed; top: 0; left: 0; width: 100%; height: 70px; background: var(--nav-bg); border-bottom: 1px solid var(--card-border); display: flex; justify-content: space-between; align-items: center; padding: 0 40px; z-index: 1000; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
         nav .logo { font-size: 1.3rem; font-weight: bold; color: var(--logo-color) !important; }
         .nav-right { display: flex; align-items: center; gap: 30px; }
@@ -105,15 +105,15 @@
     <div id="custom-cursor"></div>
     <canvas id="fx-canvas"></canvas>
 
-    <!-- 🌐 導覽列：完美補齊「聯絡我們」選單，實現選單排版100%一致 -->
+    <!-- 🌐 頂級導覽列選單 100% 同步：首頁、購買課程、AI題庫、聯絡我們 -->
     <nav>
         <div class="logo">軍一補救教室</div>
         <div class="nav-right">
             <ul>
-                <li><a href="./index.html">主頁</a></li>
+                <li><a href="./index.html">首頁</a></li>
                 <li><a href="./courses.html">購買課程</a></li>
                 <li><a href="./ai.html" style="color: var(--primary-light);">AI題庫</a></li>
-                <li><a href="./index.html#contact-form">聯絡我們</a></li> <!-- 🟢 補齊聯絡我們選單 -->
+                <li><a href="./contact.html">聯絡我們</a></li>
             </ul>
             <div class="controls-group">
                 <div class="music-player-container">
@@ -177,6 +177,7 @@
     </div>
 
     <script>
+        // 🟢 已鎖定您的真實新加坡後端網址
         const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
             ? 'http://localhost:3000'
             : 'https://junyi-myshop.onrender.com';
