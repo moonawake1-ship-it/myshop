@@ -19,6 +19,11 @@ const ai = new GoogleGenAI({
     apiKey: process.env.GEMINI_API_KEY
 });
 
+const DISCORD_WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL;
+
+// 避免成功頁重新整理時重複通知 DC
+const notifiedSessions = new Set();
+
 const courseDatabase = {
     digital_logic: { name: '數位邏輯補救班', amount: 6700 },
     microprocessor: { name: '微處理機補救班', amount: 6700 },
@@ -92,13 +97,36 @@ app.get('/api/check-payment', async (req, res) => {
 
         const session = await stripe.checkout.sessions.retrieve(session_id);
 
+        const paid = session.payment_status === 'paid';
+        const courseName = session.metadata?.courseName || '課程';
+        const amount = session.amount_total || 0;
+        const email = session.customer_details?.email || '';
+
+        if (paid && DISCORD_WEBHOOK_URL && !notifiedSessions.has(session.id)) {
+            await fetch(DISCORD_WEBHOOK_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    content:
+`💰 有新付款成功！
+課程：${courseName}
+金額：NT$${amount}
+信箱：${email || '未提供'}
+付款狀態：${session.payment_status}
+Session ID：${session.id}`
+                })
+            });
+
+            notifiedSessions.add(session.id);
+        }
+
         res.json({
             success: true,
-            paid: session.payment_status === 'paid',
+            paid,
             status: session.payment_status,
-            courseName: session.metadata?.courseName || '課程',
-            amount: session.amount_total || 0,
-            email: session.customer_details?.email || ''
+            courseName,
+            amount,
+            email
         });
 
     } catch (error) {
