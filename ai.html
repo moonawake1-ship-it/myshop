@@ -30,6 +30,7 @@
         @keyframes ripple-out { 0% { width: 10px; height: 10px; opacity: 1; border-width: 3px; } 100% { width: 55px; height: 55px; opacity: 0; border-width: 1px; } }
         #fx-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9998; }
 
+        /* 🌐 導覽列一致化排版：完美對齊主頁與課程頁 */
         nav { position: fixed; top: 0; left: 0; width: 100%; height: 70px; background: var(--nav-bg); border-bottom: 1px solid var(--card-border); display: flex; justify-content: space-between; align-items: center; padding: 0 40px; z-index: 1000; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
         nav .logo { font-size: 1.3rem; font-weight: bold; color: var(--logo-color) !important; }
         .nav-right { display: flex; align-items: center; gap: 30px; }
@@ -104,6 +105,7 @@
     <div id="custom-cursor"></div>
     <canvas id="fx-canvas"></canvas>
 
+    <!-- 🌐 導覽列：完美補齊「聯絡我們」選單，實現選單排版100%一致 -->
     <nav>
         <div class="logo">軍一補救教室</div>
         <div class="nav-right">
@@ -111,6 +113,7 @@
                 <li><a href="./index.html">主頁</a></li>
                 <li><a href="./courses.html">購買課程</a></li>
                 <li><a href="./ai.html" style="color: var(--primary-light);">AI題庫</a></li>
+                <li><a href="./index.html#contact-form">聯絡我們</a></li> <!-- 🟢 補齊聯絡我們選單 -->
             </ul>
             <div class="controls-group">
                 <div class="music-player-container">
@@ -176,7 +179,7 @@
     <script>
         const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
             ? 'http://localhost:3000'
-            : 'https://onrender.com';
+            : 'https://junyi-myshop.onrender.com';
 
         let audio = null;
         let currentQuestion = null;
@@ -264,9 +267,9 @@
         window.addEventListener('mousemove', (e) => { requestAnimationFrame(() => { cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px'; }); });
         
         window.addEventListener('click', (e) => {
-            // 🔊 🟢 觸發獨立短點擊音效物件，支援連續狂點重疊音效
+            // 🔊 觸發獨立短點擊音效物件 pop.mp3
             const clickSound = new Audio('./pop.mp3');
-            clickSound.play().catch(err => console.log('音效播放受瀏覽器限制，需點擊網頁任意處解鎖：', err.message));
+            clickSound.play().catch(err => console.log(err.message));
 
             const ripple = document.createElement('div'); ripple.className = 'click-ripple'; ripple.style.left = e.clientX + 'px'; ripple.style.top = e.clientY + 'px'; document.body.appendChild(ripple); setTimeout(() => ripple.remove(), 400); createParticles(e.clientX, e.clientY);
         });
