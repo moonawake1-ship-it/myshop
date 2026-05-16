@@ -7,7 +7,12 @@ require('dotenv').config();
 
 const app = express();
 
-app.use(cors());
+// 🟢 終極修正：配置 CORS 萬能安全通行證，徹底粉碎網頁被 CORS policy 阻擋的盲點
+app.use(cors({
+    origin: '*', // 允許包含 GitHub Pages 在內的所有外部網址安全讀取數據
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(express.json());
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
