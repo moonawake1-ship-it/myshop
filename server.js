@@ -25,14 +25,14 @@ const DISCORD_WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL;
 const notifiedSessions = new Set();
 
 const courseDatabase = {
-    digital_logic: { name: '數位邏輯補救班', amount: 6700 },
-    microprocessor: { name: '微處理機補救班', amount: 6700 },
-    electronics: { name: '電子學補救班', amount: 6700 },
-    basic_electricity: { name: '基本電學補救班', amount: 6700 },
-    math: { name: '統測數學高分班', amount: 6700 },
+    digital_logic: { name: '數位邏輯補救班', amount: 67 },
+    microprocessor: { name: '微處理機補救班', amount: 67 },
+    electronics: { name: '電子學補救班', amount: 67 },
+    basic_electricity: { name: '基本電學補救班', amount: 67 },
+    math: { name: '統測數學高分班', amount: 67 },
 
-    chinese: { name: '國文補救班', amount: 6700 },
-    english: { name: '英文補救班', amount: 6700 }
+    chinese: { name: '國文補救班', amount: 67 },
+    english: { name: '英文補救班', amount: 67 }
 };
 
 app.get('/', (req, res) => {
