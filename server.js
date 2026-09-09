@@ -21,48 +21,70 @@ const ai = new GoogleGenAI({
 
 const DISCORD_WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL;
 
-// 避免付款成功頁重新整理時重複通知 Discord
+// 避免成功頁重新整理時重複通知 Discord
 const notifiedSessions = new Set();
+
+
+// ==============================
+// 課程資料
+// ==============================
 
 const courseDatabase = {
     digital_logic: {
         name: '數位邏輯補救班',
         amount: 6700
     },
+
     microprocessor: {
         name: '微處理機補救班',
         amount: 6700
     },
+
     electronics: {
         name: '電子學補救班',
         amount: 6700
     },
+
     basic_electricity: {
         name: '基本電學補救班',
         amount: 6700
     },
+
     math: {
         name: '統測數學高分班',
         amount: 6700
     },
+
     chinese: {
         name: '國文補救班',
         amount: 6700
     },
+
     english: {
         name: '英文補救班',
+        amount: 6700
+    },
+
+    // 新增：計算機概論
+    computer_concepts: {
+        name: '計算機概論補救班',
         amount: 6700
     }
 };
 
 
 // ==============================
-// 首頁 / 健康檢查
+// 首頁
 // ==============================
 
 app.get('/', (req, res) => {
     res.send('軍一補救教室後端 API 正常運作中');
 });
+
+
+// ==============================
+// 健康檢查
+// ==============================
 
 app.get('/api/health', (req, res) => {
     res.json({
@@ -77,44 +99,55 @@ app.get('/api/health', (req, res) => {
 // ==============================
 
 app.post('/api/checkout', async (req, res) => {
+
     try {
+
         const { courseId } = req.body;
 
         const selectedCourse =
             courseDatabase[courseId] ||
             courseDatabase.digital_logic;
 
-        const session = await stripe.checkout.sessions.create({
-            payment_method_types: ['card'],
+        const session =
+            await stripe.checkout.sessions.create({
 
-            line_items: [{
-                price_data: {
-                    currency: 'twd',
+                payment_method_types: ['card'],
 
-                    product_data: {
-                        name: selectedCourse.name
-                    },
+                line_items: [
+                    {
+                        price_data: {
 
-                    // NT$67
-                    unit_amount: selectedCourse.amount
+                            currency: 'twd',
+
+                            product_data: {
+                                name: selectedCourse.name
+                            },
+
+                            unit_amount:
+                                selectedCourse.amount
+                        },
+
+                        quantity: 1
+                    }
+                ],
+
+                mode: 'payment',
+
+                metadata: {
+                    courseId:
+                        courseId ||
+                        'digital_logic',
+
+                    courseName:
+                        selectedCourse.name
                 },
 
-                quantity: 1
-            }],
+                success_url:
+                    'https://moonawake1-ship-it.github.io/myshop/success.html?session_id={CHECKOUT_SESSION_ID}',
 
-            mode: 'payment',
-
-            metadata: {
-                courseId: courseId || 'digital_logic',
-                courseName: selectedCourse.name
-            },
-
-            success_url:
-                'https://moonawake1-ship-it.github.io/myshop/success.html?session_id={CHECKOUT_SESSION_ID}',
-
-            cancel_url:
-                'https://moonawake1-ship-it.github.io/myshop/courses.html'
-        });
+                cancel_url:
+                    'https://moonawake1-ship-it.github.io/myshop/courses.html'
+            });
 
         res.json({
             success: true,
@@ -123,12 +156,18 @@ app.post('/api/checkout', async (req, res) => {
 
     } catch (error) {
 
-        console.error('Stripe 建立付款錯誤：', error);
+        console.error(
+            'Stripe 建立付款錯誤：',
+            error
+        );
 
         res.status(500).json({
             success: false,
-            message: error.message || 'Stripe API 錯誤',
-            detail: error.toString()
+            message:
+                error.message ||
+                'Stripe API 錯誤',
+            detail:
+                error.toString()
         });
     }
 });
@@ -139,55 +178,67 @@ app.post('/api/checkout', async (req, res) => {
 // ==============================
 
 app.get('/api/check-payment', async (req, res) => {
+
     try {
 
-        const { session_id } = req.query;
+        const { session_id } =
+            req.query;
 
         if (!session_id) {
 
             return res.status(400).json({
                 success: false,
                 paid: false,
-                message: '缺少 session_id'
+                message:
+                    '缺少 session_id'
             });
         }
 
         const session =
-            await stripe.checkout.sessions.retrieve(session_id);
+            await stripe.checkout.sessions.retrieve(
+                session_id
+            );
 
         const paid =
-            session.payment_status === 'paid';
+            session.payment_status ===
+            'paid';
 
         const courseName =
-            session.metadata?.courseName || '課程';
+            session.metadata?.courseName ||
+            '課程';
 
-        // Stripe 這裡回傳 6700
-        // 顯示給使用者時轉成 NT$67
+        // Stripe 這裡會回傳 6700
+        // 顯示時換成 NT$67
         const amount =
-            (session.amount_total || 0) / 100;
+            (session.amount_total || 0) /
+            100;
 
         const email =
-            session.customer_details?.email || '';
+            session.customer_details?.email ||
+            '';
 
-        // 付款成功後通知 Discord
         if (
             paid &&
             DISCORD_WEBHOOK_URL &&
-            !notifiedSessions.has(session.id)
+            !notifiedSessions.has(
+                session.id
+            )
         ) {
 
             const discordResponse =
-                await fetch(DISCORD_WEBHOOK_URL, {
+                await fetch(
+                    DISCORD_WEBHOOK_URL,
+                    {
+                        method: 'POST',
 
-                    method: 'POST',
+                        headers: {
+                            'Content-Type':
+                                'application/json'
+                        },
 
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-
-                    body: JSON.stringify({
-
-                        content:
+                        body:
+                            JSON.stringify({
+                                content:
 `💰 有新付款成功！
 
 📘 課程：${courseName}
@@ -197,10 +248,13 @@ app.get('/api/check-payment', async (req, res) => {
 
 🧾 Session ID：
 ${session.id}`
-                    })
-                });
+                            })
+                    }
+                );
 
-            if (!discordResponse.ok) {
+            if (
+                !discordResponse.ok
+            ) {
 
                 const errorText =
                     await discordResponse.text();
@@ -218,14 +272,17 @@ ${session.id}`
                     session.id
                 );
 
-                notifiedSessions.add(session.id);
+                notifiedSessions.add(
+                    session.id
+                );
             }
         }
 
         res.json({
             success: true,
             paid,
-            status: session.payment_status,
+            status:
+                session.payment_status,
             courseName,
             amount,
             email
@@ -233,7 +290,10 @@ ${session.id}`
 
     } catch (error) {
 
-        console.error('付款查詢錯誤：', error);
+        console.error(
+            '付款查詢錯誤：',
+            error
+        );
 
         res.status(500).json({
             success: false,
@@ -254,9 +314,17 @@ app.post('/api/contact', async (req, res) => {
 
     try {
 
-        const { name, email, message } = req.body;
+        const {
+            name,
+            email,
+            message
+        } = req.body;
 
-        if (!name || !email || !message) {
+        if (
+            !name ||
+            !email ||
+            !message
+        ) {
 
             return res.status(400).json({
                 success: false,
@@ -265,10 +333,12 @@ app.post('/api/contact', async (req, res) => {
             });
         }
 
-        if (!DISCORD_WEBHOOK_URL) {
+        if (
+            !DISCORD_WEBHOOK_URL
+        ) {
 
             console.error(
-                '❌ 尚未設定 DISCORD_WEBHOOK_URL'
+                '尚未設定 DISCORD_WEBHOOK_URL'
             );
 
             return res.status(500).json({
@@ -282,23 +352,25 @@ app.post('/api/contact', async (req, res) => {
             new Date().toLocaleString(
                 'zh-TW',
                 {
-                    timeZone: 'Asia/Taipei'
+                    timeZone:
+                        'Asia/Taipei'
                 }
             );
 
         const discordResponse =
-            await fetch(DISCORD_WEBHOOK_URL, {
+            await fetch(
+                DISCORD_WEBHOOK_URL,
+                {
+                    method: 'POST',
 
-                method: 'POST',
+                    headers: {
+                        'Content-Type':
+                            'application/json'
+                    },
 
-                headers: {
-                    'Content-Type':
-                        'application/json'
-                },
-
-                body: JSON.stringify({
-
-                    content:
+                    body:
+                        JSON.stringify({
+                            content:
 `📩 有新的課務諮詢！
 
 👤 姓名：${name}
@@ -307,10 +379,13 @@ app.post('/api/contact', async (req, res) => {
 
 📝 諮詢內容：
 ${message}`
-                })
-            });
+                        })
+                }
+            );
 
-        if (!discordResponse.ok) {
+        if (
+            !discordResponse.ok
+        ) {
 
             const errorText =
                 await discordResponse.text();
@@ -385,19 +460,21 @@ app.post('/api/generate-question', async (req, res) => {
         }
 
         const prompt = `
-你是台灣高職電子科老師。
+你是台灣高職教師。
 
-請生成一題適合高職電子科學生的四選一題目。
+請生成一題適合高職學生的四選一題目。
 
 科目：${subject}
 章節：${topic}
 難度：${difficulty}
 
-請只回傳 JSON。
+如果科目是「計算機概論」，內容可涵蓋：
+電腦硬體、軟體、作業系統、資料表示法、
+網路基礎、資訊安全、資料處理與基本資訊科技概念。
 
+請只回傳 JSON。
 不要加 markdown。
 不要加說明文字。
-不要使用 \`\`\`json。
 
 格式必須如下：
 
@@ -420,7 +497,8 @@ app.post('/api/generate-question', async (req, res) => {
                 model:
                     'gemini-2.5-flash',
 
-                contents: prompt,
+                contents:
+                    prompt,
 
                 config: {
                     responseMimeType:
@@ -446,13 +524,13 @@ app.post('/api/generate-question', async (req, res) => {
         const jsonData =
             JSON.parse(text);
 
-        // 基本格式檢查
         if (
             !jsonData.question ||
             !Array.isArray(
                 jsonData.choices
             ) ||
-            jsonData.choices.length !== 4 ||
+            jsonData.choices.length !==
+                4 ||
             !jsonData.answer ||
             !jsonData.explanation
         ) {
@@ -464,7 +542,8 @@ app.post('/api/generate-question', async (req, res) => {
 
         res.json({
             success: true,
-            question: jsonData
+            question:
+                jsonData
         });
 
     } catch (error) {
@@ -491,12 +570,15 @@ app.post('/api/generate-question', async (req, res) => {
 // ==============================
 
 const PORT =
-    process.env.PORT || 3000;
+    process.env.PORT ||
+    3000;
 
-app.listen(PORT, () => {
+app.listen(
+    PORT,
+    () => {
 
-    console.log(
-        `🚀 Server running on port ${PORT}`
-    );
-
-});
+        console.log(
+            `🚀 Server running on port ${PORT}`
+        );
+    }
+);

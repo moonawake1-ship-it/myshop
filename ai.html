@@ -3,312 +3,303 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI電子科題庫｜軍一補救教室</title>
+    <title>軍一 AI 題庫</title>
 
     <style>
-        * {
-            transition:
-                background-color 0.45s ease,
-                color 0.45s ease,
-                border-color 0.45s ease,
-                box-shadow 0.45s ease;
-        }
-
-        body {
-            transition:
-                background 0.6s ease,
-                background-image 0.6s ease,
-                color 0.45s ease;
-        }
-
-        nav,
-        .course-card,
-        .chat-container,
-        .panel,
-        .result-card,
-        .card,
-        .music-player-container,
-        .icon-btn,
-        input,
-        textarea,
-        select,
-        button {
-            transition:
-                background 0.45s ease,
-                background-color 0.45s ease,
-                color 0.45s ease,
-                border-color 0.45s ease,
-                box-shadow 0.45s ease,
-                transform 0.25s ease;
-        }
-
         :root {
             --bg-main: #050505;
             --bg-gradient: linear-gradient(135deg, #020202 0%, #0d0d0d 100%);
-            --nav-bg: rgba(15, 15, 15, 0.85);
-            --card-bg: rgba(20, 20, 20, 0.85);
-            --card-border: rgba(0, 255, 102, 0.18);
+            --nav-bg: rgba(15, 15, 15, 0.88);
+            --card-bg: rgba(20, 20, 20, 0.88);
+            --card-border: rgba(0, 255, 102, 0.16);
             --text-main: #f3f4f6;
             --text-muted: #9ca3af;
+            --input-bg: #171717;
             --primary-light: #00ff66;
             --accent: #00f0ff;
-            --shadow: 0 10px 35px rgba(0, 255, 102, 0.08);
+            --shadow: 0 10px 35px rgba(0, 255, 102, 0.06);
             --logo-color: #ffffff;
         }
 
         [data-theme="light"] {
             --bg-main: #f8fafc;
             --bg-gradient: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
-            --nav-bg: rgba(255, 255, 255, 0.85);
-            --card-bg: rgba(255, 255, 255, 0.9);
-            --card-border: rgba(15, 23, 42, 0.08);
+            --nav-bg: rgba(255,255,255,0.9);
+            --card-bg: rgba(255,255,255,0.94);
+            --card-border: rgba(15,23,42,0.09);
             --text-main: #0f172a;
             --text-muted: #475569;
-            --primary-light: #2563eb; 
+            --input-bg: #f1f5f9;
+            --primary-light: #2563eb;
             --accent: #d97706;
-            --shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            --shadow: 0 10px 30px rgba(0,0,0,0.05);
             --logo-color: #000000;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
-        html, body, button, a, input, textarea { cursor: none !important; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: sans-serif;
+        }
 
         body {
-            background: var(--bg-main); background-image: var(--bg-gradient); color: var(--text-main); min-height: 100vh; padding-top: 100px; overflow-x: hidden; position: relative;
+            min-height: 100vh;
+            padding-top: 100px;
+            color: var(--text-main);
+            background: var(--bg-main);
+            background-image: var(--bg-gradient);
         }
-
-        #custom-cursor { position: fixed; width: 32px; height: 32px; pointer-events: none; z-index: 10000; top: 0; left: 0; transform: translate(-10%, -10%); display: block; }
-        #custom-cursor::before { content: ''; display: block; width: 100%; height: 100%; background: linear-gradient(135deg, #ffe600 0%, #ff6600 50%, #ff0000 100%); clip-path: polygon(55% 0%, 10% 55%, 50% 55%, 40% 100%, 90% 40%, 50% 40%); animation: pulse-glow 1.5s infinite alternate; }
-        @keyframes pulse-glow { 0% { filter: drop-shadow(0px 0px 4px #ff6600); } 100% { filter: drop-shadow(0px 0px 10px #ff3300); } }
-
-        .click-ripple { position: fixed; width: 10px; height: 10px; background: transparent; border: 3px solid var(--primary-light); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); animation: ripple-out 0.4s cubic-bezier(0.1, 0.8, 0.3, 1) forwards; box-shadow: 0 0 8px var(--primary-light); }
-        @keyframes ripple-out { 0% { width: 10px; height: 10px; opacity: 1; border-width: 3px; } 100% { width: 55px; height: 55px; opacity: 0; border-width: 1px; } }
-        #fx-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9998; }
 
         nav {
-            position: fixed; top: 0; left: 0; width: 100%; height: 70px; background: var(--nav-bg); border-bottom: 1px solid var(--card-border);
-            display: flex; justify-content: space-between; align-items: center; padding: 0 40px; z-index: 1000; transition: background 0.8s;
-            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            background: var(--nav-bg);
+            border-bottom: 1px solid var(--card-border);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
         }
-        nav .logo { font-size: 1.3rem; font-weight: bold; color: var(--logo-color) !important; transition: color 0.6s; }
-        .nav-right { display: flex; align-items: center; gap: 30px; }
-        nav ul { display: flex; list-style: none; gap: 25px; }
-        nav ul li a { color: var(--text-main); text-decoration: none; font-size: 1rem; font-weight: 500; }
-        nav ul li a:hover { color: var(--primary-light); }
-        .controls-group { display: flex; align-items: center; gap: 15px; }
 
-        .music-player-container { display: flex; align-items: center; gap: 12px; background: var(--card-bg); padding: 6px 16px; border-radius: 30px; border: 1px solid var(--card-border); }
-        .disc-btn { width: 36px; height: 36px; background: #111; border: 2px solid #333; border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; }
-        .disc-btn::after { content: ''; position: absolute; width: 8px; height: 8px; background: var(--primary-light); border-radius: 50%; }
-        .disc-btn.playing { animation: spin-disc 4s linear infinite; box-shadow: 0 0 10px var(--primary-light); border-color: var(--primary-light); }
-        @keyframes spin-disc { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        .progress-box { display: flex; flex-direction: column; width: 110px; font-size: 0.75rem; color: var(--text-main); }
-        .time-info { display: flex; justify-content: space-between; margin-bottom: 2px; font-family: monospace; }
-        .slider-bar { width: 100%; -webkit-appearance: none; appearance: none; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; outline: none; }
-        [data-theme="light"] .slider-bar { background: rgba(0,0,0,0.1); }
-        .slider-bar::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 8px; height: 8px; background: var(--primary-light); border-radius: 50%; cursor: pointer; box-shadow: 0 0 5px var(--primary-light); }
-
-        .icon-btn { background: var(--card-bg); border: 1px solid var(--card-border); color: var(--text-main); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
-
-        .container { max-width: 1100px; margin: 0 auto; padding: 30px 20px; }
-        .hero { text-align: center; margin-bottom: 35px; }
-        .hero h1 { font-size: 3rem; color: var(--primary-light); margin-bottom: 15px; text-shadow: 0 0 18px rgba(0, 255, 102, 0.3); }
-        .hero p { color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; }
-
-        .ai-layout { display: grid; grid-template-columns: 330px 1fr; gap: 25px; align-items: start; }
-        .panel, .result-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 22px; box-shadow: var(--shadow); backdrop-filter: blur(12px); transition: background 0.8s, border-color 0.8s; }
-        .panel { padding: 25px; }
-        .panel h2 { color: var(--accent); font-size: 1.3rem; margin-bottom: 18px; }
-        
-        label { display: block; margin: 16px 0 8px; color: var(--text-muted); font-size: 0.95rem; }
-        
-        /* 🟢 修正：讓 select 與 input 的寬度尺寸與內距 100% 絕對切齊，完美復原輸入框比例 */
-        select, input { width: 100%; padding: 14px; border-radius: 12px; border: 1px solid var(--card-border); background: rgba(0, 0, 0, 0.35); color: var(--text-main); font-size: 1rem; outline: none; box-sizing: border-box; display: block; }
-        [data-theme="light"] select, [data-theme="light"] input { background: rgba(255,255,255,0.8); }
-        select:focus, input:focus { border-color: var(--primary-light); box-shadow: 0 0 12px rgba(0, 255, 102, 0.18); }
-
-        .generate-btn { width: 100%; margin-top: 22px; background: var(--primary-light); color: #000; font-weight: bold; cursor: pointer; border: none; padding: 14px; border-radius: 12px; font-size: 1rem; }
-        .generate-btn:hover { transform: translateY(-2px); box-shadow: 0 0 20px rgba(0, 255, 102, 0.45); }
-        .hint { margin-top: 18px; color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; }
-
-        .result-card { padding: 30px; min-height: 520px; }
-        .result-header { display: flex; justify-content: space-between; gap: 15px; align-items: center; border-bottom: 1px solid var(--card-border); padding-bottom: 18px; margin-bottom: 22px; }
-        .result-header h2 { color: var(--primary-light); font-size: 1.5rem; }
-        .badge { padding: 8px 12px; border-radius: 999px; background: rgba(0, 255, 102, 0.1); color: var(--primary-light); border: 1px solid var(--card-border); font-size: 0.85rem; white-space: nowrap; }
-
-        #question-box { line-height: 1.9; }
-        .empty-state { text-align: center; color: var(--text-muted); padding: 90px 20px; }
-        .empty-icon { font-size: 4rem; margin-bottom: 20px; }
-        .question-title { font-size: 1.25rem; color: var(--text-main); margin-bottom: 20px; font-weight: bold; }
-
-        .options-container { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
-        .option-card { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--card-border); padding: 14px 20px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; gap: 15px; }
-        [data-theme="light"] .option-card { background: rgba(0, 0, 0, 0.02); }
-        .option-card:hover { background: rgba(0, 255, 102, 0.08); border-color: var(--primary-light); transform: translateX(5px); }
-        .option-prefix { font-weight: bold; color: var(--accent); background: rgba(0, 240, 255, 0.1); width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 0.9rem; }
-        
-        .option-card.correct { background: rgba(0, 255, 102, 0.15) !important; border-color: var(--primary-light) !important; color: var(--primary-light); font-weight: bold; }
-        .option-card.wrong { background: rgba(255, 77, 77, 0.15) !important; border-color: #ff4d4d !important; color: #ff4d4d; }
-        
-        .explanation-panel { margin-top: 25px; padding: 20px; border-radius: 16px; background: rgba(255, 255, 255, 0.02); border-left: 4px solid var(--primary-light); animation: fadeIn 0.4s ease forwards; }
-        [data-theme="light"] .explanation-panel { background: rgba(0, 0, 0, 0.02); }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        @media (max-width: 768px) {
-            .ai-layout { grid-template-columns: 1fr; }
-            nav { padding: 0 20px; height: 60px; }
-            nav ul { display: none; }
-            .nav-right { gap: 15px; }
-            .music-player-container { display: none; }
-        }
-    
-
-        /* ===== NAV 同步 index.html 排版 ===== */
-        nav .logo {
+        .logo {
             font-size: 1.3rem;
             font-weight: bold;
-            color: var(--logo-color) !important;
-            white-space: nowrap;
+            color: var(--logo-color);
         }
 
         .nav-right {
             display: flex;
             align-items: center;
-            gap: 30px;
+            gap: 25px;
         }
 
         nav ul {
             display: flex;
-            align-items: center;
+            gap: 22px;
             list-style: none;
-            gap: 25px;
         }
 
-        nav ul li a {
+        nav a {
             color: var(--text-main);
             text-decoration: none;
-            font-size: 1rem;
             font-weight: 600;
-            white-space: nowrap;
         }
 
-        nav ul li a:hover {
+        nav a:hover {
             color: var(--primary-light);
         }
 
-        .controls-group {
-            display: flex;
-            align-items: center;
-            gap: 15px;
+        .theme-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid var(--card-border);
+            background: var(--card-bg);
+            color: var(--text-main);
+            font-size: 1.1rem;
         }
 
-        .music-player-container {
+        .container {
+            width: min(1100px, calc(100% - 32px));
+            margin: 0 auto;
+            padding: 20px 0 60px;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .page-title h1 {
+            color: var(--primary-light);
+            font-size: 2.4rem;
+            margin-bottom: 8px;
+        }
+
+        .page-title p {
+            color: var(--text-muted);
+        }
+
+        .ai-layout {
+            display: grid;
+            grid-template-columns: minmax(280px, 360px) 1fr;
+            gap: 28px;
+            align-items: start;
+        }
+
+        .panel,
+        .result-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .panel h2,
+        .result-card h2 {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin: 16px 0 7px;
+            font-weight: 600;
+        }
+
+        select,
+        input {
+            width: 100%;
+            padding: 12px 13px;
+            border-radius: 10px;
+            border: 1px solid var(--card-border);
+            background: var(--input-bg);
+            color: var(--text-main);
+            outline: none;
+        }
+
+        select:focus,
+        input:focus {
+            border-color: var(--primary-light);
+        }
+
+        .generate-btn {
+            width: 100%;
+            margin-top: 22px;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            background: var(--primary-light);
+            color: #000;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .generate-btn:disabled {
+            opacity: 0.65;
+        }
+
+        .hint {
+            margin-top: 14px;
+            color: var(--text-muted);
+            font-size: 0.88rem;
+            line-height: 1.6;
+        }
+
+        .result-header {
             display: flex;
+            justify-content: space-between;
             align-items: center;
             gap: 12px;
-            background: var(--card-bg);
-            padding: 6px 16px;
-            border-radius: 30px;
-            border: 1px solid var(--card-border);
+            margin-bottom: 18px;
         }
 
-        .icon-btn {
+        .badge {
+            border: 1px solid var(--card-border);
+            border-radius: 999px;
+            padding: 6px 10px;
+            color: var(--text-muted);
+            font-size: 0.82rem;
+        }
+
+        .empty-state {
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        .empty-icon {
+            font-size: 3rem;
+            margin-bottom: 12px;
+        }
+
+        .question-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            line-height: 1.7;
+            margin-bottom: 18px;
+        }
+
+        .choice {
+            padding: 12px 14px;
+            margin: 10px 0;
+            border-radius: 10px;
+            border: 1px solid var(--card-border);
+            background: var(--input-bg);
+            line-height: 1.6;
+        }
+
+        .answer,
+        .explanation {
+            margin-top: 18px;
+            padding: 14px;
+            border-radius: 10px;
+            line-height: 1.7;
+        }
+
+        .answer {
+            border: 1px solid rgba(0,255,102,0.25);
+        }
+
+        .explanation {
+            border: 1px solid rgba(0,240,255,0.22);
+        }
+
+        .loading {
+            min-height: 300px;
             display: flex;
             align-items: center;
             justify-content: center;
+            color: var(--primary-light);
+            text-align: center;
+            line-height: 1.7;
         }
 
-        @media (max-width: 768px) {
-            body { padding-top: 180px; }
+        @media (max-width: 800px) {
+            body {
+                padding-top: 165px;
+            }
+
             nav {
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
                 height: auto;
                 padding: 12px;
-                gap: 12px;
-            }
-            .nav-right {
-                width: 100%;
                 flex-direction: column;
-                align-items: center;
                 gap: 12px;
             }
+
+            .nav-right {
+                flex-direction: column;
+                gap: 12px;
+            }
+
             nav ul {
-                display: flex !important;
-                width: 100%;
-                justify-content: center;
                 flex-wrap: wrap;
-                gap: 18px;
-            }
-            nav ul li a { font-size: 0.95rem; }
-            .controls-group {
-                width: 100%;
                 justify-content: center;
+                gap: 14px;
             }
-            .music-player-container {
-                display: flex !important;
-                width: 95%;
-                justify-content: center;
+
+            .ai-layout {
+                grid-template-columns: 1fr;
             }
-            .progress-box { width: 120px; }
         }
-
-
-        /* 修正：避免 AI 頁面的全域 input 樣式把音樂進度條撐大 */
-        .music-player-container {
-            height: 50px;
-            max-width: 194px;
-            box-sizing: border-box;
-            flex-shrink: 0;
-        }
-
-        .music-player-container .disc-btn {
-            width: 36px !important;
-            height: 36px !important;
-            min-width: 36px !important;
-            padding: 0 !important;
-            flex: 0 0 36px;
-        }
-
-        .music-player-container .progress-box {
-            width: 110px !important;
-            flex: 0 0 110px;
-        }
-
-        .music-player-container input.slider-bar {
-            width: 100% !important;
-            height: 4px !important;
-            padding: 0 !important;
-            margin: 0 !important;
-            border: none !important;
-            border-radius: 2px !important;
-            background: rgba(255,255,255,0.1) !important;
-            display: block !important;
-            -webkit-appearance: none !important;
-            appearance: none !important;
-        }
-
-        .music-player-container input.slider-bar::-webkit-slider-thumb {
-            -webkit-appearance: none !important;
-            appearance: none !important;
-            width: 8px !important;
-            height: 8px !important;
-            border-radius: 50% !important;
-            background: var(--primary-light) !important;
-            box-shadow: 0 0 5px var(--primary-light) !important;
-        }
-
     </style>
 </head>
+
 <body>
-
-    <div id="custom-cursor"></div>
-    <canvas id="fx-canvas"></canvas>
-
     <nav>
         <div class="logo">⚡ 軍一補救教室</div>
+
         <div class="nav-right">
             <ul>
                 <li><a href="index.html">🏠 主頁</a></li>
@@ -316,33 +307,23 @@
                 <li><a href="ai.html" style="color: var(--primary-light);">🤖 AI題庫</a></li>
                 <li><a href="contact.html">✉️ 聯絡我們</a></li>
             </ul>
-            <div class="controls-group">
-                <div class="music-player-container">
-                    <button class="disc-btn" id="disc-btn" title="播放/暫停唱片" onclick="toggleMusic()"></button>
-                    <div class="progress-box">
-                        <div class="time-info">
-                            <span id="current-time">00:00</span>
-                            <span id="total-time">04:00</span>
-                        </div>
-                        <input type="range" class="slider-bar" id="progress-bar" min="0" max="100" value="0" oninput="seekMusic(this.value)">
-                    </div>
-                </div>
-                <button class="icon-btn" onclick="toggleTheme()">🌙</button>
-            </div>
+
+            <button class="theme-btn" onclick="toggleTheme()">🌙</button>
         </div>
     </nav>
 
     <div class="container">
-        <div class="hero">
-            <h1>AI 智慧電子科題庫</h1>
-            <p>由 Gemini 大語言模型技術驅動，專為台灣高職電子電機類科打造的專業級客製化補救命題系統</p>
+        <div class="page-title">
+            <h1>🤖 軍一 AI 智慧題庫</h1>
+            <p>選擇科目、章節與難度，讓 AI 即時生成四選一練習題。</p>
         </div>
 
         <div class="ai-layout">
             <div class="panel">
                 <h2>⚙️ 命題條件設定</h2>
-                
-                <label for="subject-select">選擇專業科目</label>
+
+                <label for="subject-select">選擇科目</label>
+
                 <select id="subject-select">
                     <option value="電子學">基本電子學</option>
                     <option value="數位邏輯">數位邏輯設計</option>
@@ -351,21 +332,38 @@
                     <option value="統測數學">統測數學(C)</option>
                     <option value="國文">國文</option>
                     <option value="英文">英文</option>
+
+                    <!-- 新增：計算機概論 -->
+                    <option value="計算機概論">計算機概論</option>
                 </select>
 
                 <label for="topic-input">章節或核心主題</label>
-                <input type="text" id="topic-input" placeholder="例如：卡諾圖、二極體電路" value="基礎概念">
+
+                <input
+                    type="text"
+                    id="topic-input"
+                    placeholder="例如：作業系統、網路架構、二進位"
+                    value="基礎概念"
+                >
 
                 <label for="difficulty-select">題目難易度</label>
+
                 <select id="difficulty-select">
-                    <option value="簡單">簡單 (基本觀念題)</option>
-                    <option value="普通" selected>普通 (歷屆統測難度)</option>
-                    <option value="困難">困難 (進階電路分析)</option>
+                    <option value="簡單">簡單（基本觀念題）</option>
+                    <option value="普通" selected>普通（統測程度）</option>
+                    <option value="困難">困難（進階應用題）</option>
                 </select>
 
-                <button class="generate-btn" onclick="generateQuestion()">🔮 立即生成單選題</button>
-                
-                <p class="hint">💡 提示：輸入具體的章節名稱（如：BJT 偏壓電路），AI 生成的解析內容會更精準喔！</p>
+                <button
+                    class="generate-btn"
+                    id="generate-btn"
+                    onclick="generateQuestion()">
+                    🔮 立即生成單選題
+                </button>
+
+                <p class="hint">
+                    💡 計算機概論可以輸入：資料表示法、作業系統、電腦硬體、網路、資訊安全等主題。
+                </p>
             </div>
 
             <div class="result-card">
@@ -378,7 +376,9 @@
                     <div class="empty-state">
                         <div class="empty-icon">🤖</div>
                         <p>請於左側選取科目並點擊生成按鈕</p>
-                        <p style="font-size: 0.85rem; margin-top: 5px;">系統將自動秒級為您派發符合台灣課綱的考題</p>
+                        <p style="font-size: 0.85rem; margin-top: 5px;">
+                            系統將即時產生一題四選一練習題
+                        </p>
                     </div>
                 </div>
             </div>
@@ -386,218 +386,173 @@
     </div>
 
     <script>
-        const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-            ? 'http://localhost:3000'
-            : 'https://junyi-myshop.onrender.com';
+        const API_BASE_URL =
+            window.location.hostname === 'localhost' ||
+            window.location.hostname === '127.0.0.1'
+                ? 'http://localhost:3000'
+                : 'https://junyi-myshop.onrender.com';
 
-        let audio = null;
         let currentQuestion = null;
 
-        function initAudio() {
-            if (!audio) {
-                audio = new Audio('./music.mp3');
-                audio.loop = true;
-                audio.addEventListener('error', () => {
-                    if (!audio.dataset.fallback) {
-                        audio.dataset.fallback = '1';
-                        audio.src = './bgm.mp3';
-                        audio.load();
-                    }
-                });
-                
-                audio.addEventListener('timeupdate', () => {
-                    const progress = document.getElementById('progress-bar');
-                    const currentTxt = document.getElementById('current-time');
-                    const totalTxt = document.getElementById('total-time');
-                    if(audio.duration) {
-                        progress.value = (audio.currentTime / audio.duration) * 100;
-                        currentTxt.textContent = formatTime(audio.currentTime);
-                        totalTxt.textContent = formatTime(audio.duration);
-                    }
-                });
-            }
-        }
-
-        function formatTime(secs) {
-            let m = Math.floor(secs / 60);
-            let s = Math.floor(secs % 60);
-            return `${m}:${s < 10 ? '0' : ''}${s}`;
-        }
-
-        function toggleMusic() {
-            initAudio();
-            const disc = document.getElementById('disc-btn');
-            if (audio.paused) {
-                audio.play().then(() => {
-                    disc.classList.add('playing');
-                }).catch(err => { console.log(err.message); alert('音樂播放失敗：請確認資料夾內有 music.mp3 或 bgm.mp3，並先點一下網頁再播放。'); });
-            } else {
-                audio.pause();
-                disc.classList.remove('playing');
-            }
-        }
-
-        // 🟢 修正黑膠調速進度控制
-        function seekMusic(val) {
-            if(!audio) return;
-            audio.currentTime = (val / 100) * audio.duration;
-        }
-
         function toggleTheme() {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            document.documentElement.setAttribute('data-theme', currentTheme === 'light' ? 'dark' : 'light');
+            const currentTheme =
+                document.documentElement.getAttribute('data-theme');
+
+            document.documentElement.setAttribute(
+                'data-theme',
+                currentTheme === 'light' ? 'dark' : 'light'
+            );
         }
 
         async function generateQuestion() {
-            const subject = document.getElementById('subject-select').value;
-            const topic = document.getElementById('topic-input').value;
-            const difficulty = document.getElementById('difficulty-select').value;
-            
-            const qBox = document.getElementById('question-box');
-            const badge = document.getElementById('status-badge');
-            const genBtn = document.querySelector('.generate-btn');
+            const subject =
+                document.getElementById('subject-select').value;
 
-            badge.innerText = '正在命題中...';
+            const topic =
+                document.getElementById('topic-input').value.trim();
+
+            const difficulty =
+                document.getElementById('difficulty-select').value;
+
+            const qBox =
+                document.getElementById('question-box');
+
+            const badge =
+                document.getElementById('status-badge');
+
+            const generateBtn =
+                document.getElementById('generate-btn');
+
+            if (!topic) {
+                alert('請先輸入章節或核心主題。');
+                return;
+            }
+
+            generateBtn.disabled = true;
+            generateBtn.innerText = '⏳ AI 出題中...';
+            badge.innerText = '生成中';
+
             qBox.innerHTML = `
-                <div class="empty-state">
-                    <div class="empty-icon" style="animation: spin-disc 2s linear infinite;">🔮</div>
-                    <p>AI 正在構思高職電子科題目...</p>
+                <div class="loading">
+                    <span>⚡ 正在呼叫軍一後台 AI，請稍候...</span>
                 </div>
             `;
-            genBtn.disabled = true;
 
             try {
-                const response = await fetch(`${API_BASE_URL.replace(/\/$/, '')}/api/generate-question`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ subject, topic, difficulty })
-                });
+                const res =
+                    await fetch(
+                        `${API_BASE_URL}/api/generate-question`,
+                        {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type':
+                                    'application/json'
+                            },
+                            body: JSON.stringify({
+                                subject,
+                                topic,
+                                difficulty
+                            })
+                        }
+                    );
 
-                if (!response.ok) {
-                    const errData = await response.json().catch(() => ({}));
-                    throw new Error(errData.error || errData.detail || '後端伺服器未正常響應');
+                const data =
+                    await res.json();
+
+                if (!res.ok) {
+                    throw new Error(
+                        data.message ||
+                        data.error ||
+                        '後端回應異常'
+                    );
                 }
-                const data = await response.json();
 
-                if (data.success && data.question) {
-                    currentQuestion = data.question;
-                    badge.innerText = '出題成功';
-                    renderQuestion(data.question);
+                if (
+                    data.success &&
+                    data.question
+                ) {
+                    const q =
+                        data.question;
+
+                    currentQuestion =
+                        q;
+
+                    qBox.innerHTML = `
+                        <div class="question-title">
+                            ❓ 題目：${escapeHTML(q.question)}
+                        </div>
+
+                        <div class="choice">
+                            A. ${escapeHTML(q.choices[0])}
+                        </div>
+
+                        <div class="choice">
+                            B. ${escapeHTML(q.choices[1])}
+                        </div>
+
+                        <div class="choice">
+                            C. ${escapeHTML(q.choices[2])}
+                        </div>
+
+                        <div class="choice">
+                            D. ${escapeHTML(q.choices[3])}
+                        </div>
+
+                        <div class="answer">
+                            🎯 標準答案：${escapeHTML(q.answer)}
+                        </div>
+
+                        <div class="explanation">
+                            🔬 解析：<br>
+                            ${escapeHTML(q.explanation)}
+                        </div>
+                    `;
+
+                    badge.innerText =
+                        '生成完成';
+
                 } else {
-                    throw new Error(data.error || '解析回傳格式不正確');
+                    throw new Error(
+                        'AI 未成功產生題目'
+                    );
                 }
 
             } catch (error) {
-                console.error('出題失敗:', error);
-                badge.innerText = '生成錯誤';
+                console.error(
+                    'AI 題庫錯誤：',
+                    error
+                );
+
                 qBox.innerHTML = `
                     <div class="empty-state">
                         <div class="empty-icon">❌</div>
-                        <p style="color:#ff4d4d;">生成失敗: ${error.message}</p>
+                        <p>生成失敗：${escapeHTML(error.message)}</p>
+                        <p style="font-size:0.85rem; margin-top:8px;">
+                            請稍後再試。
+                        </p>
                     </div>
                 `;
+
+                badge.innerText =
+                    '生成失敗';
+
             } finally {
-                genBtn.disabled = false;
+                generateBtn.disabled =
+                    false;
+
+                generateBtn.innerText =
+                    '🔮 立即生成單選題';
             }
         }
 
-        function renderQuestion(q) {
-            const qBox = document.getElementById('question-box');
-            let html = `<div class="question-title">${q.question}</div><div class="options-container">`;
-            const labels = ['A', 'B', 'C', 'D'];
-            q.choices.forEach((choice, index) => {
-                html += `
-                    <div class="option-card" onclick="checkAnswer('${labels[index]}', this)">
-                        <span class="option-prefix">${labels[index]}</span> ${choice}
-                    </div>
-                `;
-            });
-            html += `
-                </div>
-                <div id="explanation-box" class="explanation-panel" style="display:none;">
-                    <div style="font-weight:bold; color:var(--primary-light); margin-bottom:8px;" id="result-status"></div>
-                    <p><strong>正確答案：</strong> <span class="badge" style="background:rgba(0,255,102,0.2);">${q.answer}</span></p>
-                    <p style="margin-top:10px; color:var(--text-muted); font-size:0.95rem; line-height:1.6;">${q.explanation}</p>
-                </div>
-            `;
-            qBox.innerHTML = html;
+        function escapeHTML(value) {
+            return String(value ?? '')
+                .replaceAll('&', '&amp;')
+                .replaceAll('<', '&lt;')
+                .replaceAll('>', '&gt;')
+                .replaceAll('"', '&quot;')
+                .replaceAll("'", '&#039;');
         }
-
-        function checkAnswer(selected, element) {
-            if (!currentQuestion) return;
-            const cards = document.querySelectorAll('.option-card');
-            cards.forEach(c => c.style.pointerEvents = 'none');
-
-            const expBox = document.getElementById('explanation-box');
-            const resStatus = document.getElementById('result-status');
-
-            if (selected === currentQuestion.answer) {
-                element.classList.add('correct');
-                resStatus.innerText = "🎉 恭喜您答對了！";
-                resStatus.style.color = "var(--primary-light)";
-            } else {
-                element.classList.add('wrong');
-                resStatus.innerText = "❌ 答錯囉，再接再厲！";
-                resStatus.style.color = "#ff4d4d";
-                
-                const labels = ['A', 'B', 'C', 'D'];
-                const correctIndex = labels.indexOf(currentQuestion.answer);
-                if(cards[correctIndex]) cards[correctIndex].classList.add('correct');
-            }
-            expBox.style.display = 'block';
-        }
-
-        const cursor = document.getElementById('custom-cursor');
-        const canvas = document.getElementById('fx-canvas');
-        const ctx = canvas.getContext('2d');
-
-        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-
-        window.addEventListener('mousemove', (e) => {
-            requestAnimationFrame(() => {
-                cursor.style.left = e.clientX + 'px';
-                cursor.style.top = e.clientY + 'px';
-            });
-        });
-
-        window.addEventListener('click', (e) => {
-            const clickSound = new Audio('./pop.mp3');
-            clickSound.play().catch(() => {});
-
-            const ripple = document.createElement('div');
-            ripple.className = 'click-ripple';
-            ripple.style.left = e.clientX + 'px'; ripple.style.top = e.clientY + 'px';
-            document.body.appendChild(ripple);
-            setTimeout(() => ripple.remove(), 400);
-            createParticles(e.clientX, e.clientY);
-        });
-
-        let particles = [];
-        class Particle {
-            constructor(x, y) {
-                this.x = x; this.y = y;
-                this.size = Math.random() * 3 + 1;
-                this.speedX = (Math.random() - 0.5) * 6;
-                this.speedY = (Math.random() - 0.5) * 6;
-                this.color = Math.random() > 0.5 ? '#00ff66' : '#00f0ff';
-                this.alpha = 1;
-            }
-            update() { this.x += this.speedX; this.y += this.speedY; this.alpha -= 0.03; }
-            draw() {
-                ctx.save(); ctx.globalAlpha = this.alpha; ctx.fillStyle = this.color;
-                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); ctx.restore();
-            }
-        }
-        function createParticles(x, y) { for(let i=0; i<12; i++) { particles.push(new Particle(x, y)); } }
-        function animateParticles() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles = particles.filter(p => p.alpha > 0);
-            particles.forEach(p => { p.update(); p.draw(); });
-            requestAnimationFrame(animateParticles);
-        }
-        animateParticles();
     </script>
 </body>
 </html>
