@@ -25,14 +25,14 @@ const DISCORD_WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL;
 const notifiedSessions = new Set();
 
 const courseDatabase = {
-    digital_logic: { name: '數位邏輯補救班', amount: 67 },
-    microprocessor: { name: '微處理機補救班', amount: 67 },
-    electronics: { name: '電子學補救班', amount: 67 },
-    basic_electricity: { name: '基本電學補救班', amount: 67 },
-    math: { name: '統測數學高分班', amount: 67 },
+    digital_logic: { name: '數位邏輯補救班', amount: 6700 },
+    microprocessor: { name: '微處理機補救班', amount: 6700 },
+    electronics: { name: '電子學補救班', amount: 6700 },
+    basic_electricity: { name: '基本電學補救班', amount: 6700 },
+    math: { name: '統測數學高分班', amount: 6700 },
 
-    chinese: { name: '國文補救班', amount: 67 },
-    english: { name: '英文補救班', amount: 67 }
+    chinese: { name: '國文補救班', amount: 6700 },
+    english: { name: '英文補救班', amount: 6700 }
 };
 
 app.get('/', (req, res) => {
@@ -102,7 +102,7 @@ app.get('/api/check-payment', async (req, res) => {
 
         const paid = session.payment_status === 'paid';
         const courseName = session.metadata?.courseName || '課程';
-        const amount = session.amount_total || 0;
+        const amount = (session.amount_total || 0) / 100;
         const email = session.customer_details?.email || '';
 
         if (paid && DISCORD_WEBHOOK_URL && !notifiedSessions.has(session.id)) {
