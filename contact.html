@@ -151,6 +151,7 @@ button {
         .submit-btn { background: var(--primary-light); color: white; border: none; padding: 14px; width: 100%; border-radius: 8px; font-size: 1rem; font-weight: bold; transition: opacity 0.2s; }
         [data-theme="dark"] .submit-btn { color: #000; }
         .submit-btn:hover { opacity: 0.9; }
+        .submit-btn:disabled { cursor: not-allowed; opacity: 0.65 !important; }
         /* ===== 手機版 RWD ===== */
 @media (max-width: 768px) {
 
@@ -294,7 +295,7 @@ button {
 
     <div class="contact-box">
         <h2>✉️ 聯絡我們</h2>
-        <p>填寫表單後我們會回復你:)</p>
+        <p>填寫表單後，我們會盡快回覆你。</p>
         <form id="c-form">
             <div class="form-group">
                 <label>您的姓名</label>
@@ -388,26 +389,66 @@ button {
         }
         animate();
 
-        /* ✉️ 真實後台表單傳送 */
-        document.getElementById('c-form').addEventListener('submit', async (e) => {
+        /* ✉️ 聯絡表單：本機 / GitHub Pages 自動切換後端 */
+        const API_BASE_URL =
+            window.location.hostname === 'localhost' ||
+            window.location.hostname === '127.0.0.1'
+                ? 'http://localhost:3000'
+                : 'https://junyi-myshop.onrender.com';
+
+        const contactForm = document.getElementById('c-form');
+        const submitBtn = contactForm.querySelector('.submit-btn');
+
+        contactForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const name = document.getElementById('c-name').value;
-            const email = document.getElementById('c-email').value;
-            const message = document.getElementById('c-message').value;
+
+            const name = document.getElementById('c-name').value.trim();
+            const email = document.getElementById('c-email').value.trim();
+            const message = document.getElementById('c-message').value.trim();
+
+            if (!name || !email || !message) {
+                alert('請完整填寫姓名、電子郵件與諮詢內容。');
+                return;
+            }
+
+            const originalText = submitBtn.innerText;
+            submitBtn.disabled = true;
+            submitBtn.style.opacity = '0.65';
+            submitBtn.innerText = '⏳ 傳送中...';
 
             try {
-                const res = await fetch('http://localhost:3000/api/contact', {
+                const res = await fetch(`${API_BASE_URL}/api/contact`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
                     body: JSON.stringify({ name, email, message })
                 });
-                const data = await res.json();
-                if(data.success) {
-                    alert('🎉 後台傳送成功！內容已安全儲存入 contacts.txt 檔案。');
-                    e.target.reset();
+
+                let data = {};
+                try {
+                    data = await res.json();
+                } catch (_) {
+                    // 後端若回傳非 JSON，保留空物件，後續用 HTTP 狀態判斷
+                }
+
+                if (!res.ok) {
+                    throw new Error(data.message || `HTTP ${res.status}`);
+                }
+
+                if (data.success) {
+                    alert('✅ 訊息已成功送出！我們收到後會盡快回覆你。');
+                    contactForm.reset();
+                } else {
+                    throw new Error(data.message || '後端未回傳成功狀態');
                 }
             } catch (error) {
-                alert('連線失敗！請確認您的後端 node server.js 是否有上線執行中！');
+                console.error('聯絡表單傳送失敗：', error);
+                alert(`❌ 訊息傳送失敗：${error.message}\n請稍後再試。`);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.style.opacity = '1';
+                submitBtn.innerText = originalText;
             }
         });
     </script>
