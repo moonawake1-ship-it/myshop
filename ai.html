@@ -232,11 +232,48 @@
         }
 
         .choice {
+            display: block;
             padding: 12px 14px;
             margin: 10px 0;
             border-radius: 10px;
             border: 1px solid var(--card-border);
             background: var(--input-bg);
+            line-height: 1.6;
+            cursor: pointer;
+        }
+
+        .choice:hover {
+            border-color: var(--primary-light);
+        }
+
+        .choice input[type="radio"] {
+            width: auto;
+            margin-right: 10px;
+            accent-color: var(--primary-light);
+        }
+
+        .submit-answer-btn {
+            width: 100%;
+            margin-top: 18px;
+            padding: 13px;
+            border: none;
+            border-radius: 10px;
+            background: var(--accent);
+            color: #000;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .submit-answer-btn:hover {
+            filter: brightness(1.08);
+        }
+
+        .result-feedback {
+            margin-top: 18px;
+            padding: 14px;
+            border-radius: 10px;
+            font-weight: 700;
             line-height: 1.6;
         }
 
@@ -482,30 +519,31 @@
                             ❓ 題目：${escapeHTML(q.question)}
                         </div>
 
-                        <div class="choice">
+                        <label class="choice">
+                            <input type="radio" name="answer" value="A">
                             A. ${escapeHTML(q.choices[0])}
-                        </div>
+                        </label>
 
-                        <div class="choice">
+                        <label class="choice">
+                            <input type="radio" name="answer" value="B">
                             B. ${escapeHTML(q.choices[1])}
-                        </div>
+                        </label>
 
-                        <div class="choice">
+                        <label class="choice">
+                            <input type="radio" name="answer" value="C">
                             C. ${escapeHTML(q.choices[2])}
-                        </div>
+                        </label>
 
-                        <div class="choice">
+                        <label class="choice">
+                            <input type="radio" name="answer" value="D">
                             D. ${escapeHTML(q.choices[3])}
-                        </div>
+                        </label>
 
-                        <div class="answer">
-                            🎯 標準答案：${escapeHTML(q.answer)}
-                        </div>
+                        <button class="submit-answer-btn" onclick="checkAnswer()">
+                            ✅ 提交答案
+                        </button>
 
-                        <div class="explanation">
-                            🔬 解析：<br>
-                            ${escapeHTML(q.explanation)}
-                        </div>
+                        <div id="answer-result"></div>
                     `;
 
                     badge.innerText =
@@ -543,6 +581,46 @@
                 generateBtn.innerText =
                     '🔮 立即生成單選題';
             }
+        }
+
+        function checkAnswer() {
+            if (!currentQuestion) {
+                alert('目前沒有題目，請先生成題目。');
+                return;
+            }
+
+            const selected =
+                document.querySelector('input[name="answer"]:checked');
+
+            if (!selected) {
+                alert('請先選擇一個答案。');
+                return;
+            }
+
+            const userAnswer = selected.value;
+            const correctAnswer =
+                String(currentQuestion.answer || '')
+                    .trim()
+                    .toUpperCase()
+                    .charAt(0);
+
+            const isCorrect = userAnswer === correctAnswer;
+            const resultBox = document.getElementById('answer-result');
+
+            resultBox.innerHTML = `
+                <div class="result-feedback">
+                    ${isCorrect ? '✅ 回答正確！' : '❌ 回答錯誤'}
+                </div>
+
+                <div class="answer">
+                    🎯 標準答案：${escapeHTML(correctAnswer)}
+                </div>
+
+                <div class="explanation">
+                    🔬 解析：<br>
+                    ${escapeHTML(currentQuestion.explanation)}
+                </div>
+            `;
         }
 
         function escapeHTML(value) {
