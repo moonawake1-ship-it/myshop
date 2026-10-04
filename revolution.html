@@ -253,12 +253,12 @@ footer{
 
 <footer>
   新興革命黨為架空世界觀／創作用社群網站，不代表任何真實政黨或政治組織。<br>
-  NEW REVOLUTIONARY PARTY — FICTIONAL PROJECT
+  NEW REVOLUTIONARY PARTY — FICTIONAL PROJECT<br><span style="opacity:.45">RV BUILD 2026-10-04B</span>
 </footer>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getAuth, onAuthStateChanged, signOut, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBNGJOpoMdyPLbM3R7-YrFcHlre9YMAaAw",
@@ -272,6 +272,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+await setPersistence(auth, browserLocalPersistence);
 
 const userName = document.getElementById("userName");
 const loginStatus = document.getElementById("loginStatus");
