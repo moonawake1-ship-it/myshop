@@ -6,22 +6,28 @@
 <title>新興革命黨｜動態牆</title>
 <style>
 :root{
-  --bg:#0a0808;--panel:#141010;--line:rgba(218,181,72,.18);
+  --bg:#0a0808;--panel:#141010;--panel2:#1b1414;--line:rgba(218,181,72,.18);
   --text:#f5f1e8;--muted:#aaa29a;--gold:#d9b85f;
   --red:#8e1111;--red2:#5b0707;--ok:#79df99;--bad:#ff9090
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{
   min-height:100vh;
-  background:radial-gradient(circle at 10% 0%,rgba(142,17,17,.2),transparent 25%),var(--bg);
+  background:
+    radial-gradient(circle at 10% 0%,rgba(142,17,17,.2),transparent 25%),
+    var(--bg);
   color:var(--text);
   font-family:"Microsoft JhengHei",Arial,sans-serif
 }
-a,button{cursor:pointer}a{text-decoration:none;color:inherit}
+a,button{cursor:pointer}
+a{text-decoration:none;color:inherit}
+button,input,textarea{font:inherit}
+
 header{
   position:sticky;top:0;z-index:20;height:62px;padding:0 18px;
   display:flex;align-items:center;justify-content:space-between;
-  background:rgba(10,8,8,.92);border-bottom:1px solid var(--line);
+  background:rgba(10,8,8,.92);
+  border-bottom:1px solid var(--line);
   backdrop-filter:blur(14px)
 }
 .brand{display:flex;align-items:center;gap:9px;font-weight:800}
@@ -101,13 +107,16 @@ textarea{
 }
 .author{display:flex;align-items:center;gap:9px}
 .avatar{
-  width:38px;height:38px;border-radius:50%;display:grid;place-items:center;
+  width:38px;height:38px;border-radius:50%;
+  display:grid;place-items:center;
   background:linear-gradient(135deg,#742020,#2b1111);
   border:1px solid var(--line);color:var(--gold);font-weight:900
 }
 .author b{display:block;font-size:14px}
 .meta{font-size:10px;color:var(--muted);margin-top:3px}
-.delete{border:0;background:transparent;color:#8e8580;font-size:18px}
+.delete{
+  border:0;background:transparent;color:#8e8580;font-size:18px
+}
 .delete:hover{color:#ff9a9a}
 .post-text{
   padding:0 15px 15px;white-space:pre-wrap;
@@ -118,16 +127,80 @@ textarea{
   object-fit:contain;background:#050505;
   border-top:1px solid rgba(255,255,255,.045)
 }
+
 .post-actions{
   display:flex;gap:8px;padding:9px 12px;
   border-top:1px solid rgba(255,255,255,.045)
 }
 .action{
   border:0;background:transparent;color:var(--muted);
-  padding:6px 8px;border-radius:8px;font-size:13px
+  padding:7px 9px;border-radius:8px;font-size:13px;
+  transition:.15s ease
 }
+.action:hover{background:rgba(255,255,255,.045);color:var(--gold)}
+.action.liked{color:#ff6f78;background:rgba(255,111,120,.08)}
+
+.comments{
+  display:none;
+  border-top:1px solid rgba(255,255,255,.045);
+  padding:12px 14px 14px;
+  background:rgba(0,0,0,.10)
+}
+.comments.open{display:block}
+.comment-list{
+  display:flex;flex-direction:column;gap:8px;
+  margin-bottom:10px
+}
+.comment{
+  display:flex;gap:8px;align-items:flex-start
+}
+.comment-avatar{
+  width:29px;height:29px;flex:0 0 29px;border-radius:50%;
+  display:grid;place-items:center;
+  background:#2a1818;color:var(--gold);
+  border:1px solid var(--line);
+  font-size:11px;font-weight:900
+}
+.comment-body{
+  flex:1;min-width:0;
+  background:rgba(255,255,255,.035);
+  border-radius:10px;
+  padding:8px 10px
+}
+.comment-top{
+  display:flex;justify-content:space-between;gap:8px;
+  margin-bottom:3px
+}
+.comment-name{font-size:12px;font-weight:800}
+.comment-time{font-size:9px;color:var(--muted);white-space:nowrap}
+.comment-text{
+  font-size:13px;line-height:1.5;white-space:pre-wrap;word-break:break-word
+}
+.comment-delete{
+  border:0;background:transparent;color:#7f7671;
+  font-size:12px;margin-left:6px
+}
+.comment-delete:hover{color:#ff9a9a}
+
+.comment-form{
+  display:flex;gap:7px;align-items:center
+}
+.comment-input{
+  flex:1;min-width:0;
+  border:1px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.04);
+  color:#fff;outline:0;border-radius:10px;
+  padding:9px 10px;font-size:13px
+}
+.comment-send{
+  border:0;border-radius:9px;padding:9px 12px;
+  background:var(--red);color:#fff;font-size:12px;font-weight:800
+}
+.comment-send:disabled{opacity:.5}
+
 .empty,.login-needed{
-  padding:32px 16px;text-align:center;border:1px dashed var(--line);
+  padding:32px 16px;text-align:center;
+  border:1px dashed var(--line);
   border-radius:17px;color:var(--muted)
 }
 .login-needed{border-style:solid;background:var(--panel)}
@@ -151,6 +224,8 @@ textarea{
   #logoutBtn::before{content:"↪";font-size:16px}
   .wrap{padding:18px 10px 45px}
   .photo-label{font-size:12px;padding:8px 10px}
+  .comment-form{align-items:stretch}
+  .comment-send{padding:8px 10px}
 }
 </style>
 </head>
@@ -171,12 +246,12 @@ textarea{
 <main class="wrap">
   <div class="topline">
     <h1>動態牆</h1>
-    <p>文字由 Firestore 儲存；公開照片由 Cloudinary 儲存。</p>
+    <p>文字、照片、按讚與留言皆可即時同步。</p>
   </div>
 
   <section class="login-needed hidden" id="loginNeeded">
     <h2>需要先登入</h2>
-    <p>登入後才能發布文字與照片。</p>
+    <p>登入後才能發布、按讚與留言。</p>
     <a href="login.html">前往登入</a>
   </section>
 
@@ -209,9 +284,12 @@ textarea{
 
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import{getAuth,onAuthStateChanged,signOut}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import{
-  getFirestore,collection,addDoc,deleteDoc,doc,query,orderBy,onSnapshot,serverTimestamp
+  getAuth,onAuthStateChanged,signOut
+}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import{
+  getFirestore,collection,addDoc,deleteDoc,doc,query,orderBy,
+  onSnapshot,serverTimestamp,setDoc,getDoc
 }from"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig={
@@ -224,7 +302,6 @@ const firebaseConfig={
   measurementId:"G-DDB6M5V36C"
 };
 
-/* Cloudinary：只需要 Cloud name + Unsigned Upload Preset */
 const CLOUDINARY_CLOUD_NAME="ptaxexhi";
 const CLOUDINARY_UPLOAD_PRESET="rittqq";
 
@@ -248,6 +325,7 @@ const removePreview=$("removePreview");
 let me=null;
 let selectedFile=null;
 let previewObjectUrl="";
+let childUnsubs=[];
 
 const esc=t=>(t||"").replace(/[&<>"']/g,c=>({
   "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
@@ -302,10 +380,7 @@ imageInput.onchange=()=>{
   if(!file)return;
 
   const allowed=[
-    "image/jpeg",
-    "image/png",
-    "image/webp",
-    "image/gif"
+    "image/jpeg","image/png","image/webp","image/gif"
   ];
 
   if(!allowed.includes(file.type)){
@@ -314,7 +389,6 @@ imageInput.onchange=()=>{
     return;
   }
 
-  /* 網頁端先限制 8MB，避免上傳過大的圖片 */
   if(file.size>8*1024*1024){
     setStatus("圖片請控制在 8MB 以內。","bad");
     imageInput.value="";
@@ -380,13 +454,11 @@ postBtn.onclick=async()=>{
     let cloudinaryPublicId="";
 
     if(selectedFile){
-      setStatus("正在上傳照片到 Cloudinary…");
+      setStatus("正在上傳照片…");
       const uploaded=await uploadToCloudinary(selectedFile);
       imageUrl=uploaded.imageUrl;
       cloudinaryPublicId=uploaded.publicId;
     }
-
-    setStatus("正在發布貼文…");
 
     await addDoc(collection(db,"posts"),{
       uid:me.uid,
@@ -411,12 +483,168 @@ postBtn.onclick=async()=>{
   }
 };
 
+async function toggleLike(postId){
+  if(!me){
+    location.href="login.html";
+    return;
+  }
+
+  const likeRef=doc(db,"posts",postId,"likes",me.uid);
+  const current=await getDoc(likeRef);
+
+  if(current.exists()){
+    await deleteDoc(likeRef);
+  }else{
+    await setDoc(likeRef,{
+      uid:me.uid,
+      createdAt:serverTimestamp()
+    });
+  }
+}
+
+async function sendComment(postId,input,button){
+  if(!me){
+    location.href="login.html";
+    return;
+  }
+
+  const text=input.value.trim();
+  if(!text)return;
+
+  button.disabled=true;
+
+  try{
+    await addDoc(
+      collection(db,"posts",postId,"comments"),
+      {
+        uid:me.uid,
+        author:me.displayName||me.email||"會員",
+        text,
+        createdAt:serverTimestamp()
+      }
+    );
+    input.value="";
+  }catch(error){
+    console.error(error);
+    alert("留言失敗："+error.message);
+  }finally{
+    button.disabled=false;
+  }
+}
+
+function listenPostLikes(postId,button){
+  const likesRef=collection(db,"posts",postId,"likes");
+
+  const unsub=onSnapshot(likesRef,snapshot=>{
+    const count=snapshot.size;
+    let liked=false;
+
+    snapshot.forEach(item=>{
+      if(me&&item.id===me.uid)liked=true;
+    });
+
+    button.textContent=`${liked?"♥":"♡"} 喜歡 ${count}`;
+    button.classList.toggle("liked",liked);
+  });
+
+  childUnsubs.push(unsub);
+}
+
+function listenPostComments(postId,listEl,countButton){
+  const commentsQuery=query(
+    collection(db,"posts",postId,"comments"),
+    orderBy("createdAt","asc")
+  );
+
+  const unsub=onSnapshot(commentsQuery,snapshot=>{
+    listEl.innerHTML="";
+    countButton.textContent=`💬 留言 ${snapshot.size}`;
+
+    if(snapshot.empty){
+      listEl.innerHTML=
+        '<div style="font-size:12px;color:var(--muted);padding:4px 0">還沒有留言。</div>';
+      return;
+    }
+
+    snapshot.forEach(item=>{
+      const comment=item.data();
+      const mine=me&&comment.uid===me.uid;
+      const row=document.createElement("div");
+      row.className="comment";
+
+      row.innerHTML=`
+        <div class="comment-avatar">
+          ${esc(initials(comment.author||"U"))}
+        </div>
+
+        <div class="comment-body">
+          <div class="comment-top">
+            <div class="comment-name">
+              ${esc(comment.author||"會員")}
+            </div>
+
+            <div>
+              <span class="comment-time">
+                ${when(comment.createdAt)}
+              </span>
+
+              ${mine?`
+                <button
+                  class="comment-delete"
+                  data-id="${item.id}"
+                  title="刪除留言"
+                >×</button>
+              `:""}
+            </div>
+          </div>
+
+          <div class="comment-text">
+            ${esc(comment.text||"")}
+          </div>
+        </div>
+      `;
+
+      listEl.appendChild(row);
+    });
+
+    listEl.querySelectorAll(".comment-delete").forEach(btn=>{
+      btn.onclick=async()=>{
+        if(!confirm("確定刪除這則留言嗎？"))return;
+
+        try{
+          await deleteDoc(
+            doc(
+              db,
+              "posts",
+              postId,
+              "comments",
+              btn.dataset.id
+            )
+          );
+        }catch(error){
+          alert("刪除留言失敗："+error.message);
+        }
+      };
+    });
+
+  },error=>{
+    console.error(error);
+    listEl.innerHTML=
+      '<div style="color:#ff9090;font-size:12px">留言載入失敗，請檢查 Firestore Rules。</div>';
+  });
+
+  childUnsubs.push(unsub);
+}
+
 const postsQuery=query(
   collection(db,"posts"),
   orderBy("createdAt","desc")
 );
 
 onSnapshot(postsQuery,snapshot=>{
+  childUnsubs.forEach(fn=>fn());
+  childUnsubs=[];
+
   feed.innerHTML="";
 
   if(snapshot.empty){
@@ -426,23 +654,41 @@ onSnapshot(postsQuery,snapshot=>{
 
   snapshot.forEach(item=>{
     const post=item.data();
+    const postId=item.id;
     const mine=me&&post.uid===me.uid;
+
     const article=document.createElement("article");
     article.className="post";
 
     article.innerHTML=`
       <div class="post-head">
         <div class="author">
-          <div class="avatar">${esc(initials(post.author))}</div>
+          <div class="avatar">
+            ${esc(initials(post.author))}
+          </div>
+
           <div>
             <b>${esc(post.author||"會員")}</b>
-            <div class="meta">${when(post.createdAt)}</div>
+            <div class="meta">
+              ${when(post.createdAt)}
+            </div>
           </div>
         </div>
-        ${mine?`<button class="delete" data-id="${item.id}" title="刪除貼文">⋯</button>`:""}
+
+        ${mine?`
+          <button
+            class="delete"
+            data-id="${postId}"
+            title="刪除貼文"
+          >⋯</button>
+        `:""}
       </div>
 
-      ${post.text?`<div class="post-text">${esc(post.text)}</div>`:""}
+      ${post.text?`
+        <div class="post-text">
+          ${esc(post.text)}
+        </div>
+      `:""}
 
       ${post.imageUrl?`
         <img
@@ -454,12 +700,86 @@ onSnapshot(postsQuery,snapshot=>{
       `:""}
 
       <div class="post-actions">
-        <button class="action" disabled>♡ 喜歡</button>
-        <button class="action" disabled>💬 留言</button>
+        <button class="action like-btn">
+          ♡ 喜歡 0
+        </button>
+
+        <button class="action comment-toggle">
+          💬 留言 0
+        </button>
+      </div>
+
+      <div class="comments">
+        <div class="comment-list"></div>
+
+        <div class="comment-form">
+          <input
+            class="comment-input"
+            type="text"
+            maxlength="300"
+            placeholder="寫下留言…"
+          >
+
+          <button class="comment-send">
+            送出
+          </button>
+        </div>
       </div>
     `;
 
     feed.appendChild(article);
+
+    const likeBtn=article.querySelector(".like-btn");
+    const commentToggle=article.querySelector(".comment-toggle");
+    const commentsBox=article.querySelector(".comments");
+    const commentList=article.querySelector(".comment-list");
+    const commentInput=article.querySelector(".comment-input");
+    const commentSend=article.querySelector(".comment-send");
+
+    likeBtn.onclick=async()=>{
+      try{
+        await toggleLike(postId);
+      }catch(error){
+        console.error(error);
+        alert("按讚失敗："+error.message);
+      }
+    };
+
+    commentToggle.onclick=()=>{
+      commentsBox.classList.toggle("open");
+
+      if(commentsBox.classList.contains("open")){
+        setTimeout(()=>commentInput.focus(),50);
+      }
+    };
+
+    commentSend.onclick=()=>sendComment(
+      postId,
+      commentInput,
+      commentSend
+    );
+
+    commentInput.onkeydown=e=>{
+      if(e.key==="Enter"){
+        e.preventDefault();
+        sendComment(
+          postId,
+          commentInput,
+          commentSend
+        );
+      }
+    };
+
+    listenPostLikes(
+      postId,
+      likeBtn
+    );
+
+    listenPostComments(
+      postId,
+      commentList,
+      commentToggle
+    );
   });
 
   feed.querySelectorAll(".delete").forEach(button=>{
@@ -467,7 +787,9 @@ onSnapshot(postsQuery,snapshot=>{
       if(!confirm("確定刪除這篇貼文嗎？"))return;
 
       try{
-        await deleteDoc(doc(db,"posts",button.dataset.id));
+        await deleteDoc(
+          doc(db,"posts",button.dataset.id)
+        );
       }catch(error){
         alert("刪除失敗："+error.message);
       }
