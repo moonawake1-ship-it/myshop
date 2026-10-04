@@ -4,9 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>軍一補救教室 ｜ 軍醫補救教室主頁</title>
 
     <style>
+
         * {
             transition:
                 background-color 0.45s ease,
@@ -117,8 +119,22 @@
             display: block;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #ffe600 0%, #ff6600 50%, #ff0000 100%);
-            clip-path: polygon(55% 0%, 10% 55%, 50% 55%, 40% 100%, 90% 40%, 50% 40%);
+            background: linear-gradient(
+                135deg,
+                #ffe600 0%,
+                #ff6600 50%,
+                #ff0000 100%
+            );
+
+            clip-path: polygon(
+                55% 0%,
+                10% 55%,
+                50% 55%,
+                40% 100%,
+                90% 40%,
+                50% 40%
+            );
+
             animation: pulse-glow 1.5s infinite alternate;
         }
 
@@ -178,11 +194,15 @@
             height: 70px;
             background: var(--nav-bg);
             border-bottom: 1px solid var(--card-border);
+
             display: flex;
             justify-content: space-between;
             align-items: center;
+
             padding: 0 40px;
+
             z-index: 1000;
+
             backdrop-filter: blur(12px);
         }
 
@@ -265,8 +285,10 @@
             height: 8px;
             background: var(--primary-light);
             border-radius: 50%;
+
             top: 50%;
             left: 50%;
+
             transform: translate(-50%, -50%);
         }
 
@@ -314,9 +336,12 @@
             background: var(--card-bg);
             border: 1px solid var(--card-border);
             color: var(--text-main);
+
             width: 40px;
             height: 40px;
+
             border-radius: 50%;
+
             font-size: 1.1rem;
         }
 
@@ -351,12 +376,18 @@
         .cta-btn {
             background: var(--primary-light);
             color: #000;
+
             padding: 14px 35px;
+
             border-radius: 50px;
+
             font-size: 1.1rem;
             text-decoration: none;
+
             display: inline-block;
+
             font-weight: bold;
+
             box-shadow: var(--shadow);
         }
 
@@ -364,8 +395,11 @@
             width: 100%;
             border-radius: 15px;
             overflow: hidden;
+
             border: 2px solid var(--card-border);
+
             margin: 25px 0;
+
             box-shadow: var(--shadow);
         }
 
@@ -379,12 +413,18 @@
         .chat-container {
             width: 400px;
             background: var(--chat-bg);
+
             border: 1px solid var(--card-border);
+
             border-radius: 20px;
+
             display: flex;
             flex-direction: column;
+
             height: 580px;
+
             box-shadow: var(--shadow);
+
             overflow: hidden;
         }
 
@@ -398,17 +438,24 @@
         .chat-messages {
             flex: 1;
             padding: 15px;
+
             overflow-y: auto;
+
             display: flex;
             flex-direction: column;
+
             gap: 12px;
         }
 
         .msg {
             background: rgba(255, 255, 255, 0.03);
+
             padding: 8px 12px;
+
             border-radius: 12px;
+
             max-width: 85%;
+
             font-size: 0.95rem;
         }
 
@@ -421,17 +468,24 @@
         .msg .time-stamp {
             font-size: 0.7rem;
             color: var(--text-muted);
+
             display: block;
+
             text-align: right;
+
             margin-top: 4px;
         }
 
         .chat-input-area {
             padding: 12px;
+
             border-top: 1px solid var(--card-border);
+
             display: flex;
             flex-direction: column;
+
             gap: 8px;
+
             background: rgba(0, 0, 0, 0.02);
         }
 
@@ -443,53 +497,89 @@
 
         .name-input {
             width: 90px;
+
             padding: 10px;
+
             background: var(--input-bg);
+
             border: 1px solid var(--card-border);
+
             color: var(--text-main);
+
             border-radius: 8px;
+
             outline: none;
+
             text-align: center;
         }
 
         .msg-input {
             flex: 1;
+
             padding: 10px;
+
             background: var(--input-bg);
+
             border: 1px solid var(--card-border);
+
             color: var(--text-main);
+
             border-radius: 8px;
+
             outline: none;
         }
 
         .chat-send-btn {
             background: var(--primary-light);
             color: #000;
+
             border: none;
+
             padding: 0 16px;
+
             border-radius: 8px;
+
             font-weight: bold;
         }
 
+        /* =========================
+           浮動通話按鈕
+        ========================== */
+
         .floating-call-btn {
             position: fixed;
+
             bottom: 30px;
             right: 30px;
+
             width: 65px;
             height: 65px;
+
             border-radius: 50%;
+
             border: 3px solid var(--primary-light);
+
             background: #000;
+
             cursor: none;
+
             z-index: 10000;
+
             overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0, 255, 102, 0.4);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+            box-shadow:
+                0 4px 20px rgba(0, 255, 102, 0.4);
+
+            transition:
+                transform 0.3s ease,
+                box-shadow 0.3s ease;
         }
 
         .floating-call-btn:hover {
             transform: scale(1.1);
-            box-shadow: 0 6px 25px rgba(0, 255, 102, 0.6);
+
+            box-shadow:
+                0 6px 25px rgba(0, 255, 102, 0.6);
         }
 
         .floating-call-btn img {
@@ -498,6 +588,10 @@
             object-fit: cover;
         }
 
+        /* =========================
+           通話畫面
+        ========================== */
+
         .sim-call-hidden {
             display: none !important;
         }
@@ -505,96 +599,151 @@
         .sim-call-overlay {
             position: fixed;
             inset: 0;
+
             z-index: 20000;
+
             background: #000;
+
             overflow: hidden;
         }
 
+        /*
+            效能優化：
+            不使用 blur、不使用 scale GPU layer。
+        */
+
         .sim-call-bg {
             position: absolute;
-            inset: -30px;
+            inset: 0;
+
             background:
-                linear-gradient(rgba(0, 0, 0, 0.30), rgba(0, 0, 0, 0.72)),
+                linear-gradient(
+                    rgba(0, 0, 0, 0.35),
+                    rgba(0, 0, 0, 0.78)
+                ),
                 url("xi.jpg") center / cover no-repeat;
-            filter: blur(16px);
-            transform: scale(1.08) translateZ(0);
-            will-change: transform;
+
+            filter: none;
+            transform: none;
+            will-change: auto;
         }
+
+        /*
+            影片優先。
+            contain 可以降低瀏覽器裁切縮放負擔。
+        */
 
         .sim-call-video {
             position: absolute;
             inset: 0;
+
             width: 100%;
             height: 100%;
-            object-fit: cover;
+
+            object-fit: contain;
+
             background: #000;
+
             z-index: 1;
-            transform: translateZ(0);
-            will-change: transform;
+
+            transform: none;
+
+            will-change: auto;
         }
 
         .sim-call-ui {
             position: relative;
+
             z-index: 3;
+
             min-height: 100vh;
+
             display: flex;
             flex-direction: column;
             align-items: center;
+
             padding: 60px 18px 52px;
+
             color: #fff;
+
             text-align: center;
         }
 
         .sim-call-avatar {
             width: 132px;
             height: 132px;
+
             border-radius: 50%;
+
             object-fit: cover;
+
             border: 3px solid rgba(255, 255, 255, 0.78);
-            box-shadow: 0 14px 44px rgba(0, 0, 0, 0.50);
+
+            box-shadow:
+                0 14px 44px rgba(0, 0, 0, 0.50);
         }
 
         .sim-call-name {
             margin-top: 20px;
+
             font-size: 34px;
+
             font-weight: 800;
         }
 
         .sim-call-status,
         .sim-call-timer {
             margin-top: 8px;
+
             font-size: 17px;
+
             color: rgba(255, 255, 255, 0.82);
         }
 
         .sim-call-controls {
             margin-top: auto;
+
             width: 100%;
+
             display: flex;
+
             justify-content: center;
             align-items: center;
+
             gap: 48px;
+
             padding-bottom: 16px;
         }
 
         .sim-call-control {
             display: flex;
+
             flex-direction: column;
+
             align-items: center;
+
             gap: 10px;
         }
 
         .sim-round-btn {
             width: 76px;
             height: 76px;
+
             border: none;
+
             border-radius: 50%;
+
             color: #fff;
+
             font-size: 29px;
+
             display: flex;
+
             align-items: center;
             justify-content: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+
+            box-shadow:
+                0 10px 30px rgba(0, 0, 0, 0.35);
         }
 
         .sim-round-btn:hover {
@@ -611,46 +760,67 @@
 
         .sim-secondary {
             background: rgba(255, 255, 255, 0.20);
-            backdrop-filter: blur(14px);
         }
 
         .sim-call-ended {
             position: absolute;
+
             inset: 0;
+
             z-index: 10;
-            background: rgba(0, 0, 0, 0.91);
+
+            background:
+                rgba(0, 0, 0, 0.91);
+
             color: #fff;
+
             display: flex;
+
             flex-direction: column;
+
             align-items: center;
             justify-content: center;
+
             text-align: center;
+
             padding: 28px;
         }
 
         .sim-call-ended h2 {
             margin: 0 0 12px;
+
             font-size: 34px;
         }
 
         .sim-call-ended p {
             max-width: 520px;
+
             line-height: 1.7;
-            color: rgba(255, 255, 255, 0.68);
+
+            color:
+                rgba(255, 255, 255, 0.68);
         }
 
         .sim-return-btn {
             margin-top: 20px;
+
             padding: 12px 22px;
+
             border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.20);
-            background: rgba(255, 255, 255, 0.12);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.20);
+
+            background:
+                rgba(255, 255, 255, 0.12);
+
             color: #fff;
+
             font-weight: 700;
         }
 
         /* =========================
-           手機版：保持單排
+           手機版
         ========================== */
 
         @media (max-width: 768px) {
@@ -661,45 +831,74 @@
 
             nav {
                 height: 96px;
+
                 padding: 6px 8px;
+
                 display: grid;
-                grid-template-columns: auto 1fr auto;
-                grid-template-rows: 34px 48px;
+
+                grid-template-columns:
+                    auto 1fr auto;
+
+                grid-template-rows:
+                    34px 48px;
+
                 column-gap: 8px;
+
                 row-gap: 2px;
+
                 align-items: center;
             }
 
             nav .logo {
                 grid-column: 1 / 4;
                 grid-row: 1;
+
                 text-align: center;
-                font-size: 0.95rem !important;
+
+                font-size:
+                    0.95rem !important;
+
                 line-height: 1;
             }
 
             .nav-right {
                 grid-column: 1 / 4;
                 grid-row: 2;
+
                 width: 100%;
+
                 display: flex;
+
                 flex-direction: row;
+
                 align-items: center;
+
                 gap: 6px;
+
                 min-width: 0;
             }
 
             nav ul {
                 flex: 1;
+
                 min-width: 0;
+
                 display: flex;
+
                 flex-wrap: nowrap;
+
                 justify-content: flex-start;
+
                 gap: 4px;
+
                 overflow-x: auto;
+
                 overflow-y: hidden;
+
                 scrollbar-width: none;
+
                 -ms-overflow-style: none;
+
                 padding: 2px 0;
             }
 
@@ -713,13 +912,21 @@
 
             nav ul li a {
                 display: inline-flex;
+
                 align-items: center;
+
                 height: 30px;
+
                 padding: 0 5px;
+
                 font-size: 0.68rem;
+
                 line-height: 1;
+
                 white-space: nowrap;
-                writing-mode: horizontal-tb !important;
+
+                writing-mode:
+                    horizontal-tb !important;
             }
 
             .desktop-label {
@@ -732,18 +939,27 @@
 
             .controls-group {
                 width: auto;
+
                 display: flex;
+
                 flex-direction: row;
+
                 align-items: center;
+
                 justify-content: center;
+
                 gap: 4px;
+
                 flex-shrink: 0;
             }
 
             .music-player-container {
                 width: auto;
+
                 padding: 2px 4px;
+
                 gap: 3px;
+
                 border-radius: 20px;
             }
 
@@ -764,24 +980,32 @@
             .icon-btn {
                 width: 28px;
                 height: 28px;
+
                 font-size: 0.8rem;
             }
 
             .floating-call-btn {
                 top: auto;
                 left: auto;
+
                 bottom: 16px;
                 right: 16px;
+
                 width: 48px;
                 height: 48px;
+
                 border-width: 2px;
             }
 
             .main-layout {
                 flex-direction: column;
+
                 width: 100%;
+
                 padding: 0 12px;
+
                 gap: 25px;
+
                 margin-top: 10px;
             }
 
@@ -821,6 +1045,7 @@
             .sim-round-btn {
                 width: 66px;
                 height: 66px;
+
                 font-size: 25px;
             }
 
@@ -832,9 +1057,11 @@
             .sim-call-name {
                 font-size: 29px;
             }
+
         }
 
     </style>
+
 </head>
 
 <body>
@@ -843,17 +1070,38 @@
 
     <canvas id="fx-canvas"></canvas>
 
-    <audio id="bg-music" loop src="music.mp3"></audio>
+    <audio
+        id="bg-music"
+        loop
+        src="music.mp3">
+    </audio>
 
-    <audio id="click-sound" src="pop.mp3" preload="auto"></audio>
+    <audio
+        id="click-sound"
+        src="pop.mp3"
+        preload="auto">
+    </audio>
 
-    <!-- 浮動模擬通話按鈕 -->
+
+    <!-- =========================
+         浮動通話按鈕
+    ========================== -->
+
     <button
         id="sim-call-open"
         class="floating-call-btn"
-        title="通話">
-        <img src="xi.jpg" alt="通話圖標">
+        title="模擬通話">
+
+        <img
+            src="xi.jpg"
+            alt="通話圖標">
+
     </button>
+
+
+    <!-- =========================
+         NAV
+    ========================== -->
 
     <nav>
 
@@ -866,46 +1114,97 @@
             <ul>
 
                 <li>
+
                     <a href="index.html">
+
                         🏠
-                        <span class="desktop-label"> 主頁</span>
-                        <span class="mobile-label">首頁</span>
+
+                        <span class="desktop-label">
+                            主頁
+                        </span>
+
+                        <span class="mobile-label">
+                            首頁
+                        </span>
+
                     </a>
+
                 </li>
 
                 <li>
+
                     <a href="courses.html">
+
                         🛒
-                        <span class="desktop-label"> 購買課程</span>
-                        <span class="mobile-label">課程</span>
+
+                        <span class="desktop-label">
+                            購買課程
+                        </span>
+
+                        <span class="mobile-label">
+                            課程
+                        </span>
+
                     </a>
+
                 </li>
 
                 <li>
+
                     <a href="ai.html">
+
                         🤖
-                        <span class="desktop-label"> AI題庫</span>
-                        <span class="mobile-label">AI</span>
+
+                        <span class="desktop-label">
+                            AI題庫
+                        </span>
+
+                        <span class="mobile-label">
+                            AI
+                        </span>
+
                     </a>
+
                 </li>
 
                 <li>
+
                     <a href="contact.html">
+
                         ✉️
-                        <span class="desktop-label"> 聯絡我們</span>
-                        <span class="mobile-label">聯絡</span>
+
+                        <span class="desktop-label">
+                            聯絡我們
+                        </span>
+
+                        <span class="mobile-label">
+                            聯絡
+                        </span>
+
                     </a>
+
                 </li>
 
                 <li>
+
                     <a href="revolution.html">
+
                         🏴
-                        <span class="desktop-label"> 新興革命黨</span>
-                        <span class="mobile-label">革命黨</span>
+
+                        <span class="desktop-label">
+                            新興革命黨
+                        </span>
+
+                        <span class="mobile-label">
+                            革命黨
+                        </span>
+
                     </a>
+
                 </li>
 
             </ul>
+
 
             <div class="controls-group">
 
@@ -917,11 +1216,19 @@
                         title="播放/暫停唱片">
                     </button>
 
+
                     <div class="progress-box">
 
                         <div class="time-info">
-                            <span id="current-time">00:00</span>
-                            <span id="total-time">04:00</span>
+
+                            <span id="current-time">
+                                00:00
+                            </span>
+
+                            <span id="total-time">
+                                04:00
+                            </span>
+
                         </div>
 
                         <input
@@ -936,6 +1243,7 @@
 
                 </div>
 
+
                 <button
                     class="icon-btn"
                     id="theme-toggle">
@@ -948,6 +1256,11 @@
 
     </nav>
 
+
+    <!-- =========================
+         MAIN
+    ========================== -->
+
     <div class="main-layout">
 
         <div class="hero-section">
@@ -957,29 +1270,42 @@
             </h1>
 
             <p>
-                歡迎來到軍一補救教室！提供全台最精準的數位邏輯與微處理機複習，
+                歡迎來到軍一補救教室！
+                提供全台最精準的數位邏輯與微處理機複習，
                 由淺入深帶您突破學習瓶頸。
             </p>
 
+
             <div class="media-box">
+
                 <img
                     src="hero.jpg"
                     alt="主頁大圖">
+
             </div>
+
 
             <a
                 href="courses.html"
                 class="cta-btn">
+
                 立即前往選購課程
+
             </a>
 
         </div>
+
+
+        <!-- =========================
+             PUBLIC CHAT
+        ========================== -->
 
         <div class="chat-container">
 
             <div class="chat-header">
                 💬 線上公共聊天室
             </div>
+
 
             <div
                 class="chat-messages"
@@ -990,7 +1316,9 @@
                     <span class="user">
                         系統管理員
                     </span>
-                    ：歡迎！聊天室已改為 Firebase 即時同步。
+
+                    ：歡迎！
+                    聊天室已改為 Firebase 即時同步。
 
                     <span class="time-stamp">
                         Online
@@ -999,6 +1327,7 @@
                 </div>
 
             </div>
+
 
             <div class="chat-input-area">
 
@@ -1011,16 +1340,20 @@
                         value="可以取名"
                         maxlength="6">
 
+
                     <input
                         type="text"
                         id="chat-input"
                         class="msg-input"
                         placeholder="鍵入訊息...">
 
+
                     <button
                         class="chat-send-btn"
                         id="chat-send">
+
                         送出
+
                     </button>
 
                 </div>
@@ -1031,18 +1364,27 @@
 
     </div>
 
-    <!-- 模擬通話 -->
+
+    <!-- =========================
+         SIM CALL
+    ========================== -->
+
     <div
         class="sim-call-overlay sim-call-hidden"
         id="sim-call-overlay">
 
-        <div class="sim-call-bg"></div>
+
+        <div
+            class="sim-call-bg"
+            id="sim-call-bg">
+        </div>
+
 
         <video
             class="sim-call-video sim-call-hidden"
             id="sim-call-video"
             playsinline
-            preload="auto">
+            preload="metadata">
 
             <source
                 src="xi-call.mp4"
@@ -1052,9 +1394,11 @@
 
         </video>
 
+
         <div
             class="sim-call-ui"
             id="sim-call-ui">
+
 
             <img
                 src="xi.jpg"
@@ -1062,32 +1406,45 @@
                 id="sim-call-avatar"
                 alt="來電人物照片">
 
+
             <div class="sim-call-name">
                 習近平
             </div>
 
+
             <div
                 class="sim-call-status"
                 id="sim-call-status">
+
                 正在來電……
+
             </div>
+
 
             <div
                 class="sim-call-timer sim-call-hidden"
                 id="sim-call-timer">
+
                 00:00
+
             </div>
+
+
+            <!-- 來電 -->
 
             <div
                 class="sim-call-controls"
                 id="sim-incoming-controls">
+
 
                 <div class="sim-call-control">
 
                     <button
                         class="sim-round-btn sim-reject"
                         id="sim-reject-btn">
+
                         ✕
+
                     </button>
 
                     <div>
@@ -1096,12 +1453,15 @@
 
                 </div>
 
+
                 <div class="sim-call-control">
 
                     <button
                         class="sim-round-btn sim-accept"
                         id="sim-accept-btn">
+
                         ☎
+
                     </button>
 
                     <div>
@@ -1112,16 +1472,22 @@
 
             </div>
 
+
+            <!-- 通話中 -->
+
             <div
                 class="sim-call-controls sim-call-hidden"
                 id="sim-active-controls">
+
 
                 <div class="sim-call-control">
 
                     <button
                         class="sim-round-btn sim-secondary"
                         id="sim-mute-btn">
+
                         🎙
+
                     </button>
 
                     <div id="sim-mute-text">
@@ -1130,12 +1496,15 @@
 
                 </div>
 
+
                 <div class="sim-call-control">
 
                     <button
                         class="sim-round-btn sim-reject"
                         id="sim-hangup-btn">
+
                         ✕
+
                     </button>
 
                     <div>
@@ -1144,12 +1513,15 @@
 
                 </div>
 
+
                 <div class="sim-call-control">
 
                     <button
                         class="sim-round-btn sim-secondary"
                         id="sim-speaker-btn">
+
                         🔊
+
                     </button>
 
                     <div id="sim-speaker-text">
@@ -1162,6 +1534,9 @@
 
         </div>
 
+
+        <!-- 通話結束 -->
+
         <div
             class="sim-call-ended sim-call-hidden"
             id="sim-call-ended">
@@ -1171,20 +1546,24 @@
             </h2>
 
             <p>
-                通話已中斷或結束。
+                本功能為模擬互動。
             </p>
 
             <button
                 class="sim-return-btn"
                 id="sim-return-btn">
+
                 返回網站
+
             </button>
 
         </div>
 
+
         <audio
             id="sim-ringtone"
-            loop>
+            loop
+            preload="auto">
 
             <source
                 src="ringtone.mp3"
@@ -1194,27 +1573,56 @@
 
     </div>
 
+
+    <!-- =========================
+         MAIN JAVASCRIPT
+    ========================== -->
+
     <script>
 
-        // =========================
-        // 點擊特效與深色模式
-        // =========================
+        /* =========================
+           AUDIO / EFFECT STATE
+        ========================== */
 
         const clickSound =
             document.getElementById(
                 'click-sound'
             );
 
+        let disableClickSound =
+            false;
+
+
+        /* =========================
+           點擊特效
+        ========================== */
+
         window.addEventListener(
             'click',
             (e) => {
 
-                clickSound.currentTime =
-                    0;
+                if (
+                    !disableClickSound
+                ) {
 
-                clickSound
-                    .play()
-                    .catch(() => {});
+                    clickSound.currentTime =
+                        0;
+
+                    clickSound
+                        .play()
+                        .catch(
+                            () => {}
+                        );
+
+                }
+
+
+                if (
+                    isCanvasPaused
+                ) {
+                    return;
+                }
+
 
                 const ripple =
                     document.createElement(
@@ -1242,10 +1650,16 @@
             }
         );
 
+
+        /* =========================
+           THEME
+        ========================== */
+
         const themeToggle =
             document.getElementById(
                 'theme-toggle'
             );
+
 
         themeToggle.addEventListener(
             'click',
@@ -1289,32 +1703,37 @@
         );
 
 
-        // =========================
-        // 音樂播放器
-        // =========================
+        /* =========================
+           MUSIC
+        ========================== */
 
         const musicToggle =
             document.getElementById(
                 'music-toggle'
             );
 
+
         const bgMusic =
             document.getElementById(
                 'bg-music'
             );
+
 
         const seekBar =
             document.getElementById(
                 'seek-bar'
             );
 
+
         const currentTimeEl =
             document.getElementById(
                 'current-time'
             );
 
+
         const maxDuration =
             240;
+
 
         musicToggle.addEventListener(
             'click',
@@ -1328,7 +1747,9 @@
 
                     bgMusic
                         .play()
-                        .catch(() => {});
+                        .catch(
+                            () => {}
+                        );
 
                     musicToggle
                         .classList
@@ -1353,6 +1774,7 @@
             }
         );
 
+
         function formatTime(
             seconds
         ) {
@@ -1370,6 +1792,7 @@
             return `${min < 10 ? "0" + min : min}:${sec < 10 ? "0" + sec : sec}`;
 
         }
+
 
         bgMusic.addEventListener(
             'timeupdate',
@@ -1401,19 +1824,24 @@
 
                 }
 
+
                 currentTimeEl.innerText =
                     formatTime(
                         bgMusic.currentTime
                     );
 
+
                 seekBar.value =
                     (
                         bgMusic.currentTime
                         / maxDuration
-                    ) * 100 || 0;
+                    )
+                    * 100
+                    || 0;
 
             }
         );
+
 
         seekBar.addEventListener(
             'input',
@@ -1423,25 +1851,28 @@
                     (
                         seekBar.value
                         / 100
-                    ) * maxDuration;
+                    )
+                    * maxDuration;
 
             }
         );
 
 
-        // =========================
-        // 背景 Canvas 動畫
-        // =========================
+        /* =========================
+           CANVAS
+        ========================== */
 
         const cursorEl =
             document.getElementById(
                 'custom-cursor'
             );
 
+
         const canvas =
             document.getElementById(
                 'fx-canvas'
             );
+
 
         const ctx =
             canvas.getContext(
@@ -1451,17 +1882,22 @@
                 }
             );
 
+
         let pcbTraces =
             [];
+
 
         let neonMatrixParticles =
             [];
 
+
         let lastMouseMoveTime =
             0;
 
+
         let isCanvasPaused =
             false;
+
 
         function resizeCanvas() {
 
@@ -1473,12 +1909,15 @@
 
         }
 
+
         window.addEventListener(
             'resize',
             resizeCanvas
         );
 
+
         resizeCanvas();
+
 
         for (
             let i = 0;
@@ -1516,15 +1955,23 @@
 
         }
 
+
         window.addEventListener(
             'mousemove',
             (e) => {
 
-                cursorEl.style.left =
-                    e.clientX + 'px';
+                if (
+                    !isCanvasPaused
+                ) {
 
-                cursorEl.style.top =
-                    e.clientY + 'px';
+                    cursorEl.style.left =
+                        e.clientX + 'px';
+
+                    cursorEl.style.top =
+                        e.clientY + 'px';
+
+                }
+
 
                 if (
                     isCanvasPaused
@@ -1532,11 +1979,14 @@
                     return;
                 }
 
+
                 const now =
                     Date.now();
 
+
                 if (
-                    now - lastMouseMoveTime
+                    now
+                    - lastMouseMoveTime
                     > 50
                     &&
                     Math.random()
@@ -1546,6 +1996,7 @@
                     lastMouseMoveTime =
                         now;
 
+
                     const directions =
                         [
                             0,
@@ -1554,6 +2005,7 @@
                             Math.PI,
                             -Math.PI / 4
                         ];
+
 
                     pcbTraces.push({
 
@@ -1589,6 +2041,7 @@
             }
         );
 
+
         function animate() {
 
             if (
@@ -1602,6 +2055,7 @@
                     canvas.height
                 );
 
+
                 const isDark =
                     document.documentElement
                         .getAttribute(
@@ -1609,10 +2063,12 @@
                         )
                     === 'dark';
 
+
                 const electroColor =
                     isDark
                         ? '#00ff66'
                         : '#2563eb';
+
 
                 for (
                     let i =
@@ -1626,23 +2082,30 @@
                     const t =
                         pcbTraces[i];
 
+
                     ctx.save();
+
 
                     ctx.globalAlpha =
                         t.opacity;
 
+
                     ctx.strokeStyle =
                         electroColor;
+
 
                     ctx.lineWidth =
                         t.width;
 
+
                     ctx.beginPath();
+
 
                     ctx.moveTo(
                         t.startX,
                         t.startY
                     );
+
 
                     const endX =
                         t.startX
@@ -1653,6 +2116,7 @@
                         *
                         t.length;
 
+
                     const endY =
                         t.startY
                         +
@@ -1662,17 +2126,22 @@
                         *
                         t.length;
 
+
                     ctx.lineTo(
                         endX,
                         endY
                     );
 
+
                     ctx.stroke();
+
 
                     ctx.fillStyle =
                         electroColor;
 
+
                     ctx.beginPath();
+
 
                     ctx.arc(
                         endX,
@@ -1682,15 +2151,20 @@
                         Math.PI * 2
                     );
 
+
                     ctx.fill();
 
+
                     ctx.restore();
+
 
                     t.opacity -=
                         0.04;
 
+
                     if (
-                        t.opacity <= 0
+                        t.opacity
+                        <= 0
                     ) {
 
                         pcbTraces.splice(
@@ -1702,26 +2176,34 @@
 
                 }
 
+
                 for (
                     let i = 0;
+
                     i <
                     neonMatrixParticles.length;
+
                     i++
                 ) {
 
                     const s =
                         neonMatrixParticles[i];
 
+
                     ctx.save();
+
 
                     ctx.globalAlpha =
                         s.opacity;
 
+
                     ctx.strokeStyle =
                         electroColor;
 
+
                     ctx.lineWidth =
                         1;
+
 
                     ctx.strokeRect(
                         s.x,
@@ -1730,21 +2212,27 @@
                         s.size
                     );
 
+
                     ctx.restore();
+
 
                     s.x +=
                         s.speedX;
 
+
                     s.y +=
                         s.speedY;
 
+
                     if (
-                        s.y >
+                        s.y
+                        >
                         canvas.height
                     ) {
 
                         s.y =
                             0;
+
 
                         s.x =
                             Math.random()
@@ -1757,130 +2245,187 @@
 
             }
 
+
             requestAnimationFrame(
                 animate
             );
 
         }
 
+
         animate();
 
 
-        // =========================
-        // 通話邏輯
-        // =========================
+        /* =========================
+           SIM CALL
+        ========================== */
 
         const simCallOpen =
             document.getElementById(
                 'sim-call-open'
             );
 
+
         const simCallOverlay =
             document.getElementById(
                 'sim-call-overlay'
             );
+
 
         const simCallUI =
             document.getElementById(
                 'sim-call-ui'
             );
 
+
         const simCallVideo =
             document.getElementById(
                 'sim-call-video'
             );
+
 
         const simRingtone =
             document.getElementById(
                 'sim-ringtone'
             );
 
+
         const simIncomingControls =
             document.getElementById(
                 'sim-incoming-controls'
             );
+
 
         const simActiveControls =
             document.getElementById(
                 'sim-active-controls'
             );
 
+
         const simAcceptBtn =
             document.getElementById(
                 'sim-accept-btn'
             );
+
 
         const simRejectBtn =
             document.getElementById(
                 'sim-reject-btn'
             );
 
+
         const simHangupBtn =
             document.getElementById(
                 'sim-hangup-btn'
             );
+
 
         const simMuteBtn =
             document.getElementById(
                 'sim-mute-btn'
             );
 
+
         const simMuteText =
             document.getElementById(
                 'sim-mute-text'
             );
+
 
         const simSpeakerBtn =
             document.getElementById(
                 'sim-speaker-btn'
             );
 
+
         const simSpeakerText =
             document.getElementById(
                 'sim-speaker-text'
             );
+
 
         const simCallStatus =
             document.getElementById(
                 'sim-call-status'
             );
 
+
         const simCallTimer =
             document.getElementById(
                 'sim-call-timer'
             );
+
 
         const simCallAvatar =
             document.getElementById(
                 'sim-call-avatar'
             );
 
+
         const simCallEnded =
             document.getElementById(
                 'sim-call-ended'
             );
+
 
         const simReturnBtn =
             document.getElementById(
                 'sim-return-btn'
             );
 
+
+        const simCallBg =
+            document.getElementById(
+                'sim-call-bg'
+            );
+
+
         let simTimerInterval =
             null;
+
 
         let simSeconds =
             0;
 
+
         let simMuted =
             false;
+
 
         let simSpeakerOn =
             false;
 
-        function simStartCall() {
+
+        /*
+            關閉不必要特效。
+        */
+
+        function enableVideoPerformanceMode() {
 
             isCanvasPaused =
                 true;
+
+
+            disableClickSound =
+                true;
+
+
+            canvas.style.display =
+                'none';
+
+
+            cursorEl.style.display =
+                'none';
+
+
+            /*
+                接聽後連來電背景也拿掉，
+                只留下影片本身。
+            */
+
+            simCallBg.style.display =
+                'none';
+
 
             if (
                 !bgMusic.paused
@@ -1896,11 +2441,87 @@
 
             }
 
+
+            clickSound.pause();
+
+            clickSound.currentTime =
+                0;
+
+        }
+
+
+        function disableVideoPerformanceMode() {
+
+            isCanvasPaused =
+                false;
+
+
+            disableClickSound =
+                false;
+
+
+            canvas.style.display =
+                'block';
+
+
+            cursorEl.style.display =
+                'block';
+
+
+            simCallBg.style.display =
+                'block';
+
+        }
+
+
+        function simStartCall() {
+
+            /*
+                來電階段仍然可以保留背景，
+                但 Canvas 先暫停。
+            */
+
+            isCanvasPaused =
+                true;
+
+
+            canvas.style.display =
+                'none';
+
+
+            cursorEl.style.display =
+                'none';
+
+
+            disableClickSound =
+                true;
+
+
+            if (
+                !bgMusic.paused
+            ) {
+
+                bgMusic.pause();
+
+                musicToggle
+                    .classList
+                    .remove(
+                        'playing'
+                    );
+
+            }
+
+
+            simCallBg.style.display =
+                'block';
+
+
             simCallOverlay
                 .classList
                 .remove(
                     'sim-call-hidden'
                 );
+
 
             simCallUI
                 .classList
@@ -1908,11 +2529,13 @@
                     'sim-call-hidden'
                 );
 
+
             simCallEnded
                 .classList
                 .add(
                     'sim-call-hidden'
                 );
+
 
             simCallVideo
                 .classList
@@ -1920,11 +2543,13 @@
                     'sim-call-hidden'
                 );
 
+
             simCallAvatar
                 .classList
                 .remove(
                     'sim-call-hidden'
                 );
+
 
             simIncomingControls
                 .classList
@@ -1932,11 +2557,13 @@
                     'sim-call-hidden'
                 );
 
+
             simActiveControls
                 .classList
                 .add(
                     'sim-call-hidden'
                 );
+
 
             simCallTimer
                 .classList
@@ -1944,38 +2571,50 @@
                     'sim-call-hidden'
                 );
 
+
             simCallStatus.textContent =
                 '正在來電……';
+
 
             simSeconds =
                 0;
 
+
             simMuted =
                 false;
+
 
             simSpeakerOn =
                 false;
 
+
             simCallVideo.muted =
                 false;
+
 
             simCallVideo.currentTime =
                 0;
 
+
             simMuteBtn.textContent =
                 '🎙';
+
 
             simMuteText.textContent =
                 '靜音';
 
+
             simSpeakerText.textContent =
                 '擴音';
+
 
             simSpeakerBtn.style.background =
                 'rgba(255,255,255,.20)';
 
+
             simRingtone.currentTime =
                 0;
+
 
             simRingtone
                 .play()
@@ -1985,6 +2624,7 @@
 
         }
 
+
         function simUpdateTimer() {
 
             const m =
@@ -1992,23 +2632,28 @@
                     Math.floor(
                         simSeconds / 60
                     )
-                ).padStart(
+                )
+                .padStart(
                     2,
                     '0'
                 );
 
+
             const s =
                 String(
                     simSeconds % 60
-                ).padStart(
+                )
+                .padStart(
                     2,
                     '0'
                 );
+
 
             simCallTimer.textContent =
                 `${m}:${s}`;
 
         }
+
 
         function simEndCall() {
 
@@ -2016,15 +2661,20 @@
                 simTimerInterval
             );
 
+
             simRingtone.pause();
+
 
             simRingtone.currentTime =
                 0;
 
+
             simCallVideo.pause();
+
 
             simCallVideo.currentTime =
                 0;
+
 
             simCallUI
                 .classList
@@ -2032,11 +2682,13 @@
                     'sim-call-hidden'
                 );
 
+
             simCallVideo
                 .classList
                 .add(
                     'sim-call-hidden'
                 );
+
 
             simCallEnded
                 .classList
@@ -2045,6 +2697,7 @@
                 );
 
         }
+
 
         simCallOpen.addEventListener(
             'click',
@@ -2057,16 +2710,27 @@
             }
         );
 
+
         simAcceptBtn.addEventListener(
             'click',
             async (e) => {
 
                 e.stopPropagation();
 
+
                 simRingtone.pause();
+
 
                 simRingtone.currentTime =
                     0;
+
+
+                /*
+                    啟動影片效能模式。
+                */
+
+                enableVideoPerformanceMode();
+
 
                 simIncomingControls
                     .classList
@@ -2074,11 +2738,13 @@
                         'sim-call-hidden'
                     );
 
+
                 simActiveControls
                     .classList
                     .remove(
                         'sim-call-hidden'
                     );
+
 
                 simCallAvatar
                     .classList
@@ -2086,8 +2752,10 @@
                         'sim-call-hidden'
                     );
 
+
                 simCallStatus.textContent =
                     '通話中';
+
 
                 simCallTimer
                     .classList
@@ -2095,20 +2763,25 @@
                         'sim-call-hidden'
                     );
 
+
                 simCallVideo
                     .classList
                     .remove(
                         'sim-call-hidden'
                     );
 
+
                 simSeconds =
                     0;
 
+
                 simUpdateTimer();
+
 
                 clearInterval(
                     simTimerInterval
                 );
+
 
                 simTimerInterval =
                     setInterval(
@@ -2122,10 +2795,31 @@
                         1000
                     );
 
+
                 try {
+
+                    /*
+                        load 有時可以避免瀏覽器
+                        尚未準備好影片。
+                    */
+
+                    if (
+                        simCallVideo.readyState
+                        < 2
+                    ) {
+
+                        simCallVideo.load();
+
+                    }
+
 
                     simCallVideo.currentTime =
                         0;
+
+
+                    simCallVideo.muted =
+                        false;
+
 
                     await simCallVideo.play();
 
@@ -2143,6 +2837,7 @@
             }
         );
 
+
         simRejectBtn.addEventListener(
             'click',
             (e) => {
@@ -2153,6 +2848,7 @@
 
             }
         );
+
 
         simHangupBtn.addEventListener(
             'click',
@@ -2165,10 +2861,12 @@
             }
         );
 
+
         simCallVideo.addEventListener(
             'ended',
             simEndCall
         );
+
 
         simMuteBtn.addEventListener(
             'click',
@@ -2176,16 +2874,20 @@
 
                 e.stopPropagation();
 
+
                 simMuted =
                     !simMuted;
 
+
                 simCallVideo.muted =
                     simMuted;
+
 
                 simMuteBtn.textContent =
                     simMuted
                         ? '🔇'
                         : '🎙';
+
 
                 simMuteText.textContent =
                     simMuted
@@ -2195,19 +2897,23 @@
             }
         );
 
+
         simSpeakerBtn.addEventListener(
             'click',
             (e) => {
 
                 e.stopPropagation();
 
+
                 simSpeakerOn =
                     !simSpeakerOn;
+
 
                 simSpeakerText.textContent =
                     simSpeakerOn
                         ? '擴音開啟'
                         : '擴音';
+
 
                 simSpeakerBtn.style.background =
                     simSpeakerOn
@@ -2217,11 +2923,13 @@
             }
         );
 
+
         simReturnBtn.addEventListener(
             'click',
             (e) => {
 
                 e.stopPropagation();
+
 
                 simCallOverlay
                     .classList
@@ -2229,11 +2937,13 @@
                         'sim-call-hidden'
                     );
 
+
                 simCallEnded
                     .classList
                     .add(
                         'sim-call-hidden'
                     );
+
 
                 simCallUI
                     .classList
@@ -2241,11 +2951,13 @@
                         'sim-call-hidden'
                     );
 
+
                 simIncomingControls
                     .classList
                     .remove(
                         'sim-call-hidden'
                     );
+
 
                 simActiveControls
                     .classList
@@ -2253,11 +2965,13 @@
                         'sim-call-hidden'
                     );
 
+
                 simCallAvatar
                     .classList
                     .remove(
                         'sim-call-hidden'
                     );
+
 
                 simCallTimer
                     .classList
@@ -2265,14 +2979,16 @@
                         'sim-call-hidden'
                     );
 
+
                 simCallStatus.textContent =
                     '正在來電……';
 
-                isCanvasPaused =
-                    false;
+
+                disableVideoPerformanceMode();
 
             }
         );
+
 
         document.addEventListener(
             'keydown',
@@ -2292,9 +3008,12 @@
                         simTimerInterval
                     );
 
+
                     simRingtone.pause();
 
+
                     simCallVideo.pause();
+
 
                     simCallOverlay
                         .classList
@@ -2302,8 +3021,8 @@
                             'sim-call-hidden'
                         );
 
-                    isCanvasPaused =
-                        false;
+
+                    disableVideoPerformanceMode();
 
                 }
 
@@ -2312,11 +3031,19 @@
 
     </script>
 
+
+    <!-- =========================
+         FIREBASE CHAT
+    ========================== -->
+
     <script type="module">
 
         import {
             initializeApp
-        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        }
+        from
+        "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
 
         import {
             getFirestore,
@@ -2325,47 +3052,72 @@
             query,
             orderBy,
             onSnapshot
-        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        }
+        from
+        "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
 
         const firebaseConfig = {
-            apiKey: "AIzaSyBNGJOpoMdyPLbM3R7-YrFcHlre9YMAaAw",
-            authDomain: "junyi-chat.firebaseapp.com",
-            projectId: "junyi-chat",
-            storageBucket: "junyi-chat.firebasestorage.app",
-            messagingSenderId: "395931311039",
-            appId: "1:395931311039:web:f8532fea57a2f66c729f0a",
-            measurementId: "G-DDB6M5V36C"
+
+            apiKey:
+                "AIzaSyBNGJOpoMdyPLbM3R7-YrFcHlre9YMAaAw",
+
+            authDomain:
+                "junyi-chat.firebaseapp.com",
+
+            projectId:
+                "junyi-chat",
+
+            storageBucket:
+                "junyi-chat.firebasestorage.app",
+
+            messagingSenderId:
+                "395931311039",
+
+            appId:
+                "1:395931311039:web:f8532fea57a2f66c729f0a",
+
+            measurementId:
+                "G-DDB6M5V36C"
+
         };
+
 
         const firebaseApp =
             initializeApp(
                 firebaseConfig
             );
 
+
         const db =
             getFirestore(
                 firebaseApp
             );
+
 
         const chatName =
             document.getElementById(
                 'chat-name'
             );
 
+
         const chatInput =
             document.getElementById(
                 'chat-input'
             );
+
 
         const chatBox =
             document.getElementById(
                 'chat-box'
             );
 
+
         const chatSend =
             document.getElementById(
                 'chat-send'
             );
+
 
         function escapeHTML(
             text
@@ -2395,6 +3147,7 @@
 
         }
 
+
         function formatMessageTime(
             timestamp
         ) {
@@ -2404,9 +3157,11 @@
                     timestamp
                 );
 
+
             return `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
 
         }
+
 
         const q =
             query(
@@ -2419,6 +3174,7 @@
                 )
             );
 
+
         onSnapshot(
             q,
             (snapshot) => {
@@ -2426,22 +3182,37 @@
                 chatBox.innerHTML =
                     "";
 
+
                 snapshot.forEach(
                     (doc) => {
 
                         const data =
                             doc.data();
 
+
                         const msg =
                             document.createElement(
                                 'div'
                             );
 
+
                         msg.className =
                             'msg';
 
+
                         msg.innerHTML =
-                            `<span class="user">${escapeHTML(data.user || "匿名同學")}</span>：${escapeHTML(data.text || "")}<span class="time-stamp">${formatMessageTime(data.time || Date.now())}</span>`;
+                            `
+                            <span class="user">
+                                ${escapeHTML(data.user || "匿名同學")}
+                            </span>
+                            ：
+                            ${escapeHTML(data.text || "")}
+
+                            <span class="time-stamp">
+                                ${formatMessageTime(data.time || Date.now())}
+                            </span>
+                            `;
+
 
                         chatBox.appendChild(
                             msg
@@ -2450,20 +3221,25 @@
                     }
                 );
 
+
                 chatBox.scrollTop =
                     chatBox.scrollHeight;
 
             }
         );
 
+
         async function sendFirebaseMessage() {
 
             const text =
                 chatInput.value.trim();
 
+
             const userNickname =
                 chatName.value.trim()
-                || "匿名同學";
+                ||
+                "匿名同學";
+
 
             if (
                 !text
@@ -2471,12 +3247,14 @@
                 return;
             }
 
+
             await addDoc(
                 collection(
                     db,
                     "messages"
                 ),
                 {
+
                     user:
                         userNickname,
 
@@ -2485,13 +3263,16 @@
 
                     time:
                         Date.now()
+
                 }
             );
+
 
             chatInput.value =
                 "";
 
         }
+
 
         chatSend.addEventListener(
             'click',
@@ -2504,13 +3285,13 @@
             }
         );
 
+
         chatInput.addEventListener(
             'keypress',
             async (e) => {
 
                 if (
-                    e.key
-                    === 'Enter'
+                    e.key === 'Enter'
                 ) {
 
                     await sendFirebaseMessage();
@@ -2523,4 +3304,5 @@
     </script>
 
 </body>
+
 </html>
