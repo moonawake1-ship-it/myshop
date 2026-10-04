@@ -7,6 +7,7 @@
     <title>軍一補救教室 ｜ 軍醫補救教室主頁</title>
 
     <style>
+        /* ... 前面的 CSS 保持完全不變，直到 .sim-call-bg 的部分 ... */
         * {
             transition:
                 background-color 0.45s ease,
@@ -22,101 +23,49 @@
                 color 0.45s ease;
         }
 
-        nav,
-        .course-card,
-        .chat-container,
-        .panel,
-        .result-card,
-        .card,
-        .music-player-container,
-        .icon-btn,
-        input,
-        textarea,
-        select,
-        button {
+        nav, .course-card, .chat-container, .panel, .result-card, .card, .music-player-container, .icon-btn, input, textarea, select, button {
             transition:
-                background 0.45s ease,
-                background-color 0.45s ease,
-                color 0.45s ease,
-                border-color 0.45s ease,
-                box-shadow 0.45s ease,
-                transform 0.25s ease;
+                background 0.45s ease, background-color 0.45s ease,
+                color 0.45s ease, border-color 0.45s ease,
+                box-shadow 0.45s ease, transform 0.25s ease;
         }
 
         :root {
-            --bg-main: #050505;
-            --bg-gradient: linear-gradient(135deg, #020202 0%, #0d0d0d 100%);
-            --nav-bg: rgba(15, 15, 15, 0.85);
-            --card-bg: rgba(20, 20, 20, 0.85);
-            --card-border: rgba(0, 255, 102, 0.15);
-            --text-main: #f3f4f6;
-            --text-muted: #9ca3af;
-            --chat-bg: rgba(10, 10, 10, 0.95);
-            --input-bg: #1a1a1a;
-            --primary-light: #00ff66;
-            --accent: #00f0ff;
-            --shadow: 0 10px 35px rgba(0, 255, 102, 0.05);
+            --bg-main: #050505; --bg-gradient: linear-gradient(135deg, #020202 0%, #0d0d0d 100%);
+            --nav-bg: rgba(15, 15, 15, 0.85); --card-bg: rgba(20, 20, 20, 0.85);
+            --card-border: rgba(0, 255, 102, 0.15); --text-main: #f3f4f6;
+            --text-muted: #9ca3af; --chat-bg: rgba(10, 10, 10, 0.95);
+            --input-bg: #1a1a1a; --primary-light: #00ff66;
+            --accent: #00f0ff; --shadow: 0 10px 35px rgba(0, 255, 102, 0.05);
             --logo-color: #ffffff;
         }
 
         [data-theme="light"] {
-            --bg-main: #f8fafc;
-            --bg-gradient: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
-            --nav-bg: rgba(255, 255, 255, 0.85);
-            --card-bg: rgba(255, 255, 255, 0.9);
-            --card-border: rgba(15, 23, 42, 0.08);
-            --text-main: #0f172a;
-            --text-muted: #475569;
-            --chat-bg: #ffffff;
-            --input-bg: #f1f5f9;
-            --primary-light: #2563eb;
-            --accent: #d97706;
-            --shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            --bg-main: #f8fafc; --bg-gradient: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+            --nav-bg: rgba(255, 255, 255, 0.85); --card-bg: rgba(255, 255, 255, 0.9);
+            --card-border: rgba(15, 23, 42, 0.08); --text-main: #0f172a;
+            --text-muted: #475569; --chat-bg: #ffffff;
+            --input-bg: #f1f5f9; --primary-light: #2563eb;
+            --accent: #d97706; --shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
             --logo-color: #000000;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: sans-serif;
-        }
-
-        html,
-        body,
-        button,
-        a,
-        input,
-        textarea {
-            cursor: none !important;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+        html, body, button, a, input, textarea { cursor: none !important; }
 
         body {
-            background: var(--bg-main);
-            background-image: var(--bg-gradient);
-            color: var(--text-main);
-            min-height: 100vh;
-            padding-top: 90px;
-            overflow-x: hidden;
-            position: relative;
+            background: var(--bg-main); background-image: var(--bg-gradient);
+            color: var(--text-main); min-height: 100vh; padding-top: 90px;
+            overflow-x: hidden; position: relative;
         }
 
         #custom-cursor {
-            position: fixed;
-            width: 32px;
-            height: 32px;
-            pointer-events: none;
-            z-index: 30000;
-            top: 0;
-            left: 0;
-            transform: translate(-10%, -10%);
+            position: fixed; width: 32px; height: 32px; pointer-events: none;
+            z-index: 30000; top: 0; left: 0; transform: translate(-10%, -10%);
         }
 
         #custom-cursor::before {
-            content: '';
-            display: block;
-            width: 100%;
-            height: 100%;
+            content: ''; display: block; width: 100%; height: 100%;
             background: linear-gradient(135deg, #ffe600 0%, #ff6600 50%, #ff0000 100%);
             clip-path: polygon(55% 0%, 10% 55%, 50% 55%, 40% 100%, 90% 40%, 50% 40%);
             animation: pulse-glow 1.5s infinite alternate;
@@ -128,17 +77,10 @@
         }
 
         .click-ripple {
-            position: fixed;
-            width: 10px;
-            height: 10px;
-            background: transparent;
-            border: 3px solid var(--primary-light);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 29999;
-            transform: translate(-50%, -50%);
-            animation: ripple-out 0.4s forwards;
-            box-shadow: 0 0 8px var(--primary-light);
+            position: fixed; width: 10px; height: 10px; background: transparent;
+            border: 3px solid var(--primary-light); border-radius: 50%;
+            pointer-events: none; z-index: 29999; transform: translate(-50%, -50%);
+            animation: ripple-out 0.4s forwards; box-shadow: 0 0 8px var(--primary-light);
         }
 
         @keyframes ripple-out {
@@ -147,503 +89,134 @@
         }
 
         #fx-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            pointer-events: none;
-            z-index: 9998;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none; z-index: 9998;
         }
 
         nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 70px;
-            background: var(--nav-bg);
-            border-bottom: 1px solid var(--card-border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 40px;
-            z-index: 1000;
-            backdrop-filter: blur(12px);
+            position: fixed; top: 0; left: 0; width: 100%; height: 70px;
+            background: var(--nav-bg); border-bottom: 1px solid var(--card-border);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 40px; z-index: 1000; backdrop-filter: blur(12px);
         }
-
-        nav .logo {
-            font-size: 1.3rem;
-            font-weight: bold;
-            color: var(--logo-color);
-        }
-
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 30px;
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 25px;
-            align-items: center;
-        }
-
-        nav ul li a {
-            color: var(--text-main);
-            text-decoration: none;
-            font-size: 1rem;
-            font-weight: 500;
-        }
-
-        nav ul li a:hover {
-            color: var(--primary-light);
-        }
-
-        .controls-group {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
+        nav .logo { font-size: 1.3rem; font-weight: bold; color: var(--logo-color); }
+        .nav-right { display: flex; align-items: center; gap: 30px; }
+        nav ul { display: flex; list-style: none; gap: 25px; align-items: center; }
+        nav ul li a { color: var(--text-main); text-decoration: none; font-size: 1rem; font-weight: 500; }
+        nav ul li a:hover { color: var(--primary-light); }
+        .controls-group { display: flex; align-items: center; gap: 15px; }
 
         .music-player-container {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            background: var(--card-bg);
-            padding: 6px 16px;
-            border-radius: 30px;
-            border: 1px solid var(--card-border);
+            display: flex; align-items: center; gap: 12px; background: var(--card-bg);
+            padding: 6px 16px; border-radius: 30px; border: 1px solid var(--card-border);
         }
-
         .disc-btn {
-            width: 36px;
-            height: 36px;
-            background: #111;
-            border: 2px solid #333;
-            border-radius: 50%;
-            position: relative;
+            width: 36px; height: 36px; background: #111; border: 2px solid #333;
+            border-radius: 50%; position: relative;
         }
-
         .disc-btn::after {
-            content: '';
-            position: absolute;
-            width: 8px;
-            height: 8px;
-            background: var(--primary-light);
-            border-radius: 50%;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            content: ''; position: absolute; width: 8px; height: 8px;
+            background: var(--primary-light); border-radius: 50%;
+            top: 50%; left: 50%; transform: translate(-50%, -50%);
         }
+        .disc-btn.playing { animation: spin-disc 4s linear infinite; box-shadow: 0 0 10px var(--primary-light); border-color: var(--primary-light); }
+        @keyframes spin-disc { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        .disc-btn.playing {
-            animation: spin-disc 4s linear infinite;
-            box-shadow: 0 0 10px var(--primary-light);
-            border-color: var(--primary-light);
-        }
+        .progress-box { display: flex; flex-direction: column; width: 110px; font-size: 0.75rem; color: var(--text-main); }
+        .time-info { display: flex; justify-content: space-between; margin-bottom: 2px; font-family: monospace; }
+        .slider-bar { width: 100%; appearance: none; height: 4px; background: rgba(255, 255, 255, 0.1); border-radius: 2px; outline: none; }
+        .icon-btn { background: var(--card-bg); border: 1px solid var(--card-border); color: var(--text-main); width: 40px; height: 40px; border-radius: 50%; font-size: 1.1rem; }
 
-        @keyframes spin-disc {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+        .main-layout { display: flex; max-width: 1200px; margin: 40px auto; padding: 0 20px; gap: 40px; align-items: flex-start; }
+        .hero-section { flex: 1; text-align: left; padding: 20px 0; }
+        .hero-section h1 { font-size: 3rem; margin-bottom: 20px; color: var(--primary-light); }
+        .hero-section p { color: var(--text-muted); font-size: 1.2rem; line-height: 1.8; margin-bottom: 30px; }
+        .cta-btn { background: var(--primary-light); color: #000; padding: 14px 35px; border-radius: 50px; font-size: 1.1rem; text-decoration: none; display: inline-block; font-weight: bold; box-shadow: var(--shadow); }
+        
+        .media-box { width: 100%; border-radius: 15px; overflow: hidden; border: 2px solid var(--card-border); margin: 25px 0; box-shadow: var(--shadow); }
+        .media-box img { width: 100%; height: auto; display: block; object-fit: cover; }
 
-        .progress-box {
-            display: flex;
-            flex-direction: column;
-            width: 110px;
-            font-size: 0.75rem;
-            color: var(--text-main);
-        }
+        .chat-container { width: 400px; background: var(--chat-bg); border: 1px solid var(--card-border); border-radius: 20px; display: flex; flex-direction: column; height: 580px; box-shadow: var(--shadow); overflow: hidden; }
+        .chat-header { background: rgba(59, 130, 246, 0.1); padding: 15px; font-weight: bold; border-bottom: 1px solid var(--card-border); }
+        .chat-messages { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+        .msg { background: rgba(255, 255, 255, 0.03); padding: 8px 12px; border-radius: 12px; max-width: 85%; font-size: 0.95rem; }
+        .msg .user { font-weight: bold; color: var(--primary-light); font-size: 0.85rem; }
+        .msg .time-stamp { font-size: 0.7rem; color: var(--text-muted); display: block; text-align: right; margin-top: 4px; }
+        .chat-input-area { padding: 12px; border-top: 1px solid var(--card-border); display: flex; flex-direction: column; gap: 8px; background: rgba(0, 0, 0, 0.02); }
+        .input-row { display: flex; gap: 8px; width: 100%; }
+        .name-input { width: 90px; padding: 10px; background: var(--input-bg); border: 1px solid var(--card-border); color: var(--text-main); border-radius: 8px; outline: none; text-align: center; }
+        .msg-input { flex: 1; padding: 10px; background: var(--input-bg); border: 1px solid var(--card-border); color: var(--text-main); border-radius: 8px; outline: none; }
+        .chat-send-btn { background: var(--primary-light); color: #000; border: none; padding: 0 16px; border-radius: 8px; font-weight: bold; }
 
-        .time-info {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 2px;
-            font-family: monospace;
-        }
-
-        .slider-bar {
-            width: 100%;
-            appearance: none;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 2px;
-            outline: none;
-        }
-
-        .icon-btn {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            color: var(--text-main);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            font-size: 1.1rem;
-        }
-
-        .main-layout {
-            display: flex;
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 20px;
-            gap: 40px;
-            align-items: flex-start;
-        }
-
-        .hero-section {
-            flex: 1;
-            text-align: left;
-            padding: 20px 0;
-        }
-
-        .hero-section h1 {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            color: var(--primary-light);
-        }
-
-        .hero-section p {
-            color: var(--text-muted);
-            font-size: 1.2rem;
-            line-height: 1.8;
-            margin-bottom: 30px;
-        }
-
-        .cta-btn {
-            background: var(--primary-light);
-            color: #000;
-            padding: 14px 35px;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            text-decoration: none;
-            display: inline-block;
-            font-weight: bold;
-            box-shadow: var(--shadow);
-        }
-
-        .media-box {
-            width: 100%;
-            border-radius: 15px;
-            overflow: hidden;
-            border: 2px solid var(--card-border);
-            margin: 25px 0;
-            box-shadow: var(--shadow);
-        }
-
-        .media-box img {
-            width: 100%;
-            height: auto;
-            display: block;
-            object-fit: cover;
-        }
-
-        .chat-container {
-            width: 400px;
-            background: var(--chat-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 20px;
-            display: flex;
-            flex-direction: column;
-            height: 580px;
-            box-shadow: var(--shadow);
-            overflow: hidden;
-        }
-
-        .chat-header {
-            background: rgba(59, 130, 246, 0.1);
-            padding: 15px;
-            font-weight: bold;
-            border-bottom: 1px solid var(--card-border);
-        }
-
-        .chat-messages {
-            flex: 1;
-            padding: 15px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .msg {
-            background: rgba(255, 255, 255, 0.03);
-            padding: 8px 12px;
-            border-radius: 12px;
-            max-width: 85%;
-            font-size: 0.95rem;
-        }
-
-        .msg .user {
-            font-weight: bold;
-            color: var(--primary-light);
-            font-size: 0.85rem;
-        }
-
-        .msg .time-stamp {
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            display: block;
-            text-align: right;
-            margin-top: 4px;
-        }
-
-        .chat-input-area {
-            padding: 12px;
-            border-top: 1px solid var(--card-border);
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            background: rgba(0, 0, 0, 0.02);
-        }
-
-        .input-row {
-            display: flex;
-            gap: 8px;
-            width: 100%;
-        }
-
-        .name-input {
-            width: 90px;
-            padding: 10px;
-            background: var(--input-bg);
-            border: 1px solid var(--card-border);
-            color: var(--text-main);
-            border-radius: 8px;
-            outline: none;
-            text-align: center;
-        }
-
-        .msg-input {
-            flex: 1;
-            padding: 10px;
-            background: var(--input-bg);
-            border: 1px solid var(--card-border);
-            color: var(--text-main);
-            border-radius: 8px;
-            outline: none;
-        }
-
-        .chat-send-btn {
-            background: var(--primary-light);
-            color: #000;
-            border: none;
-            padding: 0 16px;
-            border-radius: 8px;
-            font-weight: bold;
-        }
-
-        /* =========================
-           真實版通話 UI 與懸浮按鈕
-        ========================== */
         .floating-call-btn {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 65px;
-            height: 65px;
-            border-radius: 50%;
-            border: 3px solid var(--primary-light);
-            background: #000;
-            cursor: none; /* 配合全站自訂游標 */
-            z-index: 10000;
-            overflow: hidden;
+            position: fixed; bottom: 30px; right: 30px; width: 65px; height: 65px;
+            border-radius: 50%; border: 3px solid var(--primary-light); background: #000;
+            cursor: none; z-index: 10000; overflow: hidden;
             box-shadow: 0 4px 20px rgba(0, 255, 102, 0.4);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-
-        .floating-call-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 25px rgba(0, 255, 102, 0.6);
-        }
-
-        .floating-call-btn img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        .floating-call-btn:hover { transform: scale(1.1); box-shadow: 0 6px 25px rgba(0, 255, 102, 0.6); }
+        .floating-call-btn img { width: 100%; height: 100%; object-fit: cover; }
 
         .sim-call-hidden { display: none !important; }
 
         .sim-call-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: 20000;
-            background: #000;
-            overflow: hidden;
+            position: fixed; inset: 0; z-index: 20000; background: #000; overflow: hidden;
         }
 
+        /* 針對影片與背景圖加入硬體加速 (GPU Acceleration) */
         .sim-call-bg {
-            position: absolute;
-            inset: -30px;
+            position: absolute; inset: -30px;
             background: linear-gradient(rgba(0, 0, 0, 0.30), rgba(0, 0, 0, 0.72)), url("xi.jpg") center / cover no-repeat;
             filter: blur(16px);
-            transform: scale(1.08);
+            transform: scale(1.08) translateZ(0); /* 強制 GPU 渲染 */
+            will-change: transform;
         }
 
         .sim-call-video {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            background: #000;
-            z-index: 1;
+            position: absolute; inset: 0; width: 100%; height: 100%;
+            object-fit: cover; background: #000; z-index: 1;
+            transform: translateZ(0); /* 強制 GPU 渲染 */
+            will-change: transform;
         }
 
         .sim-call-ui {
-            position: relative;
-            z-index: 3;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 60px 18px 52px;
-            color: #fff;
-            text-align: center;
+            position: relative; z-index: 3; min-height: 100vh; display: flex;
+            flex-direction: column; align-items: center; padding: 60px 18px 52px;
+            color: #fff; text-align: center;
         }
 
-        .sim-call-avatar {
-            width: 132px;
-            height: 132px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid rgba(255, 255, 255, 0.78);
-            box-shadow: 0 14px 44px rgba(0, 0, 0, 0.50);
-        }
-
-        .sim-call-name {
-            margin-top: 20px;
-            font-size: 34px;
-            font-weight: 800;
-        }
-
-        .sim-call-status, .sim-call-timer {
-            margin-top: 8px;
-            font-size: 17px;
-            color: rgba(255, 255, 255, 0.82);
-        }
-
-        .sim-call-controls {
-            margin-top: auto;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 48px;
-            padding-bottom: 16px;
-        }
-
-        .sim-call-control {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .sim-round-btn {
-            width: 76px;
-            height: 76px;
-            border: none;
-            border-radius: 50%;
-            color: #fff;
-            font-size: 29px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-        }
-
+        .sim-call-avatar { width: 132px; height: 132px; border-radius: 50%; object-fit: cover; border: 3px solid rgba(255, 255, 255, 0.78); box-shadow: 0 14px 44px rgba(0, 0, 0, 0.50); }
+        .sim-call-name { margin-top: 20px; font-size: 34px; font-weight: 800; }
+        .sim-call-status, .sim-call-timer { margin-top: 8px; font-size: 17px; color: rgba(255, 255, 255, 0.82); }
+        
+        .sim-call-controls { margin-top: auto; width: 100%; display: flex; justify-content: center; align-items: center; gap: 48px; padding-bottom: 16px; }
+        .sim-call-control { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+        .sim-round-btn { width: 76px; height: 76px; border: none; border-radius: 50%; color: #fff; font-size: 29px; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35); }
         .sim-round-btn:hover { transform: scale(1.06); }
         .sim-accept { background: #34c759; }
         .sim-reject { background: #ff3b30; }
         .sim-secondary { background: rgba(255, 255, 255, 0.20); backdrop-filter: blur(14px); }
 
-        .sim-call-ended {
-            position: absolute;
-            inset: 0;
-            z-index: 10;
-            background: rgba(0, 0, 0, 0.91);
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 28px;
-        }
+        .sim-call-ended { position: absolute; inset: 0; z-index: 10; background: rgba(0, 0, 0, 0.91); color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 28px; }
+        .sim-call-ended h2 { margin: 0 0 12px; font-size: 34px; }
+        .sim-call-ended p { max-width: 520px; line-height: 1.7; color: rgba(255, 255, 255, 0.68); }
+        .sim-return-btn { margin-top: 20px; padding: 12px 22px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.20); background: rgba(255, 255, 255, 0.12); color: #fff; font-weight: 700; }
 
-        .sim-call-ended h2 {
-            margin: 0 0 12px;
-            font-size: 34px;
-        }
-
-        .sim-call-ended p {
-            max-width: 520px;
-            line-height: 1.7;
-            color: rgba(255, 255, 255, 0.68);
-        }
-
-        .sim-return-btn {
-            margin-top: 20px;
-            padding: 12px 22px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.20);
-            background: rgba(255, 255, 255, 0.12);
-            color: #fff;
-            font-weight: 700;
-        }
-
-        /* ===== 手機版 RWD ===== */
         @media (max-width: 768px) {
             body { padding-top: 180px; }
-            nav {
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                height: auto;
-                padding: 12px;
-                gap: 12px;
-            }
+            nav { flex-direction: column; align-items: center; justify-content: center; height: auto; padding: 12px; gap: 12px; }
             .logo { font-size: 1.2rem !important; text-align: center; }
             .nav-right { width: 100%; flex-direction: column; align-items: center; gap: 12px; }
             nav ul { width: 100%; justify-content: center; flex-wrap: wrap; gap: 12px; }
             nav ul li a { font-size: 0.95rem; writing-mode: horizontal-tb !important; }
-            
-            .floating-call-btn {
-                top: 15px; /* 手機版移至左上角 */
-                left: 15px;
-                bottom: auto;
-                right: auto;
-                width: 50px;
-                height: 50px;
-                border-width: 2px;
-            }
-
+            .floating-call-btn { top: 15px; left: 15px; bottom: auto; right: auto; width: 50px; height: 50px; border-width: 2px; }
             .controls-group { width: 100%; justify-content: center; }
             .music-player-container { width: 95%; justify-content: center; }
-            .progress-box { width: 120px; }
-            
             .main-layout { flex-direction: column; width: 100%; padding: 0 12px; gap: 25px; margin-top: 10px; }
             .hero-section { width: 100%; text-align: center; }
-            .hero-section h1 { font-size: 2rem; line-height: 1.3; word-break: break-word; }
-            .hero-section p { font-size: 1rem; line-height: 1.8; }
-            .media-box { width: 100%; }
-            .media-box img { width: 100%; max-height: 260px; object-fit: cover; }
-            .cta-btn { width: 100%; text-align: center; padding: 14px 20px; }
-            
+            .hero-section h1 { font-size: 2rem; line-height: 1.3; }
             .chat-container { width: 100%; height: 540px; }
-            .chat-header { font-size: 1.1rem; }
-            .chat-messages { padding: 12px; }
-            .msg { max-width: 100%; font-size: 0.95rem; }
-            .chat-input-area { padding: 10px; }
-            .input-row { flex-wrap: nowrap; gap: 6px; }
-            .name-input { width: 70px; font-size: 0.9rem; }
-            .msg-input { font-size: 0.9rem; }
-            .chat-send-btn { padding: 0 14px; font-size: 0.9rem; }
-            
             .sim-call-controls { gap: 25px; }
             .sim-round-btn { width: 66px; height: 66px; font-size: 25px; }
             .sim-call-avatar { width: 112px; height: 112px; }
@@ -655,13 +228,10 @@
 <body>
 
     <div id="custom-cursor"></div>
-
     <canvas id="fx-canvas"></canvas>
-
     <audio id="bg-music" loop src="music.mp3"></audio>
     <audio id="click-sound" src="pop.mp3" preload="auto"></audio>
 
-    <!-- 右下角/左上角 習近平通話懸浮按鈕 -->
     <button id="sim-call-open" class="floating-call-btn" title="通話">
         <img src="xi.jpg" alt="通話圖標">
     </button>
@@ -693,26 +263,17 @@
     </nav>
 
     <div class="main-layout">
+        <!-- 內容區塊省略，與原本完全相同 -->
         <div class="hero-section">
             <h1>軍一補救教室主頁</h1>
-            <p>
-                歡迎來到軍一補救教室！提供全台最精準的數位邏輯與微處理機複習，
-                由淺入深帶您突破學習瓶頸。
-            </p>
-            <div class="media-box">
-                <img src="hero.jpg" alt="主頁大圖">
-            </div>
+            <p>歡迎來到軍一補救教室！提供全台最精準的數位邏輯與微處理機複習，由淺入深帶您突破學習瓶頸。</p>
+            <div class="media-box"><img src="hero.jpg" alt="主頁大圖"></div>
             <a href="courses.html" class="cta-btn">立即前往選購課程</a>
         </div>
-
         <div class="chat-container">
             <div class="chat-header">💬 線上公共聊天室</div>
             <div class="chat-messages" id="chat-box">
-                <div class="msg">
-                    <span class="user">系統管理員</span>：
-                    歡迎！聊天室已改為 Firebase 即時同步。
-                    <span class="time-stamp">Online</span>
-                </div>
+                <div class="msg"><span class="user">系統管理員</span>：歡迎！聊天室已改為 Firebase 即時同步。<span class="time-stamp">Online</span></div>
             </div>
             <div class="chat-input-area">
                 <div class="input-row">
@@ -725,17 +286,16 @@
     </div>
 
     <!-- =========================
-         真實版通話視窗
+         通話視窗 (加入 preload="auto")
     ========================== -->
     <div class="sim-call-overlay sim-call-hidden" id="sim-call-overlay">
         <div class="sim-call-bg"></div>
-        <video class="sim-call-video sim-call-hidden" id="sim-call-video" playsinline>
+        <video class="sim-call-video sim-call-hidden" id="sim-call-video" playsinline preload="auto">
             <source src="xi-call.mp4" type="video/mp4">
             你的瀏覽器不支援影片播放。
         </video>
 
         <div class="sim-call-ui" id="sim-call-ui">
-            <!-- 移除了模擬字眼的 tag -->
             <img src="xi.jpg" class="sim-call-avatar" id="sim-call-avatar" alt="來電人物照片">
             <div class="sim-call-name">習近平</div>
             <div class="sim-call-status" id="sim-call-status">正在來電……</div>
@@ -770,7 +330,6 @@
 
         <div class="sim-call-ended sim-call-hidden" id="sim-call-ended">
             <h2>通話結束</h2>
-            <!-- 移除了模擬警告文案 -->
             <p>通話已中斷或結束。</p>
             <button class="sim-return-btn" id="sim-return-btn">返回網站</button>
         </div>
@@ -778,32 +337,23 @@
     </div>
 
     <script>
+        // 點擊特效與深色模式
         const clickSound = document.getElementById('click-sound');
-
         window.addEventListener('click', (e) => {
-            clickSound.currentTime = 0;
-            clickSound.play().catch(() => {});
-
-            const ripple = document.createElement('div');
-            ripple.className = 'click-ripple';
-            ripple.style.left = e.clientX + 'px';
-            ripple.style.top = e.clientY + 'px';
+            clickSound.currentTime = 0; clickSound.play().catch(() => {});
+            const ripple = document.createElement('div'); ripple.className = 'click-ripple';
+            ripple.style.left = e.clientX + 'px'; ripple.style.top = e.clientY + 'px';
             document.body.appendChild(ripple);
-
             setTimeout(() => ripple.remove(), 400);
         });
 
         const themeToggle = document.getElementById('theme-toggle');
-
         themeToggle.addEventListener('click', (e) => {
             e.stopPropagation();
-
             if (document.documentElement.getAttribute('data-theme') === 'light') {
-                document.documentElement.setAttribute('data-theme', 'dark');
-                themeToggle.innerText = '🌙';
+                document.documentElement.setAttribute('data-theme', 'dark'); themeToggle.innerText = '🌙';
             } else {
-                document.documentElement.setAttribute('data-theme', 'light');
-                themeToggle.innerText = '☀️';
+                document.documentElement.setAttribute('data-theme', 'light'); themeToggle.innerText = '☀️';
             }
         });
 
@@ -815,129 +365,83 @@
 
         musicToggle.addEventListener('click', (e) => {
             e.stopPropagation();
-
-            if (bgMusic.paused) {
-                bgMusic.play().catch(() => alert('請先點擊網頁任意處激活音訊通道！'));
-                musicToggle.classList.add('playing');
-            } else {
-                bgMusic.pause();
-                musicToggle.classList.remove('playing');
-            }
+            if (bgMusic.paused) { bgMusic.play().catch(() => {}); musicToggle.classList.add('playing'); } 
+            else { bgMusic.pause(); musicToggle.classList.remove('playing'); }
         });
 
         function formatTime(seconds) {
-            const min = Math.floor(seconds / 60);
-            const sec = Math.floor(seconds % 60);
+            const min = Math.floor(seconds / 60); const sec = Math.floor(seconds % 60);
             return `${min < 10 ? "0" + min : min}:${sec < 10 ? "0" + sec : sec}`;
         }
 
         bgMusic.addEventListener('timeupdate', () => {
             if (bgMusic.currentTime >= maxDuration) {
-                bgMusic.pause();
-                bgMusic.currentTime = 0;
-                musicToggle.classList.remove('playing');
-                seekBar.value = 0;
-                currentTimeEl.innerText = "00:00";
-                return;
+                bgMusic.pause(); bgMusic.currentTime = 0; musicToggle.classList.remove('playing');
+                seekBar.value = 0; currentTimeEl.innerText = "00:00"; return;
             }
             currentTimeEl.innerText = formatTime(bgMusic.currentTime);
             seekBar.value = (bgMusic.currentTime / maxDuration) * 100 || 0;
         });
 
-        seekBar.addEventListener('input', () => {
-            bgMusic.currentTime = (seekBar.value / 100) * maxDuration;
-        });
+        seekBar.addEventListener('input', () => { bgMusic.currentTime = (seekBar.value / 100) * maxDuration; });
 
+        // 背景 Canvas 動畫
         const cursorEl = document.getElementById('custom-cursor');
         const canvas = document.getElementById('fx-canvas');
         const ctx = canvas.getContext('2d', { alpha: true });
+        let pcbTraces = []; let neonMatrixParticles = []; let lastMouseMoveTime = 0;
+        
+        /* 🔥 新增：判斷通話是否開啟，決定要不要暫停 Canvas 運算 🔥 */
+        let isCanvasPaused = false; 
 
-        let pcbTraces = [];
-        let neonMatrixParticles = [];
-        let lastMouseMoveTime = 0;
-
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
+        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resizeCanvas); resizeCanvas();
 
         for (let i = 0; i < 15; i++) {
             neonMatrixParticles.push({
-                x: Math.random() * window.innerWidth,
-                y: Math.random() * window.innerHeight,
-                size: Math.random() * 3 + 2,
-                speedX: Math.random() * 0.4 - 0.2,
-                speedY: Math.random() * 0.4 + 0.2,
+                x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight,
+                size: Math.random() * 3 + 2, speedX: Math.random() * 0.4 - 0.2, speedY: Math.random() * 0.4 + 0.2,
                 opacity: Math.random() * 0.3 + 0.1
             });
         }
 
         window.addEventListener('mousemove', (e) => {
-            cursorEl.style.left = e.clientX + 'px';
-            cursorEl.style.top = e.clientY + 'px';
+            cursorEl.style.left = e.clientX + 'px'; cursorEl.style.top = e.clientY + 'px';
+            if (isCanvasPaused) return; // 若通話開啟，停止生成特效以節省效能
 
             const now = Date.now();
             if (now - lastMouseMoveTime > 50 && Math.random() < 0.2) {
                 lastMouseMoveTime = now;
                 const directions = [0, Math.PI / 4, Math.PI / 2, Math.PI, -Math.PI / 4];
                 pcbTraces.push({
-                    startX: e.clientX,
-                    startY: e.clientY,
-                    length: Math.random() * 15 + 8,
-                    angle: directions[Math.floor(Math.random() * directions.length)],
-                    opacity: 1,
-                    width: Math.random() * 1.0 + 0.5
+                    startX: e.clientX, startY: e.clientY, length: Math.random() * 15 + 8,
+                    angle: directions[Math.floor(Math.random() * directions.length)], opacity: 1, width: Math.random() * 1.0 + 0.5
                 });
             }
         });
 
         function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // 🔥 若正在通話中，直接略過畫面繪製，將 100% 效能保留給影片播放
+            if (!isCanvasPaused) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+                const electroColor = isDark ? '#00ff66' : '#2563eb';
 
-            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-            const electroColor = isDark ? '#00ff66' : '#2563eb';
-
-            for (let i = pcbTraces.length - 1; i >= 0; i--) {
-                const t = pcbTraces[i];
-                ctx.save();
-                ctx.globalAlpha = t.opacity;
-                ctx.strokeStyle = electroColor;
-                ctx.lineWidth = t.width;
-                ctx.beginPath();
-                ctx.moveTo(t.startX, t.startY);
-                const endX = t.startX + Math.cos(t.angle) * t.length;
-                const endY = t.startY + Math.sin(t.angle) * t.length;
-                ctx.lineTo(endX, endY);
-                ctx.stroke();
-                ctx.fillStyle = electroColor;
-                ctx.beginPath();
-                ctx.arc(endX, endY, t.width * 1.2, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.restore();
-
-                t.opacity -= 0.04;
-                if (t.opacity <= 0) {
-                    pcbTraces.splice(i, 1);
+                for (let i = pcbTraces.length - 1; i >= 0; i--) {
+                    const t = pcbTraces[i];
+                    ctx.save(); ctx.globalAlpha = t.opacity; ctx.strokeStyle = electroColor; ctx.lineWidth = t.width;
+                    ctx.beginPath(); ctx.moveTo(t.startX, t.startY);
+                    const endX = t.startX + Math.cos(t.angle) * t.length; const endY = t.startY + Math.sin(t.angle) * t.length;
+                    ctx.lineTo(endX, endY); ctx.stroke();
+                    ctx.fillStyle = electroColor; ctx.beginPath(); ctx.arc(endX, endY, t.width * 1.2, 0, Math.PI * 2); ctx.fill(); ctx.restore();
+                    t.opacity -= 0.04; if (t.opacity <= 0) { pcbTraces.splice(i, 1); }
                 }
-            }
 
-            for (let i = 0; i < neonMatrixParticles.length; i++) {
-                const s = neonMatrixParticles[i];
-                ctx.save();
-                ctx.globalAlpha = s.opacity;
-                ctx.strokeStyle = electroColor;
-                ctx.lineWidth = 1;
-                ctx.strokeRect(s.x, s.y, s.size, s.size);
-                ctx.restore();
-                s.x += s.speedX;
-                s.y += s.speedY;
-
-                if (s.y > canvas.height) {
-                    s.y = 0;
-                    s.x = Math.random() * canvas.width;
+                for (let i = 0; i < neonMatrixParticles.length; i++) {
+                    const s = neonMatrixParticles[i];
+                    ctx.save(); ctx.globalAlpha = s.opacity; ctx.strokeStyle = electroColor; ctx.lineWidth = 1; ctx.strokeRect(s.x, s.y, s.size, s.size); ctx.restore();
+                    s.x += s.speedX; s.y += s.speedY;
+                    if (s.y > canvas.height) { s.y = 0; s.x = Math.random() * canvas.width; }
                 }
             }
             requestAnimationFrame(animate);
@@ -967,36 +471,20 @@
         const simCallEnded = document.getElementById('sim-call-ended');
         const simReturnBtn = document.getElementById('sim-return-btn');
 
-        let simTimerInterval = null;
-        let simSeconds = 0;
-        let simMuted = false;
-        let simSpeakerOn = false;
+        let simTimerInterval = null; let simSeconds = 0; let simMuted = false; let simSpeakerOn = false;
 
         function simStartCall() {
-            if (!bgMusic.paused) {
-                bgMusic.pause();
-                musicToggle.classList.remove('playing');
-            }
-            simCallOverlay.classList.remove('sim-call-hidden');
-            simCallUI.classList.remove('sim-call-hidden');
-            simCallEnded.classList.add('sim-call-hidden');
-            simCallVideo.classList.add('sim-call-hidden');
-            simCallAvatar.classList.remove('sim-call-hidden');
-            simIncomingControls.classList.remove('sim-call-hidden');
-            simActiveControls.classList.add('sim-call-hidden');
-            simCallTimer.classList.add('sim-call-hidden');
-            simCallStatus.textContent = '正在來電……';
-            simSeconds = 0;
-            simMuted = false;
-            simSpeakerOn = false;
-            simCallVideo.muted = false;
-            simCallVideo.currentTime = 0;
-            simMuteBtn.textContent = '🎙';
-            simMuteText.textContent = '靜音';
-            simSpeakerText.textContent = '擴音';
+            isCanvasPaused = true; // 開啟通話時，暫停背景特效
+            if (!bgMusic.paused) { bgMusic.pause(); musicToggle.classList.remove('playing'); }
+            simCallOverlay.classList.remove('sim-call-hidden'); simCallUI.classList.remove('sim-call-hidden');
+            simCallEnded.classList.add('sim-call-hidden'); simCallVideo.classList.add('sim-call-hidden');
+            simCallAvatar.classList.remove('sim-call-hidden'); simIncomingControls.classList.remove('sim-call-hidden');
+            simActiveControls.classList.add('sim-call-hidden'); simCallTimer.classList.add('sim-call-hidden');
+            simCallStatus.textContent = '正在來電……'; simSeconds = 0; simMuted = false; simSpeakerOn = false;
+            simCallVideo.muted = false; simCallVideo.currentTime = 0;
+            simMuteBtn.textContent = '🎙'; simMuteText.textContent = '靜音'; simSpeakerText.textContent = '擴音';
             simSpeakerBtn.style.background = 'rgba(255,255,255,.20)';
-            simRingtone.currentTime = 0;
-            simRingtone.play().catch(() => {});
+            simRingtone.currentTime = 0; simRingtone.play().catch(() => {});
         }
 
         function simUpdateTimer() {
@@ -1006,83 +494,48 @@
         }
 
         function simEndCall() {
-            clearInterval(simTimerInterval);
-            simRingtone.pause();
-            simRingtone.currentTime = 0;
-            simCallVideo.pause();
-            simCallVideo.currentTime = 0;
-            simCallUI.classList.add('sim-call-hidden');
-            simCallVideo.classList.add('sim-call-hidden');
+            clearInterval(simTimerInterval); simRingtone.pause(); simRingtone.currentTime = 0;
+            simCallVideo.pause(); simCallVideo.currentTime = 0;
+            simCallUI.classList.add('sim-call-hidden'); simCallVideo.classList.add('sim-call-hidden');
             simCallEnded.classList.remove('sim-call-hidden');
         }
 
-        simCallOpen.addEventListener('click', (e) => {
-            e.stopPropagation();
-            simStartCall();
-        });
+        simCallOpen.addEventListener('click', (e) => { e.stopPropagation(); simStartCall(); });
 
         simAcceptBtn.addEventListener('click', async (e) => {
-            e.stopPropagation();
-            simRingtone.pause();
-            simRingtone.currentTime = 0;
-            simIncomingControls.classList.add('sim-call-hidden');
-            simActiveControls.classList.remove('sim-call-hidden');
-            simCallAvatar.classList.add('sim-call-hidden');
-            simCallStatus.textContent = '通話中';
-            simCallTimer.classList.remove('sim-call-hidden');
-            simCallVideo.classList.remove('sim-call-hidden');
-            simSeconds = 0;
-            simUpdateTimer();
-            clearInterval(simTimerInterval);
-            simTimerInterval = setInterval(() => {
-                simSeconds++;
-                simUpdateTimer();
-            }, 1000);
+            e.stopPropagation(); simRingtone.pause(); simRingtone.currentTime = 0;
+            simIncomingControls.classList.add('sim-call-hidden'); simActiveControls.classList.remove('sim-call-hidden');
+            simCallAvatar.classList.add('sim-call-hidden'); simCallStatus.textContent = '通話中';
+            simCallTimer.classList.remove('sim-call-hidden'); simCallVideo.classList.remove('sim-call-hidden');
+            simSeconds = 0; simUpdateTimer(); clearInterval(simTimerInterval);
+            simTimerInterval = setInterval(() => { simSeconds++; simUpdateTimer(); }, 1000);
             try {
                 simCallVideo.currentTime = 0;
                 await simCallVideo.play();
-            } catch (err) {
-                console.log('影片播放失敗：', err);
-            }
+            } catch (err) { console.log('影片播放失敗：', err); }
         });
 
         simRejectBtn.addEventListener('click', (e) => { e.stopPropagation(); simEndCall(); });
         simHangupBtn.addEventListener('click', (e) => { e.stopPropagation(); simEndCall(); });
         simCallVideo.addEventListener('ended', simEndCall);
 
-        simMuteBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            simMuted = !simMuted;
-            simCallVideo.muted = simMuted;
-            simMuteBtn.textContent = simMuted ? '🔇' : '🎙';
-            simMuteText.textContent = simMuted ? '取消靜音' : '靜音';
-        });
-
-        simSpeakerBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            simSpeakerOn = !simSpeakerOn;
-            simSpeakerText.textContent = simSpeakerOn ? '擴音開啟' : '擴音';
-            simSpeakerBtn.style.background = simSpeakerOn ? 'rgba(255,255,255,.42)' : 'rgba(255,255,255,.20)';
-        });
+        simMuteBtn.addEventListener('click', (e) => { e.stopPropagation(); simMuted = !simMuted; simCallVideo.muted = simMuted; simMuteBtn.textContent = simMuted ? '🔇' : '🎙'; simMuteText.textContent = simMuted ? '取消靜音' : '靜音'; });
+        simSpeakerBtn.addEventListener('click', (e) => { e.stopPropagation(); simSpeakerOn = !simSpeakerOn; simSpeakerText.textContent = simSpeakerOn ? '擴音開啟' : '擴音'; simSpeakerBtn.style.background = simSpeakerOn ? 'rgba(255,255,255,.42)' : 'rgba(255,255,255,.20)'; });
 
         simReturnBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            simCallOverlay.classList.add('sim-call-hidden');
-            simCallEnded.classList.add('sim-call-hidden');
-            simCallUI.classList.remove('sim-call-hidden');
-            simIncomingControls.classList.remove('sim-call-hidden');
-            simActiveControls.classList.add('sim-call-hidden');
-            simCallAvatar.classList.remove('sim-call-hidden');
-            simCallTimer.classList.add('sim-call-hidden');
-            simCallStatus.textContent = '正在來電……';
+            simCallOverlay.classList.add('sim-call-hidden'); simCallEnded.classList.add('sim-call-hidden');
+            simCallUI.classList.remove('sim-call-hidden'); simIncomingControls.classList.remove('sim-call-hidden');
+            simActiveControls.classList.add('sim-call-hidden'); simCallAvatar.classList.remove('sim-call-hidden');
+            simCallTimer.classList.add('sim-call-hidden'); simCallStatus.textContent = '正在來電……';
+            isCanvasPaused = false; // 返回網站後，重新啟動背景特效
         });
 
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && !simCallOverlay.classList.contains('sim-call-hidden')) {
-                clearInterval(simTimerInterval);
-                simRingtone.pause();
-                simCallVideo.pause();
+                clearInterval(simTimerInterval); simRingtone.pause(); simCallVideo.pause();
                 simCallOverlay.classList.add('sim-call-hidden');
+                isCanvasPaused = false; // 按 Esc 關閉時也要重啟特效
             }
         });
     </script>
@@ -1090,75 +543,35 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getFirestore, collection, addDoc, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
         const firebaseConfig = {
-            apiKey: "AIzaSyBNGJOpoMdyPLbM3R7-YrFcHlre9YMAaAw",
-            authDomain: "junyi-chat.firebaseapp.com",
-            projectId: "junyi-chat",
-            storageBucket: "junyi-chat.firebasestorage.app",
-            messagingSenderId: "395931311039",
-            appId: "1:395931311039:web:f8532fea57a2f66c729f0a",
-            measurementId: "G-DDB6M5V36C"
+            apiKey: "AIzaSyBNGJOpoMdyPLbM3R7-YrFcHlre9YMAaAw", authDomain: "junyi-chat.firebaseapp.com", projectId: "junyi-chat",
+            storageBucket: "junyi-chat.firebasestorage.app", messagingSenderId: "395931311039", appId: "1:395931311039:web:f8532fea57a2f66c729f0a", measurementId: "G-DDB6M5V36C"
         };
-
         const firebaseApp = initializeApp(firebaseConfig);
         const db = getFirestore(firebaseApp);
+        const chatName = document.getElementById('chat-name'); const chatInput = document.getElementById('chat-input');
+        const chatBox = document.getElementById('chat-box'); const chatSend = document.getElementById('chat-send');
 
-        const chatName = document.getElementById('chat-name');
-        const chatInput = document.getElementById('chat-input');
-        const chatBox = document.getElementById('chat-box');
-        const chatSend = document.getElementById('chat-send');
-
-        function escapeHTML(text) {
-            return text.replace(/[&<>"']/g, (char) => ({
-                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
-            }[char]));
-        }
-
-        function formatMessageTime(timestamp) {
-            const date = new Date(timestamp);
-            return `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
-        }
+        function escapeHTML(text) { return text.replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[char])); }
+        function formatMessageTime(timestamp) { const date = new Date(timestamp); return `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`; }
 
         const q = query(collection(db, "messages"), orderBy("time"));
-
         onSnapshot(q, (snapshot) => {
             chatBox.innerHTML = "";
             snapshot.forEach((doc) => {
-                const data = doc.data();
-                const msg = document.createElement('div');
-                msg.className = 'msg';
-                msg.innerHTML = `
-                    <span class="user">${escapeHTML(data.user || "匿名同學")}</span>：${escapeHTML(data.text || "")}
-                    <span class="time-stamp">${formatMessageTime(data.time || Date.now())}</span>
-                `;
+                const data = doc.data(); const msg = document.createElement('div'); msg.className = 'msg';
+                msg.innerHTML = `<span class="user">${escapeHTML(data.user || "匿名同學")}</span>：${escapeHTML(data.text || "")}<span class="time-stamp">${formatMessageTime(data.time || Date.now())}</span>`;
                 chatBox.appendChild(msg);
             });
             chatBox.scrollTop = chatBox.scrollHeight;
         });
 
         async function sendFirebaseMessage() {
-            const text = chatInput.value.trim();
-            const userNickname = chatName.value.trim() || "匿名同學";
-            if (!text) return;
-            await addDoc(collection(db, "messages"), {
-                user: userNickname,
-                text: text,
-                time: Date.now()
-            });
-            chatInput.value = "";
+            const text = chatInput.value.trim(); const userNickname = chatName.value.trim() || "匿名同學";
+            if (!text) return; await addDoc(collection(db, "messages"), { user: userNickname, text: text, time: Date.now() }); chatInput.value = "";
         }
-
-        chatSend.addEventListener('click', async (e) => {
-            e.stopPropagation();
-            await sendFirebaseMessage();
-        });
-
-        chatInput.addEventListener('keypress', async (e) => {
-            if (e.key === 'Enter') {
-                await sendFirebaseMessage();
-            }
-        });
+        chatSend.addEventListener('click', async (e) => { e.stopPropagation(); await sendFirebaseMessage(); });
+        chatInput.addEventListener('keypress', async (e) => { if (e.key === 'Enter') { await sendFirebaseMessage(); } });
     </script>
 </body>
 </html>
