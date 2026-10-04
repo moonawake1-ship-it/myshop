@@ -1,17 +1,12 @@
 <!DOCTYPE html>
-
 <html lang="zh-TW" data-theme="dark">
 
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>軍一補救教室 ｜ 軍醫補救教室主頁</title>
 
     <style>
-
         * {
             transition:
                 background-color 0.45s ease,
@@ -459,190 +454,11 @@
             font-weight: bold;
         }
 
-        /* =========================
-           模擬通話
-        ========================== */
-
-        .sim-call-btn {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            color: var(--text-main);
-            padding: 10px 16px;
-            border-radius: 999px;
-            font-weight: 700;
-            font-size: 0.95rem;
-        }
-
-        .sim-call-btn:hover {
-            color: var(--primary-light);
-            border-color: var(--primary-light);
-            box-shadow: 0 0 15px rgba(0, 255, 102, 0.18);
-        }
-
-        .sim-call-hidden {
-            display: none !important;
-        }
-
-        .sim-call-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: 20000;
-            background: #000;
-            overflow: hidden;
-        }
-
-        .sim-call-bg {
-            position: absolute;
-            inset: -30px;
-            background:
-                linear-gradient(rgba(0, 0, 0, 0.30), rgba(0, 0, 0, 0.72)),
-                url("xi.jpg") center / cover no-repeat;
-            filter: blur(16px);
-            transform: scale(1.08);
-        }
-
-        .sim-call-video {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            background: #000;
-            z-index: 1;
-        }
-
-        .sim-call-ui {
-            position: relative;
-            z-index: 3;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 28px 18px 52px;
-            color: #fff;
-            text-align: center;
-        }
-
-        .sim-call-tag {
-            padding: 7px 13px;
-            border-radius: 999px;
-            background: rgba(0, 0, 0, 0.52);
-            border: 1px solid rgba(255, 255, 255, 0.20);
-            font-size: 11px;
-            letter-spacing: 1.4px;
-            margin-bottom: 42px;
-        }
-
-        .sim-call-avatar {
-            width: 132px;
-            height: 132px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid rgba(255, 255, 255, 0.78);
-            box-shadow: 0 14px 44px rgba(0, 0, 0, 0.50);
-        }
-
-        .sim-call-name {
-            margin-top: 20px;
-            font-size: 34px;
-            font-weight: 800;
-        }
-
-        .sim-call-status,
-        .sim-call-timer {
-            margin-top: 8px;
-            font-size: 17px;
-            color: rgba(255, 255, 255, 0.82);
-        }
-
-        .sim-call-controls {
-            margin-top: auto;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 48px;
-            padding-bottom: 16px;
-        }
-
-        .sim-call-control {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .sim-round-btn {
-            width: 76px;
-            height: 76px;
-            border: none;
-            border-radius: 50%;
-            color: #fff;
-            font-size: 29px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-        }
-
-        .sim-round-btn:hover {
-            transform: scale(1.06);
-        }
-
-        .sim-accept {
-            background: #34c759;
-        }
-
-        .sim-reject {
-            background: #ff3b30;
-        }
-
-        .sim-secondary {
-            background: rgba(255, 255, 255, 0.20);
-            backdrop-filter: blur(14px);
-        }
-
-        .sim-call-ended {
-            position: absolute;
-            inset: 0;
-            z-index: 10;
-            background: rgba(0, 0, 0, 0.91);
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 28px;
-        }
-
-        .sim-call-ended h2 {
-            margin: 0 0 12px;
-            font-size: 34px;
-        }
-
-        .sim-call-ended p {
-            max-width: 520px;
-            line-height: 1.7;
-            color: rgba(255, 255, 255, 0.68);
-        }
-
-        .sim-return-btn {
-            margin-top: 20px;
-            padding: 12px 22px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.20);
-            background: rgba(255, 255, 255, 0.12);
-            color: #fff;
-            font-weight: 700;
-        }
-
         /* ===== 手機版 RWD ===== */
-
         @media (max-width: 768px) {
 
             body {
-                padding-top: 220px;
+                padding-top: 180px;
             }
 
             nav {
@@ -676,11 +492,6 @@
             nav ul li a {
                 font-size: 0.95rem;
                 writing-mode: horizontal-tb !important;
-            }
-
-            .sim-call-btn {
-                font-size: 0.9rem;
-                padding: 9px 13px;
             }
 
             .controls-group {
@@ -777,30 +588,8 @@
                 padding: 0 14px;
                 font-size: 0.9rem;
             }
-
-            .sim-call-controls {
-                gap: 25px;
-            }
-
-            .sim-round-btn {
-                width: 66px;
-                height: 66px;
-                font-size: 25px;
-            }
-
-            .sim-call-avatar {
-                width: 112px;
-                height: 112px;
-            }
-
-            .sim-call-name {
-                font-size: 29px;
-            }
-
         }
-
     </style>
-
 </head>
 
 <body>
@@ -820,58 +609,35 @@
         <div class="nav-right">
 
             <ul>
-
                 <li>
                     <a href="index.html">🏠 主頁</a>
                 </li>
-
                 <li>
                     <a href="courses.html">🛒 購買課程</a>
                 </li>
-
                 <li>
                     <a href="ai.html">🤖 AI題庫</a>
                 </li>
-
                 <li>
                     <a href="contact.html">✉️ 聯絡我們</a>
                 </li>
-
-                <li>
-                    <button class="sim-call-btn" id="sim-call-open">
-                        📞 與習近平通話（模擬）
-                    </button>
-                </li>
-
             </ul>
 
             <div class="controls-group">
 
                 <div class="music-player-container">
 
-                    <button
-                        class="disc-btn"
-                        id="music-toggle"
-                        title="播放/暫停唱片">
+                    <button class="disc-btn" id="music-toggle" title="播放/暫停唱片">
                     </button>
 
                     <div class="progress-box">
 
                         <div class="time-info">
-
                             <span id="current-time">00:00</span>
-
                             <span id="total-time">04:00</span>
-
                         </div>
 
-                        <input
-                            type="range"
-                            id="seek-bar"
-                            class="slider-bar"
-                            value="0"
-                            min="0"
-                            max="100">
+                        <input type="range" id="seek-bar" class="slider-bar" value="0" min="0" max="100">
 
                     </div>
 
@@ -899,9 +665,7 @@
             </p>
 
             <div class="media-box">
-
                 <img src="hero.jpg" alt="主頁大圖">
-
             </div>
 
             <a href="courses.html" class="cta-btn">
@@ -919,14 +683,11 @@
             <div class="chat-messages" id="chat-box">
 
                 <div class="msg">
-
                     <span class="user">系統管理員</span>：
                     歡迎！聊天室已改為 Firebase 即時同步。
-
                     <span class="time-stamp">
                         Online
                     </span>
-
                 </div>
 
             </div>
@@ -935,22 +696,11 @@
 
                 <div class="input-row">
 
-                    <input
-                        type="text"
-                        id="chat-name"
-                        class="name-input"
-                        value="可以取名"
-                        maxlength="6">
+                    <input type="text" id="chat-name" class="name-input" value="可以取名" maxlength="6">
 
-                    <input
-                        type="text"
-                        id="chat-input"
-                        class="msg-input"
-                        placeholder="鍵入訊息...">
+                    <input type="text" id="chat-input" class="msg-input" placeholder="鍵入訊息...">
 
-                    <button
-                        class="chat-send-btn"
-                        id="chat-send">
+                    <button class="chat-send-btn" id="chat-send">
                         送出
                     </button>
 
@@ -962,1238 +712,192 @@
 
     </div>
 
-    <!-- =========================
-         模擬通話
-    ========================== -->
-
-    <div
-        class="sim-call-overlay sim-call-hidden"
-        id="sim-call-overlay">
-
-        <div class="sim-call-bg"></div>
-
-        <video
-            class="sim-call-video sim-call-hidden"
-            id="sim-call-video"
-            playsinline>
-
-            <source
-                src="xi-call.mp4"
-                type="video/mp4">
-
-            你的瀏覽器不支援影片播放。
-
-        </video>
-
-        <div
-            class="sim-call-ui"
-            id="sim-call-ui">
-
-            <div class="sim-call-tag">
-                模擬通話 · SIMULATION
-            </div>
-
-            <img
-                src="xi.jpg"
-                class="sim-call-avatar"
-                id="sim-call-avatar"
-                alt="模擬來電人物照片">
-
-            <div class="sim-call-name">
-                習近平
-            </div>
-
-            <div
-                class="sim-call-status"
-                id="sim-call-status">
-                正在來電……
-            </div>
-
-            <div
-                class="sim-call-timer sim-call-hidden"
-                id="sim-call-timer">
-                00:00
-            </div>
-
-            <div
-                class="sim-call-controls"
-                id="sim-incoming-controls">
-
-                <div class="sim-call-control">
-
-                    <button
-                        class="sim-round-btn sim-reject"
-                        id="sim-reject-btn">
-                        ✕
-                    </button>
-
-                    <div>
-                        拒接
-                    </div>
-
-                </div>
-
-                <div class="sim-call-control">
-
-                    <button
-                        class="sim-round-btn sim-accept"
-                        id="sim-accept-btn">
-                        ☎
-                    </button>
-
-                    <div>
-                        接聽
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div
-                class="sim-call-controls sim-call-hidden"
-                id="sim-active-controls">
-
-                <div class="sim-call-control">
-
-                    <button
-                        class="sim-round-btn sim-secondary"
-                        id="sim-mute-btn">
-                        🎙
-                    </button>
-
-                    <div id="sim-mute-text">
-                        靜音
-                    </div>
-
-                </div>
-
-                <div class="sim-call-control">
-
-                    <button
-                        class="sim-round-btn sim-reject"
-                        id="sim-hangup-btn">
-                        ✕
-                    </button>
-
-                    <div>
-                        掛斷
-                    </div>
-
-                </div>
-
-                <div class="sim-call-control">
-
-                    <button
-                        class="sim-round-btn sim-secondary"
-                        id="sim-speaker-btn">
-                        🔊
-                    </button>
-
-                    <div id="sim-speaker-text">
-                        擴音
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div
-            class="sim-call-ended sim-call-hidden"
-            id="sim-call-ended">
-
-            <h2>
-                通話結束
-            </h2>
-
-            <p>
-                本功能為虛構模擬互動，
-                並非與本人進行真實私人通話或即時連線。
-            </p>
-
-            <button
-                class="sim-return-btn"
-                id="sim-return-btn">
-                返回網站
-            </button>
-
-        </div>
-
-        <audio
-            id="sim-ringtone"
-            loop>
-
-            <source
-                src="ringtone.mp3"
-                type="audio/mpeg">
-
-        </audio>
-
-    </div>
-
     <script>
-
-        const clickSound =
-            document.getElementById('click-sound');
+        const clickSound = document.getElementById('click-sound');
 
         window.addEventListener('click', (e) => {
-
             clickSound.currentTime = 0;
+            clickSound.play().catch(() => {});
 
-            clickSound
-                .play()
-                .catch(() => {});
+            const ripple = document.createElement('div');
+            ripple.className = 'click-ripple';
+            ripple.style.left = e.clientX + 'px';
+            ripple.style.top = e.clientY + 'px';
+            document.body.appendChild(ripple);
 
-            const ripple =
-                document.createElement('div');
-
-            ripple.className =
-                'click-ripple';
-
-            ripple.style.left =
-                e.clientX + 'px';
-
-            ripple.style.top =
-                e.clientY + 'px';
-
-            document.body.appendChild(
-                ripple
-            );
-
-            setTimeout(
-                () => ripple.remove(),
-                400
-            );
-
+            setTimeout(() => ripple.remove(), 400);
         });
 
-        const themeToggle =
-            document.getElementById(
-                'theme-toggle'
-            );
+        const themeToggle = document.getElementById('theme-toggle');
 
-        themeToggle.addEventListener(
-            'click',
-            (e) => {
+        themeToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
 
-                e.stopPropagation();
-
-                if (
-                    document.documentElement
-                        .getAttribute('data-theme')
-                    === 'light'
-                ) {
-
-                    document.documentElement
-                        .setAttribute(
-                            'data-theme',
-                            'dark'
-                        );
-
-                    themeToggle.innerText =
-                        '🌙';
-
-                }
-
-                else {
-
-                    document.documentElement
-                        .setAttribute(
-                            'data-theme',
-                            'light'
-                        );
-
-                    themeToggle.innerText =
-                        '☀️';
-
-                }
-
+            if (document.documentElement.getAttribute('data-theme') === 'light') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                themeToggle.innerText = '🌙';
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+                themeToggle.innerText = '☀️';
             }
-        );
+        });
 
-        const musicToggle =
-            document.getElementById(
-                'music-toggle'
-            );
+        const musicToggle = document.getElementById('music-toggle');
+        const bgMusic = document.getElementById('bg-music');
+        const seekBar = document.getElementById('seek-bar');
+        const currentTimeEl = document.getElementById('current-time');
+        const maxDuration = 240;
 
-        const bgMusic =
-            document.getElementById(
-                'bg-music'
-            );
+        musicToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
 
-        const seekBar =
-            document.getElementById(
-                'seek-bar'
-            );
-
-        const currentTimeEl =
-            document.getElementById(
-                'current-time'
-            );
-
-        const maxDuration =
-            240;
-
-        musicToggle.addEventListener(
-            'click',
-            (e) => {
-
-                e.stopPropagation();
-
-                if (bgMusic.paused) {
-
-                    bgMusic
-                        .play()
-                        .catch(
-                            () =>
-                                alert(
-                                    '請先點擊網頁任意處激活音訊通道！'
-                                )
-                        );
-
-                    musicToggle
-                        .classList
-                        .add('playing');
-
-                }
-
-                else {
-
-                    bgMusic.pause();
-
-                    musicToggle
-                        .classList
-                        .remove('playing');
-
-                }
-
+            if (bgMusic.paused) {
+                bgMusic.play().catch(() => alert('請先點擊網頁任意處激活音訊通道！'));
+                musicToggle.classList.add('playing');
+            } else {
+                bgMusic.pause();
+                musicToggle.classList.remove('playing');
             }
-        );
+        });
 
         function formatTime(seconds) {
-
-            const min =
-                Math.floor(
-                    seconds / 60
-                );
-
-            const sec =
-                Math.floor(
-                    seconds % 60
-                );
-
+            const min = Math.floor(seconds / 60);
+            const sec = Math.floor(seconds % 60);
             return `${min < 10 ? "0" + min : min}:${sec < 10 ? "0" + sec : sec}`;
-
         }
 
-        bgMusic.addEventListener(
-            'timeupdate',
-            () => {
-
-                if (
-                    bgMusic.currentTime
-                    >= maxDuration
-                ) {
-
-                    bgMusic.pause();
-
-                    bgMusic.currentTime =
-                        0;
-
-                    musicToggle
-                        .classList
-                        .remove('playing');
-
-                    seekBar.value =
-                        0;
-
-                    currentTimeEl.innerText =
-                        "00:00";
-
-                    return;
-
-                }
-
-                currentTimeEl.innerText =
-                    formatTime(
-                        bgMusic.currentTime
-                    );
-
-                seekBar.value =
-                    (
-                        bgMusic.currentTime
-                        / maxDuration
-                    ) * 100 || 0;
-
+        bgMusic.addEventListener('timeupdate', () => {
+            if (bgMusic.currentTime >= maxDuration) {
+                bgMusic.pause();
+                bgMusic.currentTime = 0;
+                musicToggle.classList.remove('playing');
+                seekBar.value = 0;
+                currentTimeEl.innerText = "00:00";
+                return;
             }
-        );
 
-        seekBar.addEventListener(
-            'input',
-            () => {
+            currentTimeEl.innerText = formatTime(bgMusic.currentTime);
+            seekBar.value = (bgMusic.currentTime / maxDuration) * 100 || 0;
+        });
 
-                bgMusic.currentTime =
-                    (
-                        seekBar.value
-                        / 100
-                    )
-                    * maxDuration;
+        seekBar.addEventListener('input', () => {
+            bgMusic.currentTime = (seekBar.value / 100) * maxDuration;
+        });
 
-            }
-        );
-
-        const cursorEl =
-            document.getElementById(
-                'custom-cursor'
-            );
-
-        const canvas =
-            document.getElementById(
-                'fx-canvas'
-            );
-
-        const ctx =
-            canvas.getContext('2d');
+        const cursorEl = document.getElementById('custom-cursor');
+        const canvas = document.getElementById('fx-canvas');
+        const ctx = canvas.getContext('2d', { alpha: true });
 
         let pcbTraces = [];
-
         let neonMatrixParticles = [];
+        let lastMouseMoveTime = 0;
 
         function resizeCanvas() {
-
-            canvas.width =
-                window.innerWidth;
-
-            canvas.height =
-                window.innerHeight;
-
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
         }
 
-        window.addEventListener(
-            'resize',
-            resizeCanvas
-        );
-
+        window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
-        for (
-            let i = 0;
-            i < 35;
-            i++
-        ) {
-
-            neonMatrixParticles
-                .push({
-
-                    x:
-                        Math.random()
-                        * window.innerWidth,
-
-                    y:
-                        Math.random()
-                        * window.innerHeight,
-
-                    size:
-                        Math.random()
-                        * 4 + 2,
-
-                    speedX:
-                        Math.random()
-                        * 0.4 - 0.2,
-
-                    speedY:
-                        Math.random()
-                        * 0.4 + 0.2,
-
-                    opacity:
-                        Math.random()
-                        * 0.4 + 0.2
-
-                });
-
+        // 減少背景粒子總量至 15 個以降低 GPU/CPU 負荷
+        for (let i = 0; i < 15; i++) {
+            neonMatrixParticles.push({
+                x: Math.random() * window.innerWidth,
+                y: Math.random() * window.innerHeight,
+                size: Math.random() * 3 + 2,
+                speedX: Math.random() * 0.4 - 0.2,
+                speedY: Math.random() * 0.4 + 0.2,
+                opacity: Math.random() * 0.3 + 0.1
+            });
         }
 
-        window.addEventListener(
-            'mousemove',
-            (e) => {
+        window.addEventListener('mousemove', (e) => {
+            cursorEl.style.left = e.clientX + 'px';
+            cursorEl.style.top = e.clientY + 'px';
 
-                cursorEl.style.left =
-                    e.clientX + 'px';
+            const now = Date.now();
+            // 限流處理，每 50ms 最多生成一次軌跡點
+            if (now - lastMouseMoveTime > 50 && Math.random() < 0.2) {
+                lastMouseMoveTime = now;
+                const directions = [0, Math.PI / 4, Math.PI / 2, Math.PI, -Math.PI / 4];
 
-                cursorEl.style.top =
-                    e.clientY + 'px';
-
-                if (
-                    Math.random()
-                    < 0.35
-                ) {
-
-                    const directions =
-                        [
-                            0,
-                            Math.PI / 4,
-                            Math.PI / 2,
-                            Math.PI,
-                            -Math.PI / 4
-                        ];
-
-                    pcbTraces.push({
-
-                        startX:
-                            e.clientX,
-
-                        startY:
-                            e.clientY,
-
-                        length:
-                            Math.random()
-                            * 20 + 10,
-
-                        angle:
-                            directions[
-                                Math.floor(
-                                    Math.random()
-                                    * directions.length
-                                )
-                            ],
-
-                        opacity:
-                            1,
-
-                        width:
-                            Math.random()
-                            * 1.2 + 0.5
-
-                    });
-
-                }
-
+                pcbTraces.push({
+                    startX: e.clientX,
+                    startY: e.clientY,
+                    length: Math.random() * 15 + 8,
+                    angle: directions[Math.floor(Math.random() * directions.length)],
+                    opacity: 1,
+                    width: Math.random() * 1.0 + 0.5
+                });
             }
-        );
+        });
 
         function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            ctx.clearRect(
-                0,
-                0,
-                canvas.width,
-                canvas.height
-            );
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            const electroColor = isDark ? '#00ff66' : '#2563eb';
 
-            const isDark =
-                document.documentElement
-                    .getAttribute(
-                        'data-theme'
-                    )
-                === 'dark';
-
-            const electroColor =
-                isDark
-                    ? '#00ff66'
-                    : '#2563eb';
-
-            for (
-                let i =
-                    pcbTraces.length - 1;
-
-                i >= 0;
-
-                i--
-            ) {
-
-                const t =
-                    pcbTraces[i];
+            // 繪製 PCB 軌跡
+            for (let i = pcbTraces.length - 1; i >= 0; i--) {
+                const t = pcbTraces[i];
 
                 ctx.save();
-
-                ctx.globalAlpha =
-                    t.opacity;
-
-                ctx.strokeStyle =
-                    electroColor;
-
-                ctx.lineWidth =
-                    t.width;
-
-                if (isDark) {
-
-                    ctx.shadowBlur =
-                        5;
-
-                    ctx.shadowColor =
-                        electroColor;
-
-                }
+                ctx.globalAlpha = t.opacity;
+                ctx.strokeStyle = electroColor;
+                ctx.lineWidth = t.width;
 
                 ctx.beginPath();
+                ctx.moveTo(t.startX, t.startY);
 
-                ctx.moveTo(
-                    t.startX,
-                    t.startY
-                );
+                const endX = t.startX + Math.cos(t.angle) * t.length;
+                const endY = t.startY + Math.sin(t.angle) * t.length;
 
-                const endX =
-                    t.startX
-                    + Math.cos(
-                        t.angle
-                    )
-                    * t.length;
-
-                const endY =
-                    t.startY
-                    + Math.sin(
-                        t.angle
-                    )
-                    * t.length;
-
-                ctx.lineTo(
-                    endX,
-                    endY
-                );
-
+                ctx.lineTo(endX, endY);
                 ctx.stroke();
 
-                ctx.fillStyle =
-                    electroColor;
-
+                ctx.fillStyle = electroColor;
                 ctx.beginPath();
-
-                ctx.arc(
-                    endX,
-                    endY,
-                    t.width * 1.5,
-                    0,
-                    Math.PI * 2
-                );
-
+                ctx.arc(endX, endY, t.width * 1.2, 0, Math.PI * 2);
                 ctx.fill();
 
                 ctx.restore();
 
-                t.opacity -=
-                    0.025;
-
-                if (
-                    t.opacity
-                    <= 0
-                ) {
-
-                    pcbTraces.splice(
-                        i,
-                        1
-                    );
-
+                t.opacity -= 0.04;
+                if (t.opacity <= 0) {
+                    pcbTraces.splice(i, 1);
                 }
-
             }
 
-            for (
-                let i = 0;
-                i <
-                neonMatrixParticles.length;
-                i++
-            ) {
-
-                const s =
-                    neonMatrixParticles[i];
+            // 繪製背景矩陣粒子
+            for (let i = 0; i < neonMatrixParticles.length; i++) {
+                const s = neonMatrixParticles[i];
 
                 ctx.save();
-
-                ctx.globalAlpha =
-                    s.opacity;
-
-                ctx.strokeStyle =
-                    electroColor;
-
-                ctx.lineWidth =
-                    1;
-
-                ctx.strokeRect(
-                    s.x,
-                    s.y,
-                    s.size,
-                    s.size
-                );
-
+                ctx.globalAlpha = s.opacity;
+                ctx.strokeStyle = electroColor;
+                ctx.lineWidth = 1;
+                ctx.strokeRect(s.x, s.y, s.size, s.size);
                 ctx.restore();
 
-                s.x +=
-                    s.speedX;
+                s.x += s.speedX;
+                s.y += s.speedY;
 
-                s.y +=
-                    s.speedY;
-
-                if (
-                    s.y >
-                    canvas.height
-                ) {
-
-                    s.y =
-                        0;
-
-                    s.x =
-                        Math.random()
-                        * canvas.width;
-
+                if (s.y > canvas.height) {
+                    s.y = 0;
+                    s.x = Math.random() * canvas.width;
                 }
-
             }
 
-            requestAnimationFrame(
-                animate
-            );
-
+            requestAnimationFrame(animate);
         }
 
         animate();
-
-        /* =========================
-           模擬通話
-        ========================== */
-
-        const simCallOpen =
-            document.getElementById(
-                'sim-call-open'
-            );
-
-        const simCallOverlay =
-            document.getElementById(
-                'sim-call-overlay'
-            );
-
-        const simCallUI =
-            document.getElementById(
-                'sim-call-ui'
-            );
-
-        const simCallVideo =
-            document.getElementById(
-                'sim-call-video'
-            );
-
-        const simRingtone =
-            document.getElementById(
-                'sim-ringtone'
-            );
-
-        const simIncomingControls =
-            document.getElementById(
-                'sim-incoming-controls'
-            );
-
-        const simActiveControls =
-            document.getElementById(
-                'sim-active-controls'
-            );
-
-        const simAcceptBtn =
-            document.getElementById(
-                'sim-accept-btn'
-            );
-
-        const simRejectBtn =
-            document.getElementById(
-                'sim-reject-btn'
-            );
-
-        const simHangupBtn =
-            document.getElementById(
-                'sim-hangup-btn'
-            );
-
-        const simMuteBtn =
-            document.getElementById(
-                'sim-mute-btn'
-            );
-
-        const simMuteText =
-            document.getElementById(
-                'sim-mute-text'
-            );
-
-        const simSpeakerBtn =
-            document.getElementById(
-                'sim-speaker-btn'
-            );
-
-        const simSpeakerText =
-            document.getElementById(
-                'sim-speaker-text'
-            );
-
-        const simCallStatus =
-            document.getElementById(
-                'sim-call-status'
-            );
-
-        const simCallTimer =
-            document.getElementById(
-                'sim-call-timer'
-            );
-
-        const simCallAvatar =
-            document.getElementById(
-                'sim-call-avatar'
-            );
-
-        const simCallEnded =
-            document.getElementById(
-                'sim-call-ended'
-            );
-
-        const simReturnBtn =
-            document.getElementById(
-                'sim-return-btn'
-            );
-
-        let simTimerInterval =
-            null;
-
-        let simSeconds =
-            0;
-
-        let simMuted =
-            false;
-
-        let simSpeakerOn =
-            false;
-
-        function simStartCall() {
-
-            if (
-                !bgMusic.paused
-            ) {
-
-                bgMusic.pause();
-
-                musicToggle
-                    .classList
-                    .remove('playing');
-
-            }
-
-            simCallOverlay
-                .classList
-                .remove(
-                    'sim-call-hidden'
-                );
-
-            simCallUI
-                .classList
-                .remove(
-                    'sim-call-hidden'
-                );
-
-            simCallEnded
-                .classList
-                .add(
-                    'sim-call-hidden'
-                );
-
-            simCallVideo
-                .classList
-                .add(
-                    'sim-call-hidden'
-                );
-
-            simCallAvatar
-                .classList
-                .remove(
-                    'sim-call-hidden'
-                );
-
-            simIncomingControls
-                .classList
-                .remove(
-                    'sim-call-hidden'
-                );
-
-            simActiveControls
-                .classList
-                .add(
-                    'sim-call-hidden'
-                );
-
-            simCallTimer
-                .classList
-                .add(
-                    'sim-call-hidden'
-                );
-
-            simCallStatus
-                .textContent =
-                '正在來電……';
-
-            simSeconds =
-                0;
-
-            simMuted =
-                false;
-
-            simSpeakerOn =
-                false;
-
-            simCallVideo.muted =
-                false;
-
-            simCallVideo.currentTime =
-                0;
-
-            simMuteBtn.textContent =
-                '🎙';
-
-            simMuteText.textContent =
-                '靜音';
-
-            simSpeakerText.textContent =
-                '擴音';
-
-            simSpeakerBtn.style.background =
-                'rgba(255,255,255,.20)';
-
-            simRingtone.currentTime =
-                0;
-
-            simRingtone
-                .play()
-                .catch(
-                    () => {}
-                );
-
-        }
-
-        function simUpdateTimer() {
-
-            const m =
-                String(
-                    Math.floor(
-                        simSeconds
-                        / 60
-                    )
-                ).padStart(
-                    2,
-                    '0'
-                );
-
-            const s =
-                String(
-                    simSeconds
-                    % 60
-                ).padStart(
-                    2,
-                    '0'
-                );
-
-            simCallTimer.textContent =
-                `${m}:${s}`;
-
-        }
-
-        function simEndCall() {
-
-            clearInterval(
-                simTimerInterval
-            );
-
-            simRingtone.pause();
-
-            simRingtone.currentTime =
-                0;
-
-            simCallVideo.pause();
-
-            simCallVideo.currentTime =
-                0;
-
-            simCallUI
-                .classList
-                .add(
-                    'sim-call-hidden'
-                );
-
-            simCallVideo
-                .classList
-                .add(
-                    'sim-call-hidden'
-                );
-
-            simCallEnded
-                .classList
-                .remove(
-                    'sim-call-hidden'
-                );
-
-        }
-
-        simCallOpen.addEventListener(
-            'click',
-            (e) => {
-
-                e.stopPropagation();
-
-                simStartCall();
-
-            }
-        );
-
-        simAcceptBtn.addEventListener(
-            'click',
-            async (e) => {
-
-                e.stopPropagation();
-
-                simRingtone.pause();
-
-                simRingtone.currentTime =
-                    0;
-
-                simIncomingControls
-                    .classList
-                    .add(
-                        'sim-call-hidden'
-                    );
-
-                simActiveControls
-                    .classList
-                    .remove(
-                        'sim-call-hidden'
-                    );
-
-                simCallAvatar
-                    .classList
-                    .add(
-                        'sim-call-hidden'
-                    );
-
-                simCallStatus
-                    .textContent =
-                    '通話中';
-
-                simCallTimer
-                    .classList
-                    .remove(
-                        'sim-call-hidden'
-                    );
-
-                simCallVideo
-                    .classList
-                    .remove(
-                        'sim-call-hidden'
-                    );
-
-                simSeconds =
-                    0;
-
-                simUpdateTimer();
-
-                clearInterval(
-                    simTimerInterval
-                );
-
-                simTimerInterval =
-                    setInterval(
-                        () => {
-
-                            simSeconds++;
-
-                            simUpdateTimer();
-
-                        },
-                        1000
-                    );
-
-                try {
-
-                    simCallVideo.currentTime =
-                        0;
-
-                    await simCallVideo.play();
-
-                }
-
-                catch (err) {
-
-                    console.log(
-                        '影片播放失敗：',
-                        err
-                    );
-
-                }
-
-            }
-        );
-
-        simRejectBtn.addEventListener(
-            'click',
-            (e) => {
-
-                e.stopPropagation();
-
-                simEndCall();
-
-            }
-        );
-
-        simHangupBtn.addEventListener(
-            'click',
-            (e) => {
-
-                e.stopPropagation();
-
-                simEndCall();
-
-            }
-        );
-
-        simCallVideo.addEventListener(
-            'ended',
-            simEndCall
-        );
-
-        simMuteBtn.addEventListener(
-            'click',
-            (e) => {
-
-                e.stopPropagation();
-
-                simMuted =
-                    !simMuted;
-
-                simCallVideo.muted =
-                    simMuted;
-
-                simMuteBtn.textContent =
-                    simMuted
-                        ? '🔇'
-                        : '🎙';
-
-                simMuteText.textContent =
-                    simMuted
-                        ? '取消靜音'
-                        : '靜音';
-
-            }
-        );
-
-        simSpeakerBtn.addEventListener(
-            'click',
-            (e) => {
-
-                e.stopPropagation();
-
-                simSpeakerOn =
-                    !simSpeakerOn;
-
-                simSpeakerText.textContent =
-                    simSpeakerOn
-                        ? '擴音開啟'
-                        : '擴音';
-
-                simSpeakerBtn.style.background =
-                    simSpeakerOn
-                        ? 'rgba(255,255,255,.42)'
-                        : 'rgba(255,255,255,.20)';
-
-            }
-        );
-
-        simReturnBtn.addEventListener(
-            'click',
-            (e) => {
-
-                e.stopPropagation();
-
-                simCallOverlay
-                    .classList
-                    .add(
-                        'sim-call-hidden'
-                    );
-
-                simCallEnded
-                    .classList
-                    .add(
-                        'sim-call-hidden'
-                    );
-
-                simCallUI
-                    .classList
-                    .remove(
-                        'sim-call-hidden'
-                    );
-
-                simIncomingControls
-                    .classList
-                    .remove(
-                        'sim-call-hidden'
-                    );
-
-                simActiveControls
-                    .classList
-                    .add(
-                        'sim-call-hidden'
-                    );
-
-                simCallAvatar
-                    .classList
-                    .remove(
-                        'sim-call-hidden'
-                    );
-
-                simCallTimer
-                    .classList
-                    .add(
-                        'sim-call-hidden'
-                    );
-
-                simCallStatus.textContent =
-                    '正在來電……';
-
-            }
-        );
-
-        document.addEventListener(
-            'keydown',
-            (e) => {
-
-                if (
-                    e.key
-                    === 'Escape'
-                    &&
-                    !simCallOverlay
-                        .classList
-                        .contains(
-                            'sim-call-hidden'
-                        )
-                ) {
-
-                    clearInterval(
-                        simTimerInterval
-                    );
-
-                    simRingtone.pause();
-
-                    simCallVideo.pause();
-
-                    simCallOverlay
-                        .classList
-                        .add(
-                            'sim-call-hidden'
-                        );
-
-                }
-
-            }
-        );
-
     </script>
 
     <script type="module">
-
-        import {
-            initializeApp
-        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import {
             getFirestore,
             collection,
@@ -2204,221 +908,84 @@
         } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
         const firebaseConfig = {
-
-            apiKey:
-                "AIzaSyBNGJOpoMdyPLbM3R7-YrFcHlre9YMAaAw",
-
-            authDomain:
-                "junyi-chat.firebaseapp.com",
-
-            projectId:
-                "junyi-chat",
-
-            storageBucket:
-                "junyi-chat.firebasestorage.app",
-
-            messagingSenderId:
-                "395931311039",
-
-            appId:
-                "1:395931311039:web:f8532fea57a2f66c729f0a",
-
-            measurementId:
-                "G-DDB6M5V36C"
-
+            apiKey: "AIzaSyBNGJOpoMdyPLbM3R7-YrFcHlre9YMAaAw",
+            authDomain: "junyi-chat.firebaseapp.com",
+            projectId: "junyi-chat",
+            storageBucket: "junyi-chat.firebasestorage.app",
+            messagingSenderId: "395931311039",
+            appId: "1:395931311039:web:f8532fea57a2f66c729f0a",
+            measurementId: "G-DDB6M5V36C"
         };
 
-        const firebaseApp =
-            initializeApp(
-                firebaseConfig
-            );
+        const firebaseApp = initializeApp(firebaseConfig);
+        const db = getFirestore(firebaseApp);
 
-        const db =
-            getFirestore(
-                firebaseApp
-            );
-
-        const chatName =
-            document.getElementById(
-                'chat-name'
-            );
-
-        const chatInput =
-            document.getElementById(
-                'chat-input'
-            );
-
-        const chatBox =
-            document.getElementById(
-                'chat-box'
-            );
-
-        const chatSend =
-            document.getElementById(
-                'chat-send'
-            );
+        const chatName = document.getElementById('chat-name');
+        const chatInput = document.getElementById('chat-input');
+        const chatBox = document.getElementById('chat-box');
+        const chatSend = document.getElementById('chat-send');
 
         function escapeHTML(text) {
-
-            return text.replace(
-                /[&<>"']/g,
-                (char) => ({
-
-                    '&':
-                        '&amp;',
-
-                    '<':
-                        '&lt;',
-
-                    '>':
-                        '&gt;',
-
-                    '"':
-                        '&quot;',
-
-                    "'":
-                        '&#039;'
-
-                }[char])
-            );
-
+            return text.replace(/[&<>"']/g, (char) => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            }[char]));
         }
 
-        function formatMessageTime(
-            timestamp
-        ) {
-
-            const date =
-                new Date(
-                    timestamp
-                );
-
+        function formatMessageTime(timestamp) {
+            const date = new Date(timestamp);
             return `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
-
         }
 
-        const q =
-            query(
-                collection(
-                    db,
-                    "messages"
-                ),
-                orderBy(
-                    "time"
-                )
-            );
-
-        onSnapshot(
-            q,
-            (snapshot) => {
-
-                chatBox.innerHTML =
-                    "";
-
-                snapshot.forEach(
-                    (doc) => {
-
-                        const data =
-                            doc.data();
-
-                        const msg =
-                            document.createElement(
-                                'div'
-                            );
-
-                        msg.className =
-                            'msg';
-
-                        msg.innerHTML =
-                            `
-                            <span class="user">
-                                ${escapeHTML(data.user || "匿名同學")}
-                            </span>
-                            ：${escapeHTML(data.text || "")}
-                            <span class="time-stamp">
-                                ${formatMessageTime(data.time || Date.now())}
-                            </span>
-                            `;
-
-                        chatBox.appendChild(
-                            msg
-                        );
-
-                    }
-                );
-
-                chatBox.scrollTop =
-                    chatBox.scrollHeight;
-
-            }
+        const q = query(
+            collection(db, "messages"),
+            orderBy("time")
         );
+
+        onSnapshot(q, (snapshot) => {
+            chatBox.innerHTML = "";
+            snapshot.forEach((doc) => {
+                const data = doc.data();
+                const msg = document.createElement('div');
+                msg.className = 'msg';
+                msg.innerHTML = `
+                    <span class="user">${escapeHTML(data.user || "匿名同學")}</span>：${escapeHTML(data.text || "")}
+                    <span class="time-stamp">${formatMessageTime(data.time || Date.now())}</span>
+                `;
+                chatBox.appendChild(msg);
+            });
+            chatBox.scrollTop = chatBox.scrollHeight;
+        });
 
         async function sendFirebaseMessage() {
+            const text = chatInput.value.trim();
+            const userNickname = chatName.value.trim() || "匿名同學";
 
-            const text =
-                chatInput.value.trim();
+            if (!text) return;
 
-            const userNickname =
-                chatName.value.trim()
-                || "匿名同學";
+            await addDoc(collection(db, "messages"), {
+                user: userNickname,
+                text: text,
+                time: Date.now()
+            });
 
-            if (!text) {
-                return;
-            }
-
-            await addDoc(
-                collection(
-                    db,
-                    "messages"
-                ),
-                {
-
-                    user:
-                        userNickname,
-
-                    text:
-                        text,
-
-                    time:
-                        Date.now()
-
-                }
-            );
-
-            chatInput.value =
-                "";
-
+            chatInput.value = "";
         }
 
-        chatSend.addEventListener(
-            'click',
-            async (e) => {
+        chatSend.addEventListener('click', async (e) => {
+            e.stopPropagation();
+            await sendFirebaseMessage();
+        });
 
-                e.stopPropagation();
-
+        chatInput.addEventListener('keypress', async (e) => {
+            if (e.key === 'Enter') {
                 await sendFirebaseMessage();
-
             }
-        );
-
-        chatInput.addEventListener(
-            'keypress',
-            async (e) => {
-
-                if (
-                    e.key
-                    === 'Enter'
-                ) {
-
-                    await sendFirebaseMessage();
-
-                }
-
-            }
-        );
-
+        });
     </script>
-
 </body>
 
 </html>
