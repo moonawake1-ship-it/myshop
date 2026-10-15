@@ -370,49 +370,31 @@
             }
         }
     </style>
+<link rel="stylesheet" href="site-nav.css?v=2">
 </head>
 
 <body>
     <div id="custom-cursor"></div>
     <canvas id="fx-canvas"></canvas>
 
-    <nav>
-        <div class="logo">⚡ 軍一補救教室</div>
-
-        <div class="nav-right">
-            <ul>
-                <li><a href="index.html">🏠 主頁</a></li>
-                <li><a href="courses.html" style="color: var(--primary-light);">🛒 購買課程</a></li>
-                <li><a href="ai.html">🤖 AI題庫</a></li>
-                <li><a href="contact.html">✉️ 聯絡我們</a></li>
-            </ul>
-
-            <div class="controls-group">
-                <div class="music-player-container">
-                    <button class="disc-btn" id="disc-btn" title="播放/暫停唱片" onclick="toggleMusic()"></button>
-
-                    <div class="progress-box">
-                        <div class="time-info">
-                            <span id="current-time">00:00</span>
-                            <span id="total-time">04:00</span>
-                        </div>
-
-                        <input
-                            type="range"
-                            class="slider-bar"
-                            id="progress-bar"
-                            min="0"
-                            max="100"
-                            value="0"
-                            oninput="seekMusic(this.value)"
-                        >
-                    </div>
-                </div>
-
-                <button class="icon-btn" onclick="toggleTheme()">🌙</button>
-            </div>
-        </div>
-    </nav>
+    <nav id="site-nav" aria-label="網站主要導覽">
+  <a class="site-brand" href="index.html" title="軍一補救教室"><span class="site-bolt">⚡</span><span class="site-brand-text">軍一補救教室</span></a>
+  <div class="site-links" role="navigation" aria-label="主要頁面">
+    <a href="index.html" title="主頁" aria-label="主頁"><span>🏠</span><span class="site-word">主頁</span></a>
+    <a href="courses.html" title="購買課程" aria-label="購買課程"><span>🛒</span><span class="site-word">購買課程</span></a>
+    <a href="ai.html" title="AI 題庫" aria-label="AI 題庫"><span>🤖</span><span class="site-word">AI 題庫</span></a>
+    <a href="contact.html" title="聯絡我們" aria-label="聯絡我們"><span>✉️</span><span class="site-word">聯絡我們</span></a>
+    <a href="draw-guess.html?v=20261014-v3-1" title="你畫我猜" aria-label="你畫我猜"><span>🎨</span><span class="site-word">你畫我猜</span></a>
+    <a class="site-special" href="revolution.html" title="新興革命黨" aria-label="新興革命黨"><span>🏴</span><span class="site-word">新興革命黨</span></a>
+  </div>
+  <div class="site-controls">
+    <div class="site-player" title="背景音樂">
+      <button id="site-music-toggle" class="site-disc" type="button" aria-label="播放背景音樂" aria-pressed="false"><span></span></button>
+      <div class="site-progress"><div><span id="site-current-time">00:00</span><span id="site-total-time">--:--</span></div><input type="range" id="site-seek-bar" value="0" min="0" max="100" aria-label="音樂播放進度"></div>
+    </div>
+    <button id="site-theme-toggle" type="button" class="site-theme" title="切換明暗主題" aria-label="切換明暗主題">🌙</button>
+  </div>
+</nav>
 
     <div class="container">
         <h1 style="color: var(--primary-light); font-size: 2.5rem; margin-bottom: 10px;">
@@ -429,7 +411,7 @@
             <div class="course-card">
                 <div>
                     <div class="video-wrapper">
-                        <video src="./digital_logic.mp4" autoplay loop muted playsinline></video>
+                        <video src="./digital_logic.mp4" controls muted playsinline preload="none" aria-label="數位邏輯課程示範影片"></video>
                     </div>
                     <h3>數位邏輯補救班</h3>
                     <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 8px;">
@@ -446,7 +428,7 @@
             <div class="course-card">
                 <div>
                     <div class="video-wrapper">
-                        <video src="./microprocessor.mp4" autoplay loop muted playsinline></video>
+                        <div class="video-placeholder">🎬 微處理機課程影片尚未上傳，敬請期待</div>
                     </div>
                     <h3>微處理機補救班</h3>
                     <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 8px;">
@@ -463,7 +445,7 @@
             <div class="course-card">
                 <div>
                     <div class="image-wrapper">
-                        <img src="./electronics.png" alt="電子學">
+                        <img src="./electronics.svg" alt="電子學">
                     </div>
                     <h3>電子學補救班</h3>
                     <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 8px;">
@@ -531,7 +513,7 @@
             <div class="course-card">
                 <div>
                     <div class="image-wrapper">
-                        <img src="./english.jpg" alt="英文補救班">
+                        <img src="./english.svg" alt="英文補救班">
                     </div>
                     <h3>英文補救班</h3>
                     <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 8px;">
@@ -581,77 +563,8 @@
             window.location.hostname === '127.0.0.1'
                 ? 'http://localhost:3000'
                 : 'https://junyi-myshop.onrender.com';
+        // 全站音樂、主題、音效統一由 site-nav.js 控制。
 
-        let audio = null;
-
-        function initAudio() {
-            if (!audio) {
-                audio = new Audio('./music.mp3');
-                audio.loop = true;
-
-                audio.addEventListener('timeupdate', () => {
-                    const progress = document.getElementById('progress-bar');
-                    const currentTxt = document.getElementById('current-time');
-                    const totalTxt = document.getElementById('total-time');
-
-                    if (audio.duration) {
-                        progress.value =
-                            (audio.currentTime / audio.duration) * 100;
-
-                        currentTxt.textContent =
-                            formatTime(audio.currentTime);
-
-                        totalTxt.textContent =
-                            formatTime(audio.duration);
-                    }
-                });
-            }
-        }
-
-        function formatTime(secs) {
-            const m = Math.floor(secs / 60);
-            const s = Math.floor(secs % 60);
-
-            return `${m}:${s < 10 ? '0' : ''}${s}`;
-        }
-
-        function toggleMusic() {
-            initAudio();
-
-            const disc =
-                document.getElementById('disc-btn');
-
-            if (audio.paused) {
-                audio.play()
-                    .then(() => {
-                        disc.classList.add('playing');
-                    })
-                    .catch(err => {
-                        console.log(err.message);
-                        alert('音樂播放失敗，請確認 music.mp3 是否存在。');
-                    });
-            } else {
-                audio.pause();
-                disc.classList.remove('playing');
-            }
-        }
-
-        function seekMusic(val) {
-            if (!audio || !audio.duration) return;
-
-            audio.currentTime =
-                (val / 100) * audio.duration;
-        }
-
-        function toggleTheme() {
-            const cur =
-                document.documentElement.getAttribute('data-theme');
-
-            document.documentElement.setAttribute(
-                'data-theme',
-                cur === 'light' ? 'dark' : 'light'
-            );
-        }
 
         async function handlePurchase(courseId, btnElement) {
             const originalText =
@@ -756,51 +669,8 @@
             }
         );
 
-        window.addEventListener(
-            'click',
-            (e) => {
-                const ripple =
-                    document.createElement('div');
-
-                ripple.className =
-                    'click-ripple';
-
-                ripple.style.left =
-                    e.clientX + 'px';
-
-                ripple.style.top =
-                    e.clientY + 'px';
-
-                document.body.appendChild(
-                    ripple
-                );
-
-                setTimeout(
-                    () => ripple.remove(),
-                    400
-                );
-
-                const clickSound =
-                    new Audio('./pop.mp3');
-
-                clickSound.play().catch(() => {});
-            }
-        );
-
-        function animate() {
-            ctx.clearRect(
-                0,
-                0,
-                canvas.width,
-                canvas.height
-            );
-
-            requestAnimationFrame(
-                animate
-            );
-        }
-
-        animate();
+        
     </script>
+<script src="site-nav.js?v=2"></script>
 </body>
 </html>

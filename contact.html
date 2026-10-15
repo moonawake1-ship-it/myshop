@@ -255,6 +255,7 @@ button {
     }
 }
     </style>
+<link rel="stylesheet" href="site-nav.css?v=2">
 </head>
 <body>
 
@@ -263,35 +264,28 @@ button {
     <canvas id="fx-canvas"></canvas>
 
     <!-- 音訊本機加載 -->
-    <audio id="bg-music" loop src="music.mp3"></audio>
-    <audio id="click-sound" src="pop.mp3" preload="auto"></audio>
+    <audio id="bg-music" loop src="music.mp3" preload="none"></audio>
+    
 
     <!-- 🟢 100% 複製 index.html 頂部結構 -->
-    <nav>
-        <div class="logo">⚡ 軍一補救教室</div>
-        <div class="nav-right">
-            <ul>
-                <li><a href="index.html">🏠 主頁</a></li>
-                <li><a href="courses.html">🛒 購買課程</a></li>
-                <li><a href="ai.html">🤖 AI題庫</a></li>
-                <li><a href="contact.html">✉️ 聯絡我們</a></li>
-            </ul>
-            <div class="controls-group">
-                <!-- 黑膠唱片控制面板 -->
-                <div class="music-player-container">
-                    <button class="disc-btn" id="music-toggle"></button>
-                    <div class="progress-box">
-                        <div class="time-info">
-                            <span id="current-time">00:00</span>
-                            <span id="total-time">04:00</span>
-                        </div>
-                        <input type="range" id="seek-bar" class="slider-bar" value="0" min="0" max="100">
-                    </div>
-                </div>
-                <button class="icon-btn" id="theme-toggle">🌙</button>
-            </div>
-        </div>
-    </nav>
+    <nav id="site-nav" aria-label="網站主要導覽">
+  <a class="site-brand" href="index.html" title="軍一補救教室"><span class="site-bolt">⚡</span><span class="site-brand-text">軍一補救教室</span></a>
+  <div class="site-links" role="navigation" aria-label="主要頁面">
+    <a href="index.html" title="主頁" aria-label="主頁"><span>🏠</span><span class="site-word">主頁</span></a>
+    <a href="courses.html" title="購買課程" aria-label="購買課程"><span>🛒</span><span class="site-word">購買課程</span></a>
+    <a href="ai.html" title="AI 題庫" aria-label="AI 題庫"><span>🤖</span><span class="site-word">AI 題庫</span></a>
+    <a href="contact.html" title="聯絡我們" aria-label="聯絡我們"><span>✉️</span><span class="site-word">聯絡我們</span></a>
+    <a href="draw-guess.html?v=20261014-v3-1" title="你畫我猜" aria-label="你畫我猜"><span>🎨</span><span class="site-word">你畫我猜</span></a>
+    <a class="site-special" href="revolution.html" title="新興革命黨" aria-label="新興革命黨"><span>🏴</span><span class="site-word">新興革命黨</span></a>
+  </div>
+  <div class="site-controls">
+    <div class="site-player" title="背景音樂">
+      <button id="site-music-toggle" class="site-disc" type="button" aria-label="播放背景音樂" aria-pressed="false"><span></span></button>
+      <div class="site-progress"><div><span id="site-current-time">00:00</span><span id="site-total-time">--:--</span></div><input type="range" id="site-seek-bar" value="0" min="0" max="100" aria-label="音樂播放進度"></div>
+    </div>
+    <button id="site-theme-toggle" type="button" class="site-theme" title="切換明暗主題" aria-label="切換明暗主題">🌙</button>
+  </div>
+</nav>
 
     <div class="contact-box">
         <h2>✉️ 聯絡我們</h2>
@@ -314,51 +308,6 @@ button {
     </div>
 
     <script>
-        /* 💥 瞬發音效與 CSS 小擴散圈 */
-        const clickSound = document.getElementById('click-sound');
-        window.addEventListener('click', (e) => {
-            clickSound.currentTime = 0; clickSound.play().catch(()=>{});
-            const ripple = document.createElement('div'); ripple.className = 'click-ripple';
-            ripple.style.left = e.clientX + 'px'; ripple.style.top = e.clientY + 'px';
-            document.body.appendChild(ripple); setTimeout(() => { ripple.remove(); }, 400);
-        });
-
-        /* 🌓 黑白切換 */
-        const themeToggle = document.getElementById('theme-toggle');
-        themeToggle.addEventListener('click', (e) => {
-            e.stopPropagation();
-            if (document.documentElement.getAttribute('data-theme') === 'light') {
-                document.documentElement.setAttribute('data-theme', 'dark'); themeToggle.innerText = '🌙';
-            } else {
-                document.documentElement.setAttribute('data-theme', 'light'); themeToggle.innerText = '☀️';
-            }
-        });
-
-        /* 🎵 4分鐘唱片控制核心邏輯 */
-        const musicToggle = document.getElementById('music-toggle'); const bgMusic = document.getElementById('bg-music');
-        const seekBar = document.getElementById('seek-bar'); const currentTimeEl = document.getElementById('current-time');
-        const maxDuration = 240; 
-
-        musicToggle.addEventListener('click', (e) => {
-            e.stopPropagation();
-            if (bgMusic.paused) { bgMusic.play().catch(() => alert('請先點擊網頁任意處激活音訊通道！')); musicToggle.classList.add('playing'); } 
-            else { bgMusic.pause(); musicToggle.classList.remove('playing'); }
-        });
-
-        function formatTime(seconds) {
-            let min = Math.floor(seconds / 60); let sec = Math.floor(seconds % 60);
-            return `${min < 10 ? "0" + min : min}:${sec < 10 ? "0" + sec : sec}`;
-        }
-
-        bgMusic.addEventListener('timeupdate', () => {
-            if (bgMusic.currentTime >= maxDuration) {
-                bgMusic.pause(); bgMusic.currentTime = 0; musicToggle.classList.remove('playing'); seekBar.value = 0; currentTimeEl.innerText = "00:00"; return;
-            }
-            currentTimeEl.innerText = formatTime(bgMusic.currentTime);
-            seekBar.value = (bgMusic.currentTime / maxDuration) * 100 || 0;
-        });
-        seekBar.addEventListener('input', () => { bgMusic.currentTime = (seekBar.value / 100) * maxDuration; });
-
         /* 🔬 特效與游標連動渲染區 */
         const cursorEl = document.getElementById('custom-cursor'); const canvas = document.getElementById('fx-canvas'); const ctx = canvas.getContext('2d');
         let pcbTraces = []; let neonMatrixParticles = [];
@@ -369,7 +318,7 @@ button {
         
         window.addEventListener('mousemove', (e) => {
             cursorEl.style.left = e.clientX + 'px'; cursorEl.style.top = e.clientY + 'px';
-            if (Math.random() < 0.35) {
+            if (pcbTraces.length<180 && Math.random() < 0.35) {
                 let directions = [0, Math.PI/4, Math.PI/2, Math.PI, -Math.PI/4];
                 pcbTraces.push({ startX: e.clientX, startY: e.clientY, length: Math.random() * 20 + 10, angle: directions[Math.floor(Math.random() * directions.length)], opacity: 1, width: Math.random() * 1.2 + 0.5 });
             }
@@ -385,7 +334,7 @@ button {
             for (let i = 0; i < neonMatrixParticles.length; i++) {
                 let s = neonMatrixParticles[i]; ctx.save(); ctx.globalAlpha = s.opacity; ctx.strokeStyle = isDark ? '#00ff66' : '#2563eb'; ctx.lineWidth = 1; ctx.strokeRect(s.x, s.y, s.size, s.size); ctx.restore(); s.x += s.speedX; s.y += s.speedY; if (s.y > canvas.height) { s.y = 0; s.x = Math.random() * canvas.width; }
             }
-            requestAnimationFrame(animate);
+            if(!document.hidden) setTimeout(()=>requestAnimationFrame(animate),33); else setTimeout(()=>requestAnimationFrame(animate),250);
         }
         animate();
 
@@ -452,5 +401,6 @@ button {
             }
         });
     </script>
+<script src="site-nav.js?v=2"></script>
 </body>
 </html>

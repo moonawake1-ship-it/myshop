@@ -4,6 +4,8 @@ const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
+const http = require('http');
+const { Server: SocketIOServer } = require('socket.io');
 
 app.use(cors({
     origin: '*',
@@ -573,12 +575,13 @@ const PORT =
     process.env.PORT ||
     3000;
 
-app.listen(
-    PORT,
-    () => {
-
-        console.log(
-            `🚀 Server running on port ${PORT}`
-        );
-    }
-);
+// Express + Socket.IO 共用同一個 Render PORT，保留原有的 REST API。
+const httpServer = http.createServer(app);
+const io = new SocketIOServer(httpServer, {
+    cors: {origin: '*', methods: ['GET', 'POST']},
+    transports: ['websocket', 'polling']
+});
+require('./draw-guess-server')(io);
+httpServer.listen(PORT, () => {
+    console.log(`🚀 HTTP API 與你畫我猜伺服器執行於 ${PORT}`);
+});
