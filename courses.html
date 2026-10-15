@@ -46,9 +46,9 @@
                 transform 0.25s ease;
         }
 
-        html, body, button, a, input, textarea {
-            cursor: none !important;
-        }
+        html, body { cursor: auto; }
+button, a { cursor: pointer; }
+input, textarea { cursor: text; }
 
         body {
             background: var(--bg-main);
@@ -58,32 +58,6 @@
             padding-top: 100px;
             overflow-x: hidden;
             position: relative;
-        }
-
-        #custom-cursor {
-            position: fixed;
-            width: 32px;
-            height: 32px;
-            pointer-events: none;
-            z-index: 10000;
-            top: 0;
-            left: 0;
-            transform: translate(-10%, -10%);
-        }
-
-        #custom-cursor::before {
-            content: '';
-            display: block;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #ffe600 0%, #ff6600 50%, #ff0000 100%);
-            clip-path: polygon(55% 0%, 10% 55%, 50% 55%, 40% 100%, 90% 40%, 50% 40%);
-            animation: pulse-glow 1.5s infinite alternate;
-        }
-
-        @keyframes pulse-glow {
-            0% { filter: drop-shadow(0 0 4px #ff6600); }
-            100% { filter: drop-shadow(0 0 10px #ff3300); }
         }
 
         .click-ripple {
@@ -370,12 +344,13 @@
             }
         }
     </style>
-<link rel="stylesheet" href="site-nav.css?v=3">
+<link rel="stylesheet" href="site-nav.css?v=4">
+<link rel="stylesheet" href="site-petals.css?v=5">
 </head>
 
 <body>
-    <div id="custom-cursor"></div>
-    <canvas id="fx-canvas"></canvas>
+    
+    
 
     <nav id="site-nav" aria-label="網站主要導覽">
   <a class="site-brand" href="index.html" title="軍一補救教室"><span class="site-bolt">⚡</span><span class="site-brand-text">軍一補救教室</span></a>
@@ -392,6 +367,7 @@
       <button id="site-music-toggle" class="site-disc" type="button" aria-label="播放背景音樂" aria-pressed="false"><span></span></button>
       <div class="site-progress"><div><span id="site-current-time">00:00</span><span id="site-total-time">04:01</span></div><input type="range" id="site-seek-bar" value="0" min="0" max="100" aria-label="音樂播放進度"></div>
     </div>
+    
     <button id="site-theme-toggle" type="button" class="site-theme" title="切換明暗主題" aria-label="切換明暗主題">🌙</button>
   </div>
 </nav>
@@ -634,43 +610,11 @@
             }
         }
 
-        const cursor =
-            document.getElementById('custom-cursor');
 
-        const canvas =
-            document.getElementById('fx-canvas');
+        // 自訂閃電滑鼠已移除；保留瀏覽器原生游標。
 
-        const ctx =
-            canvas.getContext('2d');
-
-        function resizeCanvas() {
-            canvas.width =
-                window.innerWidth;
-
-            canvas.height =
-                window.innerHeight;
-        }
-
-        window.addEventListener(
-            'resize',
-            resizeCanvas
-        );
-
-        resizeCanvas();
-
-        window.addEventListener(
-            'mousemove',
-            (e) => {
-                cursor.style.left =
-                    e.clientX + 'px';
-
-                cursor.style.top =
-                    e.clientY + 'px';
-            }
-        );
-
-        
     </script>
-<script src="site-nav.js?v=3"></script>
+<script src="site-nav.js?v=4"></script>
+<script src="site-petals.js?v=5"></script>
 </body>
 </html>

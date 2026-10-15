@@ -99,11 +99,15 @@ nav a:hover{color:var(--primary-light)}
   .media-box img{max-height:260px}.cta-btn{width:100%;text-align:center}.chat-container{width:100%;height:540px}
   .sim-call-controls{gap:25px}.sim-round-btn{width:66px;height:66px;font-size:25px}.sim-call-avatar{width:112px;height:112px}.sim-call-name{font-size:29px}
 }
+/* 原首頁格局：左側主視覺 + 右側聊天室，置中 1200px */
+.main-layout{display:flex;max-width:1200px;margin:40px auto;padding:0 20px;gap:40px;align-items:flex-start}
+@media(max-width:768px){.main-layout{flex-direction:column;margin:10px auto 30px;gap:25px}}
 </style>
-<link rel="stylesheet" href="site-nav.css?v=3">
+<link rel="stylesheet" href="site-nav.css?v=4">
+<link rel="stylesheet" href="site-petals.css?v=5">
 </head>
 <body>
-<canvas id="fx-canvas"></canvas>
+
 <audio id="bg-music" loop src="music.mp3" preload="none"></audio>
 
 
@@ -124,6 +128,7 @@ nav a:hover{color:var(--primary-light)}
       <button id="site-music-toggle" class="site-disc" type="button" aria-label="播放背景音樂" aria-pressed="false"><span></span></button>
       <div class="site-progress"><div><span id="site-current-time">00:00</span><span id="site-total-time">04:01</span></div><input type="range" id="site-seek-bar" value="0" min="0" max="100" aria-label="音樂播放進度"></div>
     </div>
+    
     <button id="site-theme-toggle" type="button" class="site-theme" title="切換明暗主題" aria-label="切換明暗主題">🌙</button>
   </div>
 </nav>
@@ -172,13 +177,7 @@ const $=id=>document.getElementById(id);
 const bgMusic=$("bg-music"), musicToggle=$("site-music-toggle");
 const fmt=s=>`${String(Math.floor(s/60)).padStart(2,"0")}:${String(Math.floor(s%60)).padStart(2,"0")}`;
 let isCanvasPaused=false;
-/* 背景特效 */
-const canvas=$("fx-canvas"),ctx=canvas.getContext("2d",{alpha:true});let traces=[],particles=[];
-function resize(){canvas.width=innerWidth;canvas.height=innerHeight}addEventListener("resize",resize);resize();
-for(let i=0;i<15;i++)particles.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,s:Math.random()*3+2,dx:Math.random()*.4-.2,dy:Math.random()*.4+.2,o:Math.random()*.3+.1});
-addEventListener("mousemove",e=>{if(isCanvasPaused)return;if(traces.length<180&&Math.random()<.15)traces.push({x:e.clientX,y:e.clientY,l:Math.random()*15+8,a:[0,Math.PI/4,Math.PI/2,Math.PI,-Math.PI/4][Math.floor(Math.random()*5)],o:1,w:Math.random()+.5})});
-(function draw(){if(!isCanvasPaused&&!document.hidden){ctx.clearRect(0,0,canvas.width,canvas.height);const c=document.documentElement.getAttribute("data-theme")==="dark"?"#00ff66":"#2563eb";for(let i=traces.length-1;i>=0;i--){const t=traces[i],ex=t.x+Math.cos(t.a)*t.l,ey=t.y+Math.sin(t.a)*t.l;ctx.save();ctx.globalAlpha=t.o;ctx.strokeStyle=c;ctx.lineWidth=t.w;ctx.beginPath();ctx.moveTo(t.x,t.y);ctx.lineTo(ex,ey);ctx.stroke();ctx.restore();t.o-=.04;if(t.o<=0)traces.splice(i,1)}particles.forEach(p=>{ctx.save();ctx.globalAlpha=p.o;ctx.strokeStyle=c;ctx.strokeRect(p.x,p.y,p.s,p.s);ctx.restore();p.x+=p.dx;p.y+=p.dy;if(p.y>canvas.height){p.y=0;p.x=Math.random()*canvas.width}})}setTimeout(()=>requestAnimationFrame(draw),(document.hidden||isCanvasPaused)?400:33)})();
-
+/* 畫布追蹤滑鼠閃電已停用；落花由共用低負擔特效管理。 */
 /* 模擬通話 */
 const overlay=$("sim-call-overlay"),ui=$("sim-call-ui"),video=$("sim-call-video"),ring=$("sim-ringtone"),incoming=$("sim-incoming-controls"),active=$("sim-active-controls"),avatar=$("sim-call-avatar"),status=$("sim-call-status"),timer=$("sim-call-timer"),ended=$("sim-call-ended");
 let sec=0,tick=null,muted=false,speaker=false,wasMusicPlaying=false;
@@ -204,6 +203,7 @@ onSnapshot(query(collection(db,"messages"),orderBy("time")),s=>{box.innerHTML=""
 async function sendMsg(){const text=input.value.trim();if(!text)return;await addDoc(collection(db,"messages"),{user:name.value.trim()||"匿名同學",text,time:Date.now()});input.value=""}
 send.onclick=e=>{e.stopPropagation();sendMsg()};input.onkeypress=e=>{if(e.key==="Enter")sendMsg()};
 </script>
-<script src="site-nav.js?v=3"></script>
+<script src="site-nav.js?v=4"></script>
+<script src="site-petals.js?v=5"></script>
 </body>
 </html>

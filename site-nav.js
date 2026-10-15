@@ -6,9 +6,8 @@
   const path=(location.pathname.split('/').pop()||'index.html');
   nav.querySelectorAll('.site-links a').forEach(a=>{if(a.getAttribute('href').split('?')[0]===path)a.setAttribute('aria-current','page')});
   const theme=get('site-theme-toggle');
-  const subpage=document.body.classList.contains('site-subpage');
   let stored=null;try{stored=localStorage.getItem('junyi-theme')}catch(_){}
-  if((stored==='dark'||stored==='light')&&!subpage)document.documentElement.setAttribute('data-theme',stored);
+  if(stored==='dark'||stored==='light')document.documentElement.setAttribute('data-theme',stored);
   function updateTheme(){theme.textContent=document.documentElement.getAttribute('data-theme')==='light'?'☀️':'🌙'}
   updateTheme();theme.addEventListener('click',()=>{
     const next=document.documentElement.getAttribute('data-theme')==='light'?'dark':'light';
@@ -63,19 +62,15 @@
   // metadata 非整首下載；用來在 AI 題庫、課程頁正確顯示歌曲長度。
   refresh();
   try{audio.load()}catch(_){}
-  // 低音量原生 Web Audio click 音效，避免同時解碼多個 MP3。
-  let ctx=null,lastPop=0;
+  // 保留原本的 POP MP3。只預載一份、快速點擊限流，避免連續重播卡頓。
+  const clickAudio=new Audio('pop.mp3');
+  clickAudio.preload='none';clickAudio.volume=.42;
+  let lastPop=0;
   document.addEventListener('pointerdown',e=>{
     const target=e.target.closest('button,a,[role="button"]');
-    if(!target||target.disabled||performance.now()-lastPop<110)return;
+    if(!target||target.disabled||performance.now()-lastPop<120)return;
     lastPop=performance.now();
-    try{const Ctx=window.AudioContext||window.webkitAudioContext;if(!Ctx)return;
-      ctx=ctx||new Ctx();if(ctx.state==='suspended')ctx.resume().catch(()=>{});
-      const t=ctx.currentTime,osc=ctx.createOscillator(),vol=ctx.createGain();
-      osc.type='sine';osc.frequency.setValueAtTime(520,t);osc.frequency.exponentialRampToValueAtTime(270,t+.055);
-      vol.gain.setValueAtTime(.024,t);vol.gain.exponentialRampToValueAtTime(.001,t+.075);
-      osc.connect(vol);vol.connect(ctx.destination);osc.start(t);osc.stop(t+.08);
-    }catch(_){}
+    try{clickAudio.pause();clickAudio.currentTime=0;clickAudio.play().catch(()=>{});}catch(_){}
   },{passive:true});
-  document.addEventListener('visibilitychange',()=>{if(document.hidden&&ctx?.state==='running')ctx.suspend().catch(()=>{})});
+
 })();

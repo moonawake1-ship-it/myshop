@@ -44,3 +44,39 @@ body.site-subpage:has(> #site-nav) .sendbar .send{display:inline-flex!important;
 .chat-input-area .input-row .msg-input{min-width:0!important;width:0!important;flex:1 1 auto!important}
 .chat-input-area .input-row .chat-send-btn{display:inline-flex!important;align-items:center!important;justify-content:center!important;flex:0 0 68px!important;width:68px!important;min-width:68px!important;white-space:nowrap!important;word-break:keep-all!important;writing-mode:horizontal-tb!important;padding:0 8px!important;min-height:42px!important}
 @media(max-width:420px){.chat-input-area .input-row .name-input{flex-basis:68px!important;max-width:68px!important}.chat-input-area .input-row .chat-send-btn{flex-basis:58px!important;min-width:58px!important;width:58px!important}}
+
+
+/* v4: 回到原本軍一首頁的比例與視覺節奏：左品牌、右選單和播放器 */
+#site-nav{justify-content:space-between!important;gap:18px!important;padding:0 clamp(12px,2.1vw,40px)!important;background:var(--nav-bg,rgba(15,15,15,.86))!important}
+#site-nav .site-brand{margin:0!important;color:var(--logo-color,#fff)!important;font-size:19px!important}
+#site-nav .site-links{margin:0 0 0 auto!important;max-width:none!important;gap:clamp(6px,1.06vw,22px)!important}
+#site-nav .site-links a{font-size:clamp(13px,.9vw,16px)!important;font-weight:550!important;padding:5px 2px!important;border-radius:5px!important}
+#site-nav .site-links a[aria-current=page]{background:transparent!important}
+#site-nav .site-controls{gap:12px!important}
+#site-nav .site-player{padding:6px 12px 6px 6px!important;border-radius:30px!important;min-height:44px!important}
+html[data-theme=light] #site-nav .site-links a[aria-current=page]{background:transparent!important}
+/* 雙色切換亦作用於原本紅金色社群頁，不改動內容結構 */
+html[data-theme=light] body.site-subpage{
+ --bg:#e8f3ff;--panel:#fff;--panel2:#eef5ff;
+ --line:rgba(43,95,166,.23);--text:#172f4f;--muted:#5a6e84;
+ --gold:#285eaa;--red:#3d77c0;--red2:#27528a;
+ --mine:#bedaff;--other:#f0f6ff;
+ color:var(--text)!important;
+ background:#e8f3ff!important;
+ background-image:radial-gradient(circle at 10% 0%,#fff,transparent 42%)!important;
+}
+html[data-theme=light] body.site-subpage :is(.shell,.sidebar,.app,.card,.composer,.post,.hero-card,.panel,.notice,.chat-head,.chat,.contact.active){color:var(--text)}
+html[data-theme=light] body.site-subpage .shell{background:#fff!important;box-shadow:0 25px 65px #3972a124!important}
+html[data-theme=light] body.site-subpage .left{background:linear-gradient(120deg,#d8eaff,#f8fbff)!important}
+html[data-theme=light] body.site-subpage :is(header,.sidebar,.chat-head){background:#f3f8ff!important;color:var(--text)!important}
+html[data-theme=light] body.site-subpage :is(.panel,.notice,.post,.composer,.hero-card){background:#fff!important;color:var(--text)!important}
+html[data-theme=light] body.site-subpage :is(.navbtn,.hbtn,.tab,.toplinks,.back,.chat,.contact,.badge){color:var(--text)!important}
+html[data-theme=light] body.site-subpage :is(input,textarea,select,.search,.input){background:#fff!important;color:#1a3559!important;border-color:#b6cce8!important}
+html[data-theme=light] body.site-subpage .row.mine .bubble{background:#b5d8ff!important;color:#173351!important}
+html[data-theme=light] body.site-subpage .bubble{background:#f0f5fb!important;color:#173351!important}
+html[data-theme=light] body.site-subpage .field label{color:#315170!important}
+html[data-theme=light] body.site-subpage .note{color:#586d82!important}
+@media(max-width:1250px){#site-nav .site-brand-text{display:none!important}#site-nav .site-links{gap:6px!important}}
+@media(max-width:850px){#site-nav .site-links{gap:1px!important;margin-left:auto!important}#site-nav .site-player{min-height:32px!important;padding:2px!important}#site-nav .site-brand{margin:0!important}}
+/* 既有聊天室送出永遠橫排 */
+#chat-send,.chat-send-btn,.sendbar .send{white-space:nowrap!important;writing-mode:horizontal-tb!important;word-break:keep-all!important;flex-shrink:0!important}

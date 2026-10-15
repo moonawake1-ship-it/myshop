@@ -73,6 +73,7 @@ html[data-theme="sky"] .footer{color:#6e83a4}
 @media(max-width:440px){.top{display:block}.theme-controls{max-width:none;justify-content:flex-start;margin-top:10px}.hero-art{min-height:215px}.mode-choice span{min-height:84px;padding:9px}.mode-choice b{font-size:12px}.mode-choice small{font-size:10px}.art-pin{font-size:10px}.stat-box{gap:6px}.stat strong{font-size:20px}.room-title{font-size:15px}.board-head{margin:1px 2px 11px}.word-mask{font-size:17px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
 </style>
+<link rel="stylesheet" href="site-petals.css?v=5">
 </head>
 <body>
 <header class="top">
@@ -180,8 +181,8 @@ function stopMusic(){if(musicLoop){clearInterval(musicLoop);musicLoop=null;}$('m
 function musicBeat(){const notes=[261.63,329.63,392,329.63,293.66,349.23,440,349.23,246.94,329.63,392,329.63,220,293.66,349.23,293.66];tone(notes[melodyTick%notes.length],0,.26,.008,'sine');if(melodyTick%4===0)tone(notes[melodyTick%notes.length]/2,.03,.43,.006,'triangle');melodyTick++;}
 $('musicBtn').onclick=()=>{if(musicLoop){stopMusic();return;}musicBeat();musicLoop=setInterval(musicBeat,500);$('musicBtn').textContent='♫ 背景音樂 ON';$('musicBtn').setAttribute('aria-pressed','true');};
 $('soundBtn').onclick=()=>{soundEnabled=!soundEnabled;$('soundBtn').textContent=soundEnabled?'♪ 音效 ON':'♪ 音效 OFF';$('soundBtn').setAttribute('aria-pressed',String(soundEnabled));};
-function themeSet(v){document.documentElement.dataset.theme=v;$('themeBtn').textContent=v==='sky'?'藍白配色':'黑綠配色';try{localStorage.setItem('drawGuessTheme',v)}catch{}}
-let defaultTheme='dark';try{if(localStorage.getItem('drawGuessTheme')==='sky')defaultTheme='sky';}catch{}themeSet(defaultTheme);
+function themeSet(v){document.documentElement.dataset.theme=v;$('themeBtn').textContent=v==='sky'?'藍白配色':'黑綠配色';try{localStorage.setItem('drawGuessTheme',v);localStorage.setItem('junyi-theme',v==='sky'?'light':'dark')}catch{}}
+let defaultTheme='dark';try{if(localStorage.getItem('junyi-theme')==='light'||(!localStorage.getItem('junyi-theme')&&localStorage.getItem('drawGuessTheme')==='sky'))defaultTheme='sky';}catch{}themeSet(defaultTheme);
 $('themeBtn').onclick=()=>themeSet(document.documentElement.dataset.theme==='sky'?'dark':'sky');
 
 function toast(msg){$('toast').textContent=msg;$('toast').classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').classList.remove('show'),3000);}
@@ -296,5 +297,6 @@ function connect(){const scr=document.createElement('script');scr.src=API_BASE+'
 const preset=new URLSearchParams(location.search).get('room');if(preset)$('roomCode').value=preset.toUpperCase().slice(0,6);
 connect();
 </script>
+<script src="site-petals.js?v=5"></script>
 </body>
 </html>
