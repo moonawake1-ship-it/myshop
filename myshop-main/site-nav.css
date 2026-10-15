@@ -1,0 +1,26 @@
+/* 軍一補救教室共用導覽元件：僅覆寫 #site-nav，不動頁面原本字體與內容。 */
+#site-nav,#site-nav *{box-sizing:border-box}
+#site-nav{position:fixed;top:0;left:0;width:100%;height:70px;padding:0 clamp(12px,2vw,36px);background:var(--nav-bg,rgba(15,15,15,.9));border-bottom:1px solid var(--card-border,rgba(0,255,102,.16));display:flex;align-items:center;justify-content:space-between;gap:clamp(8px,1.4vw,22px);z-index:1000;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);font-family:inherit}
+#site-nav .site-brand{display:flex;align-items:center;gap:5px;font-weight:700;font-size:1.18rem;color:var(--logo-color,var(--text-main,#fff));white-space:nowrap;text-decoration:none;flex:none}
+#site-nav .site-bolt{font-size:1.24em}
+#site-nav .site-links{display:flex;align-items:center;justify-content:center;gap:clamp(5px,1.2vw,20px);min-width:0;flex:1}
+#site-nav .site-links a{color:var(--text-main,#f3f4f6);display:inline-flex;align-items:center;justify-content:center;gap:4px;font-weight:600;font-size:clamp(12px,.94vw,15px);text-decoration:none;white-space:nowrap;line-height:1.25;min-height:36px;border-radius:9px;padding:4px 3px;transition:color .2s,background .2s}
+#site-nav .site-links a:hover,#site-nav .site-links a[aria-current="page"]{color:var(--primary-light,#00ff66);background:rgba(100,130,130,.1)}
+#site-nav .site-links .site-special{color:#e9c978}
+#site-nav .site-controls{display:flex;align-items:center;gap:10px;flex:none}
+#site-nav .site-player{display:flex;align-items:center;gap:8px;border:1px solid var(--card-border,rgba(0,255,102,.16));background:var(--card-bg,rgba(20,20,20,.86));border-radius:28px;padding:5px 10px 5px 6px;min-height:42px}
+#site-nav .site-disc{position:relative;cursor:pointer;display:flex;align-items:center;justify-content:center;border:2px solid #454545;background:conic-gradient(#0b0b0b,#292929,#090909,#1a1a1a,#0b0b0b);width:32px;height:32px;flex:none;border-radius:50%;padding:0;outline-offset:2px}
+#site-nav .site-disc span{width:7px;height:7px;background:var(--primary-light,#00ff66);border-radius:50%}
+#site-nav .site-disc.playing{animation:site-disc-spin 5s linear infinite;border-color:var(--primary-light,#00ff66)}
+@keyframes site-disc-spin{to{transform:rotate(360deg)}}
+#site-nav .site-progress{width:92px}
+#site-nav .site-progress>div{display:flex;justify-content:space-between;gap:5px;font-size:10px;color:var(--text-muted,#a1a1aa);line-height:14px;font-variant-numeric:tabular-nums}
+#site-nav .site-progress input{appearance:auto;accent-color:var(--primary-light,#00ff66);height:5px;width:100%;margin:6px 0 0;cursor:pointer;display:block}
+#site-nav .site-theme{cursor:pointer;flex:none;display:grid;place-items:center;width:38px;height:38px;background:var(--card-bg,#191919);border:1px solid var(--card-border,rgba(0,255,102,.16));color:var(--text-main,#fff);border-radius:50%;font-size:18px;padding:0}
+#site-nav button:focus-visible,#site-nav a:focus-visible{outline:2px solid var(--primary-light,#00ff66);outline-offset:3px}
+body:has(> #site-nav){padding-top:88px}
+@media(max-width:1080px){#site-nav .site-brand-text{display:none}#site-nav .site-links{gap:4px}#site-nav .site-word{display:none}#site-nav .site-links a{font-size:19px;min-width:35px}#site-nav .site-progress{width:72px}}
+@media(max-width:650px){#site-nav{height:60px;padding:0 7px;gap:2px}#site-nav .site-links{justify-content:space-around;gap:0}#site-nav .site-links a{min-width:28px;padding:3px 1px;font-size:17px}#site-nav .site-brand{font-size:16px}#site-nav .site-controls{gap:3px}#site-nav .site-player{padding:2px;min-height:35px;border:none;background:transparent}#site-nav .site-disc{width:29px;height:29px}#site-nav .site-progress{display:none}#site-nav .site-theme{width:30px;height:30px;font-size:16px}body:has(> #site-nav){padding-top:74px!important}}
+@media(prefers-reduced-motion:reduce){#site-nav .site-disc.playing{animation:none}}
+/* 缺失的預覽影片明確告知，不再顯示無法播放的黑框。 */
+.video-placeholder{display:flex;align-items:center;justify-content:center;min-height:180px;text-align:center;padding:24px;color:var(--text-muted,#a1a1aa);background:var(--card-bg,#161616);border:1px dashed var(--card-border,#555);border-radius:13px;font-size:14px}

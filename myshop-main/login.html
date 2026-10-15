@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>新興革命黨｜會員登入</title>
+<style>
+:root{
+  --bg:#0a0808;--panel:#141010;--panel2:#1b1414;--line:rgba(218,181,72,.18);
+  --text:#f5f1e8;--muted:#aaa29a;--gold:#d9b85f;--red:#8e1111;--red2:#5b0707;
+  --ok:#76dc91;--bad:#ff8d8d
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 15% 5%,rgba(142,17,17,.28),transparent 28%),
+    radial-gradient(circle at 90% 20%,rgba(217,184,95,.08),transparent 24%),
+    var(--bg);
+  color:var(--text);
+  font-family:"Microsoft JhengHei",Arial,sans-serif;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px
+}
+a,button{cursor:pointer}
+a{text-decoration:none;color:inherit}
+.shell{
+  width:min(980px,100%);
+  min-height:590px;
+  display:grid;
+  grid-template-columns:1.05fr .95fr;
+  overflow:hidden;
+  border:1px solid var(--line);
+  border-radius:26px;
+  background:rgba(14,11,11,.94);
+  box-shadow:0 30px 80px rgba(0,0,0,.42)
+}
+.left{
+  padding:48px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  background:
+    linear-gradient(rgba(75,0,0,.14),rgba(0,0,0,.5)),
+    radial-gradient(circle at 25% 20%,rgba(145,15,15,.22),transparent 25%)
+}
+.brand{display:flex;align-items:center;gap:12px;color:var(--gold);font-size:13px;letter-spacing:1.5px}
+.emblem{
+  width:44px;height:44px;border:1.5px solid var(--gold);border-radius:50%;
+  display:grid;place-items:center;font-size:21px
+}
+.hero h1{font-size:clamp(46px,7vw,76px);line-height:.95;letter-spacing:-3px}
+.hero h1 span{color:var(--gold)}
+.hero p{margin-top:20px;color:var(--muted);line-height:1.8;max-width:460px}
+.note{font-size:12px;color:#746d68;line-height:1.75}
+.right{padding:48px 42px;display:flex;flex-direction:column;justify-content:center}
+.toplinks{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px}
+.back{font-size:13px;color:var(--gold)}
+.title h2{font-size:30px;margin-bottom:7px}
+.title p{color:var(--muted);font-size:14px;line-height:1.6}
+.tabs{
+  margin:26px 0 22px;
+  padding:5px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  background:rgba(255,255,255,.04);
+  border-radius:13px
+}
+.tab{
+  border:0;background:transparent;color:#8e8580;padding:11px;border-radius:9px;font-weight:800
+}
+.tab.active{background:var(--red);color:#fff}
+.field{margin-bottom:15px}
+.field label{display:block;margin-bottom:7px;font-size:13px;color:#d2cbc5}
+.field input{
+  width:100%;padding:13px 14px;border-radius:11px;
+  border:1px solid rgba(255,255,255,.09);outline:none;
+  background:rgba(255,255,255,.045);color:#fff;font-size:15px
+}
+.field input:focus{border-color:rgba(217,184,95,.55);box-shadow:0 0 0 3px rgba(217,184,95,.07)}
+.hidden{display:none!important}
+.submit{
+  width:100%;padding:13px;border:0;border-radius:11px;
+  background:linear-gradient(135deg,var(--red),var(--red2));
+  color:#fff;font-size:15px;font-weight:800;margin-top:4px
+}
+.submit:hover{transform:translateY(-1px)}
+.submit:disabled{opacity:.55;cursor:not-allowed}
+.status{min-height:22px;margin-top:14px;font-size:13px;line-height:1.5}
+.status.ok{color:var(--ok)}.status.bad{color:var(--bad)}
+.logged{
+  margin-top:18px;padding:15px;border:1px solid var(--line);
+  border-radius:12px;background:rgba(217,184,95,.035);font-size:13px;color:var(--muted)
+}
+.logged b{color:var(--gold)}
+.enter{
+  display:inline-flex;margin-top:12px;padding:9px 12px;border-radius:9px;
+  background:rgba(217,184,95,.08);border:1px solid var(--line);color:var(--gold);font-weight:800
+}
+@media(max-width:760px){
+  body{padding:12px;align-items:flex-start}
+  .shell{grid-template-columns:1fr;min-height:0}
+  .left{padding:26px;min-height:270px}
+  .hero h1{font-size:46px;letter-spacing:-2px}
+  .right{padding:28px 22px 32px}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+  <section class="left">
+    <div class="brand">
+      <div class="emblem">★</div>
+      <div>NEW REVOLUTIONARY PARTY</div>
+    </div>
+
+    <div class="hero">
+      <h1>新興<br><span>革命黨</span></h1>
+      <p>會員登入後，才能使用發文、私人訊息、群組與檔案等個人化社群功能。</p>
+    </div>
+
+    <div class="note">
+      本頁為架空世界觀／創作用社群網站的一部分，與任何真實政黨或政治組織無關。
+    </div>
+  </section>
+
+  <section class="right">
+    <div class="toplinks">
+      <a class="back" href="revolution.html">← 返回第二網站</a>
+      <a class="back" href="index.html">軍一主站</a>
+    </div>
+
+    <div class="title">
+      <h2 id="title">會員登入</h2>
+      <p id="subtitle">使用 Email 與密碼登入社群帳號。</p>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" id="loginTab">登入</button>
+      <button class="tab" id="registerTab">註冊</button>
+    </div>
+
+    <div class="field hidden" id="nameField">
+      <label for="displayName">暱稱</label>
+      <input id="displayName" type="text" maxlength="20" placeholder="例如：末日教主">
+    </div>
+
+    <div class="field">
+      <label for="email">Email</label>
+      <input id="email" type="email" autocomplete="email" placeholder="your@email.com">
+    </div>
+
+    <div class="field">
+      <label for="password">密碼</label>
+      <input id="password" type="password" autocomplete="current-password" placeholder="至少 6 個字元">
+    </div>
+
+    <div class="field hidden" id="confirmField">
+      <label for="confirmPassword">確認密碼</label>
+      <input id="confirmPassword" type="password" autocomplete="new-password" placeholder="再輸入一次密碼">
+    </div>
+
+    <button class="submit" id="submitBtn">登入</button>
+    <div class="status" id="status"></div>
+
+    <div class="logged hidden" id="loggedBox">
+      目前已登入：<b id="loggedName"></b><br>
+      <a class="enter" href="revolution.html">進入新興革命黨社群 →</a>
+    </div>
+  </section>
+</div>
+
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import{
+  getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,
+  updateProfile,onAuthStateChanged
+}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import{getFirestore,doc,setDoc,serverTimestamp}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig={
+  apiKey:"AIzaSyBNGJOpoMdyPLbM3R7-YrFcHlre9YMAaAw",
+  authDomain:"junyi-chat.firebaseapp.com",
+  projectId:"junyi-chat",
+  storageBucket:"junyi-chat.firebasestorage.app",
+  messagingSenderId:"395931311039",
+  appId:"1:395931311039:web:f8532fea57a2f66c729f0a",
+  measurementId:"G-DDB6M5V36C"
+};
+
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const db=getFirestore(app);
+
+const $=id=>document.getElementById(id);
+const loginTab=$("loginTab"),registerTab=$("registerTab"),nameField=$("nameField"),
+confirmField=$("confirmField"),displayName=$("displayName"),email=$("email"),
+password=$("password"),confirmPassword=$("confirmPassword"),submitBtn=$("submitBtn"),
+status=$("status"),title=$("title"),subtitle=$("subtitle"),loggedBox=$("loggedBox"),
+loggedName=$("loggedName");
+
+let mode="login";
+
+function setStatus(text,type=""){
+  status.textContent=text;
+  status.className="status"+(type?" "+type:"");
+}
+function setMode(next){
+  mode=next;setStatus("");
+  const reg=mode==="register";
+  loginTab.classList.toggle("active",!reg);
+  registerTab.classList.toggle("active",reg);
+  nameField.classList.toggle("hidden",!reg);
+  confirmField.classList.toggle("hidden",!reg);
+  title.textContent=reg?"建立帳號":"會員登入";
+  subtitle.textContent=reg?"建立你的暱稱與登入帳號。":"使用 Email 與密碼登入社群帳號。";
+  submitBtn.textContent=reg?"註冊":"登入";
+  password.autocomplete=reg?"new-password":"current-password";
+}
+loginTab.onclick=()=>setMode("login");
+registerTab.onclick=()=>setMode("register");
+
+function friendlyError(err){
+  const code=err?.code||"";
+  if(code==="auth/invalid-credential")return"Email 或密碼錯誤。";
+  if(code==="auth/email-already-in-use")return"這個 Email 已經註冊過。";
+  if(code==="auth/invalid-email")return"Email 格式不正確。";
+  if(code==="auth/weak-password")return"密碼至少需要 6 個字元。";
+  if(code==="auth/network-request-failed")return"網路連線失敗，請稍後再試。";
+  if(code==="auth/operation-not-allowed")return"Firebase 尚未開啟 Email/Password 登入。";
+  return err?.message||"發生未知錯誤。";
+}
+
+submitBtn.onclick=async()=>{
+  const mail=email.value.trim(),pw=password.value;
+  if(!mail||!pw){setStatus("請輸入 Email 和密碼。","bad");return}
+
+  submitBtn.disabled=true;
+  submitBtn.textContent="處理中…";
+
+  try{
+    if(mode==="login"){
+      await signInWithEmailAndPassword(auth,mail,pw);
+      setStatus("登入成功，正在進入社群…","ok");
+      setTimeout(()=>location.href="revolution.html",650);
+    }else{
+      const name=displayName.value.trim();
+      if(!name)throw new Error("請輸入暱稱。");
+      if(pw.length<6)throw new Error("密碼至少需要 6 個字元。");
+      if(pw!==confirmPassword.value)throw new Error("兩次輸入的密碼不同。");
+
+      const result=await createUserWithEmailAndPassword(auth,mail,pw);
+      await updateProfile(result.user,{displayName:name});
+      await setDoc(doc(db,"users",result.user.uid),{
+        uid:result.user.uid,
+        displayName:name,
+        email:mail,
+        avatarUrl:"",
+        createdAt:serverTimestamp()
+      },{merge:true});
+
+      setStatus("註冊成功，正在進入社群…","ok");
+      setTimeout(()=>location.href="revolution.html",650);
+    }
+  }catch(err){
+    setStatus(friendlyError(err),"bad");
+  }finally{
+    submitBtn.disabled=false;
+    submitBtn.textContent=mode==="register"?"註冊":"登入";
+  }
+};
+
+confirmPassword.addEventListener("keydown",e=>{if(e.key==="Enter")submitBtn.click()});
+password.addEventListener("keydown",e=>{if(e.key==="Enter"&&mode==="login")submitBtn.click()});
+
+onAuthStateChanged(auth,user=>{
+  if(user){
+    loggedBox.classList.remove("hidden");
+    loggedName.textContent=user.displayName||user.email||"會員";
+  }else{
+    loggedBox.classList.add("hidden");
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "name": "junyi-doodle-club",
+  "version": "1.0.0",
+  "private": true,
+  "description": "軍一亂畫社：雙模式多人你畫我猜第一版",
+  "scripts": {
+    "start": "node server-local.js",
+    "test": "node test_draw_guess_modes.js"
+  },
+  "dependencies": {
+    "socket.io": "^4.8.1"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
