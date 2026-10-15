@@ -107,8 +107,28 @@ a{text-decoration:none;color:inherit}
   .right{padding:28px 22px 32px}
 }
 </style>
+<link rel="stylesheet" href="site-nav.css?v=3">
 </head>
-<body>
+<body class="site-subpage">
+<nav id="site-nav" aria-label="網站主要導覽">
+  <a class="site-brand" href="index.html" title="軍一補救教室"><span class="site-bolt">⚡</span><span class="site-brand-text">軍一補救教室</span></a>
+  <div class="site-links" role="navigation" aria-label="主要頁面">
+    <a href="index.html" title="主頁" aria-label="主頁"><span>🏠</span><span class="site-word">主頁</span></a>
+    <a href="courses.html" title="購買課程" aria-label="購買課程"><span>🛒</span><span class="site-word">購買課程</span></a>
+    <a href="ai.html" title="AI 題庫" aria-label="AI 題庫"><span>🤖</span><span class="site-word">AI 題庫</span></a>
+    <a href="contact.html" title="聯絡我們" aria-label="聯絡我們"><span>✉️</span><span class="site-word">聯絡我們</span></a>
+    <a href="draw-guess.html?v=20261015-v3-2" title="你畫我猜" aria-label="你畫我猜"><span>🎨</span><span class="site-word">你畫我猜</span></a>
+    <a class="site-special" href="revolution.html" title="新興革命黨" aria-label="新興革命黨"><span>🏴</span><span class="site-word">新興革命黨</span></a>
+  </div>
+  <div class="site-controls">
+    <div class="site-player" title="背景音樂">
+      <button id="site-music-toggle" class="site-disc" type="button" aria-label="播放背景音樂" aria-pressed="false"><span></span></button>
+      <div class="site-progress"><div><span id="site-current-time">00:00</span><span id="site-total-time">04:01</span></div><input type="range" id="site-seek-bar" value="0" min="0" max="100" aria-label="音樂播放進度"></div>
+    </div>
+    <button id="site-theme-toggle" type="button" class="site-theme" title="切換明暗主題" aria-label="切換明暗主題">🌙</button>
+  </div>
+</nav>
+
 <div class="shell">
   <section class="left">
     <div class="brand">
@@ -284,5 +304,6 @@ onAuthStateChanged(auth,user=>{
   }
 });
 </script>
+<script src="site-nav.js?v=3"></script>
 </body>
 </html>

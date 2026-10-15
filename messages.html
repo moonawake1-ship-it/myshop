@@ -17,8 +17,28 @@
 .composer{padding:9px 11px;border-top:1px solid var(--line)}.sendbar{display:flex;align-items:end;gap:7px}.image-label{width:38px;height:38px;flex:0 0 38px;border-radius:10px;border:1px solid var(--line);display:grid;place-items:center;color:var(--gold);background:rgba(217,184,95,.04)}.image-label input{display:none}.input{flex:1;height:38px;min-height:38px;max-height:38px;resize:none;overflow:hidden;outline:0;border:1px solid rgba(255,255,255,.08);border-radius:11px;background:rgba(255,255,255,.04);color:#fff;padding:9px 11px;line-height:20px}.send{height:38px;padding:0 14px;border:0;border-radius:9px;background:linear-gradient(135deg,var(--red),var(--red2));color:#fff;font-weight:800}.preview{display:none;position:relative;width:max-content;max-width:100%;margin-bottom:8px}.preview img{width:110px;height:80px;object-fit:cover;border-radius:10px;border:1px solid var(--line)}.remove-preview{position:absolute;top:-7px;right:-7px;width:25px;height:25px;border:0;border-radius:50%;background:#000;color:#fff}.status{font-size:11px;min-height:15px;margin-top:5px;color:var(--muted)}.status.bad{color:#ff9090}.hidden{display:none!important}
 @media(max-width:700px){.app{grid-template-rows:54px 1fr}header{padding:0 7px}.brand b{font-size:12px}.brand small{display:none}.emblem{width:29px;height:29px}.hbtn{width:34px;height:34px;padding:0;font-size:0;display:grid;place-items:center}.hbtn[href="revolution.html"]::before{content:"🏴";font-size:16px}.hbtn[href="feed.html"]::before{content:"📰";font-size:16px}#logoutBtn::before{content:"↪";font-size:16px}.layout{display:block;position:relative}.sidebar,.chat{position:absolute;inset:0}.chat{display:none}body.chat-open .sidebar{display:none}body.chat-open .chat{display:flex}.back{display:block}.sidebar{border-right:0}.bubble{max-width:86%}}
 </style>
+<link rel="stylesheet" href="site-nav.css?v=3">
 </head>
-<body>
+<body class="site-subpage">
+<nav id="site-nav" aria-label="網站主要導覽">
+  <a class="site-brand" href="index.html" title="軍一補救教室"><span class="site-bolt">⚡</span><span class="site-brand-text">軍一補救教室</span></a>
+  <div class="site-links" role="navigation" aria-label="主要頁面">
+    <a href="index.html" title="主頁" aria-label="主頁"><span>🏠</span><span class="site-word">主頁</span></a>
+    <a href="courses.html" title="購買課程" aria-label="購買課程"><span>🛒</span><span class="site-word">購買課程</span></a>
+    <a href="ai.html" title="AI 題庫" aria-label="AI 題庫"><span>🤖</span><span class="site-word">AI 題庫</span></a>
+    <a href="contact.html" title="聯絡我們" aria-label="聯絡我們"><span>✉️</span><span class="site-word">聯絡我們</span></a>
+    <a href="draw-guess.html?v=20261015-v3-2" title="你畫我猜" aria-label="你畫我猜"><span>🎨</span><span class="site-word">你畫我猜</span></a>
+    <a class="site-special" href="revolution.html" title="新興革命黨" aria-label="新興革命黨"><span>🏴</span><span class="site-word">新興革命黨</span></a>
+  </div>
+  <div class="site-controls">
+    <div class="site-player" title="背景音樂">
+      <button id="site-music-toggle" class="site-disc" type="button" aria-label="播放背景音樂" aria-pressed="false"><span></span></button>
+      <div class="site-progress"><div><span id="site-current-time">00:00</span><span id="site-total-time">04:01</span></div><input type="range" id="site-seek-bar" value="0" min="0" max="100" aria-label="音樂播放進度"></div>
+    </div>
+    <button id="site-theme-toggle" type="button" class="site-theme" title="切換明暗主題" aria-label="切換明暗主題">🌙</button>
+  </div>
+</nav>
+
 <div class="app">
 <header><a class="brand" href="revolution.html"><div class="emblem">★</div><div><b>新興革命黨</b><small>TEXT MESSAGES</small></div></a><div class="actions"><a class="hbtn" href="revolution.html">第二網站</a>
 <a class="hbtn" href="index.html">主站</a>
@@ -40,7 +60,7 @@
             <input id="imageInput" type="file" accept="image/jpeg,image/png,image/webp,image/gif">
           </label>
           <textarea id="messageInput" class="input" rows="1" maxlength="2000" placeholder="輸入訊息…"></textarea>
-          <button id="sendBtn" class="send">送出</button>
+          <button id="sendBtn" class="send" type="button" aria-label="送出私人訊息">送出</button>
         </div>
         <div id="status" class="status"></div>
       </div>
@@ -214,5 +234,6 @@ send.onclick=sendMsg;input.onkeydown=e=>{if(e.key==="Enter"&&!e.shiftKey){e.prev
 $("backBtn").onclick=()=>document.body.classList.remove("chat-open");
 $("logoutBtn").onclick=async()=>{await signOut(auth);location.href="login.html"};
 </script>
+<script src="site-nav.js?v=3"></script>
 </body>
 </html>

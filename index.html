@@ -100,7 +100,7 @@ nav a:hover{color:var(--primary-light)}
   .sim-call-controls{gap:25px}.sim-round-btn{width:66px;height:66px;font-size:25px}.sim-call-avatar{width:112px;height:112px}.sim-call-name{font-size:29px}
 }
 </style>
-<link rel="stylesheet" href="site-nav.css?v=2">
+<link rel="stylesheet" href="site-nav.css?v=3">
 </head>
 <body>
 <canvas id="fx-canvas"></canvas>
@@ -116,13 +116,13 @@ nav a:hover{color:var(--primary-light)}
     <a href="courses.html" title="購買課程" aria-label="購買課程"><span>🛒</span><span class="site-word">購買課程</span></a>
     <a href="ai.html" title="AI 題庫" aria-label="AI 題庫"><span>🤖</span><span class="site-word">AI 題庫</span></a>
     <a href="contact.html" title="聯絡我們" aria-label="聯絡我們"><span>✉️</span><span class="site-word">聯絡我們</span></a>
-    <a href="draw-guess.html?v=20261014-v3-1" title="你畫我猜" aria-label="你畫我猜"><span>🎨</span><span class="site-word">你畫我猜</span></a>
+    <a href="draw-guess.html?v=20261015-v3-2" title="你畫我猜" aria-label="你畫我猜"><span>🎨</span><span class="site-word">你畫我猜</span></a>
     <a class="site-special" href="revolution.html" title="新興革命黨" aria-label="新興革命黨"><span>🏴</span><span class="site-word">新興革命黨</span></a>
   </div>
   <div class="site-controls">
     <div class="site-player" title="背景音樂">
       <button id="site-music-toggle" class="site-disc" type="button" aria-label="播放背景音樂" aria-pressed="false"><span></span></button>
-      <div class="site-progress"><div><span id="site-current-time">00:00</span><span id="site-total-time">--:--</span></div><input type="range" id="site-seek-bar" value="0" min="0" max="100" aria-label="音樂播放進度"></div>
+      <div class="site-progress"><div><span id="site-current-time">00:00</span><span id="site-total-time">04:01</span></div><input type="range" id="site-seek-bar" value="0" min="0" max="100" aria-label="音樂播放進度"></div>
     </div>
     <button id="site-theme-toggle" type="button" class="site-theme" title="切換明暗主題" aria-label="切換明暗主題">🌙</button>
   </div>
@@ -141,7 +141,7 @@ nav a:hover{color:var(--primary-light)}
     <div class="chat-input-area"><div class="input-row">
       <input type="text" id="chat-name" class="name-input" value="可以取名" maxlength="6">
       <input type="text" id="chat-input" class="msg-input" placeholder="鍵入訊息...">
-      <button class="chat-send-btn" id="chat-send">送出</button>
+      <button class="chat-send-btn" id="chat-send" type="button" aria-label="送出聊天室訊息">送出</button>
     </div></div>
   </div>
 </div>
@@ -204,6 +204,6 @@ onSnapshot(query(collection(db,"messages"),orderBy("time")),s=>{box.innerHTML=""
 async function sendMsg(){const text=input.value.trim();if(!text)return;await addDoc(collection(db,"messages"),{user:name.value.trim()||"匿名同學",text,time:Date.now()});input.value=""}
 send.onclick=e=>{e.stopPropagation();sendMsg()};input.onkeypress=e=>{if(e.key==="Enter")sendMsg()};
 </script>
-<script src="site-nav.js?v=2"></script>
+<script src="site-nav.js?v=3"></script>
 </body>
 </html>

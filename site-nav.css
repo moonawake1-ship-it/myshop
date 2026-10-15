@@ -1,26 +1,46 @@
-/* 軍一補救教室共用導覽元件：僅覆寫 #site-nav，不動頁面原本字體與內容。 */
+/* 軍一補救教室統一頁首。所有規則限縮於 #site-nav，保留各頁字體及社群風格。 */
 #site-nav,#site-nav *{box-sizing:border-box}
-#site-nav{position:fixed;top:0;left:0;width:100%;height:70px;padding:0 clamp(12px,2vw,36px);background:var(--nav-bg,rgba(15,15,15,.9));border-bottom:1px solid var(--card-border,rgba(0,255,102,.16));display:flex;align-items:center;justify-content:space-between;gap:clamp(8px,1.4vw,22px);z-index:1000;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);font-family:inherit}
-#site-nav .site-brand{display:flex;align-items:center;gap:5px;font-weight:700;font-size:1.18rem;color:var(--logo-color,var(--text-main,#fff));white-space:nowrap;text-decoration:none;flex:none}
-#site-nav .site-bolt{font-size:1.24em}
-#site-nav .site-links{display:flex;align-items:center;justify-content:center;gap:clamp(5px,1.2vw,20px);min-width:0;flex:1}
-#site-nav .site-links a{color:var(--text-main,#f3f4f6);display:inline-flex;align-items:center;justify-content:center;gap:4px;font-weight:600;font-size:clamp(12px,.94vw,15px);text-decoration:none;white-space:nowrap;line-height:1.25;min-height:36px;border-radius:9px;padding:4px 3px;transition:color .2s,background .2s}
-#site-nav .site-links a:hover,#site-nav .site-links a[aria-current="page"]{color:var(--primary-light,#00ff66);background:rgba(100,130,130,.1)}
-#site-nav .site-links .site-special{color:#e9c978}
-#site-nav .site-controls{display:flex;align-items:center;gap:10px;flex:none}
-#site-nav .site-player{display:flex;align-items:center;gap:8px;border:1px solid var(--card-border,rgba(0,255,102,.16));background:var(--card-bg,rgba(20,20,20,.86));border-radius:28px;padding:5px 10px 5px 6px;min-height:42px}
-#site-nav .site-disc{position:relative;cursor:pointer;display:flex;align-items:center;justify-content:center;border:2px solid #454545;background:conic-gradient(#0b0b0b,#292929,#090909,#1a1a1a,#0b0b0b);width:32px;height:32px;flex:none;border-radius:50%;padding:0;outline-offset:2px}
-#site-nav .site-disc span{width:7px;height:7px;background:var(--primary-light,#00ff66);border-radius:50%}
-#site-nav .site-disc.playing{animation:site-disc-spin 5s linear infinite;border-color:var(--primary-light,#00ff66)}
+#site-nav{position:fixed!important;top:0!important;left:0!important;right:0!important;width:100%!important;height:70px!important;min-height:70px!important;padding:0 clamp(12px,2vw,30px)!important;display:flex!important;flex-wrap:nowrap!important;justify-content:flex-end!important;align-items:center!important;gap:clamp(9px,1.3vw,18px)!important;background:rgba(13,15,15,.96)!important;color:#f4f4f5!important;border-bottom:1px solid rgba(0,255,102,.2)!important;z-index:11000!important;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);font-family:inherit!important;line-height:1.25!important}
+#site-nav .site-brand{flex:0 0 auto!important;display:inline-flex!important;align-items:center;gap:6px!important;margin:0 auto 0 0!important;text-decoration:none!important;color:#f4f4f5!important;font-size:18px!important;font-weight:800!important;white-space:nowrap!important;max-width:none!important;min-width:0!important}
+#site-nav .site-bolt{font-size:21px}
+#site-nav .site-links{display:flex!important;flex:0 1 auto!important;justify-content:flex-end!important;align-items:center!important;min-width:0!important;max-width:100%!important;gap:clamp(3px,.8vw,14px)!important;margin:0!important;padding:0!important;overflow:visible!important;flex-wrap:nowrap!important}
+#site-nav .site-links a{display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:3px!important;position:static!important;padding:5px 6px!important;margin:0!important;color:#f3f4f6!important;text-decoration:none!important;white-space:nowrap!important;word-break:keep-all!important;writing-mode:horizontal-tb!important;font-size:clamp(12px,.94vw,15px)!important;font-weight:600!important;line-height:1.35!important;min-height:34px!important;height:auto!important;width:auto!important;border:0!important;border-radius:8px!important;background:transparent!important;transition:background .16s,color .16s!important}
+#site-nav .site-links a:hover,#site-nav .site-links a[aria-current="page"]{color:#00ff66!important;background:rgba(0,255,102,.1)!important}
+#site-nav .site-links .site-special{color:#eed38a!important}
+#site-nav .site-controls{display:flex!important;align-items:center!important;justify-content:flex-end!important;flex:0 0 auto!important;gap:9px!important;min-width:0!important;margin:0!important}
+#site-nav .site-player{display:flex!important;align-items:center!important;gap:7px!important;min-height:41px!important;padding:4px 10px 4px 5px!important;border:1px solid rgba(0,255,102,.2)!important;background:rgba(24,27,26,.92)!important;border-radius:28px!important;box-shadow:none!important;max-width:none!important}
+#site-nav .site-disc{position:relative!important;display:flex!important;flex:0 0 32px!important;align-items:center!important;justify-content:center!important;width:32px!important;height:32px!important;min-height:0!important;border:2px solid #464a48!important;border-radius:50%!important;background:conic-gradient(#0b0b0b,#282828,#090909,#1a1a1a,#0b0b0b)!important;padding:0!important;margin:0!important;cursor:pointer!important;color:inherit!important}
+#site-nav .site-disc span{width:7px!important;height:7px!important;border-radius:50%!important;background:#00ff66!important}
+#site-nav .site-disc.playing{border-color:#00ff66!important;animation:site-disc-spin 5s linear infinite!important}
 @keyframes site-disc-spin{to{transform:rotate(360deg)}}
-#site-nav .site-progress{width:92px}
-#site-nav .site-progress>div{display:flex;justify-content:space-between;gap:5px;font-size:10px;color:var(--text-muted,#a1a1aa);line-height:14px;font-variant-numeric:tabular-nums}
-#site-nav .site-progress input{appearance:auto;accent-color:var(--primary-light,#00ff66);height:5px;width:100%;margin:6px 0 0;cursor:pointer;display:block}
-#site-nav .site-theme{cursor:pointer;flex:none;display:grid;place-items:center;width:38px;height:38px;background:var(--card-bg,#191919);border:1px solid var(--card-border,rgba(0,255,102,.16));color:var(--text-main,#fff);border-radius:50%;font-size:18px;padding:0}
-#site-nav button:focus-visible,#site-nav a:focus-visible{outline:2px solid var(--primary-light,#00ff66);outline-offset:3px}
-body:has(> #site-nav){padding-top:88px}
-@media(max-width:1080px){#site-nav .site-brand-text{display:none}#site-nav .site-links{gap:4px}#site-nav .site-word{display:none}#site-nav .site-links a{font-size:19px;min-width:35px}#site-nav .site-progress{width:72px}}
-@media(max-width:650px){#site-nav{height:60px;padding:0 7px;gap:2px}#site-nav .site-links{justify-content:space-around;gap:0}#site-nav .site-links a{min-width:28px;padding:3px 1px;font-size:17px}#site-nav .site-brand{font-size:16px}#site-nav .site-controls{gap:3px}#site-nav .site-player{padding:2px;min-height:35px;border:none;background:transparent}#site-nav .site-disc{width:29px;height:29px}#site-nav .site-progress{display:none}#site-nav .site-theme{width:30px;height:30px;font-size:16px}body:has(> #site-nav){padding-top:74px!important}}
-@media(prefers-reduced-motion:reduce){#site-nav .site-disc.playing{animation:none}}
-/* 缺失的預覽影片明確告知，不再顯示無法播放的黑框。 */
-.video-placeholder{display:flex;align-items:center;justify-content:center;min-height:180px;text-align:center;padding:24px;color:var(--text-muted,#a1a1aa);background:var(--card-bg,#161616);border:1px dashed var(--card-border,#555);border-radius:13px;font-size:14px}
+#site-nav .site-progress{display:block!important;width:92px!important;min-width:92px!important;line-height:1!important}
+#site-nav .site-progress>div{display:flex!important;justify-content:space-between!important;gap:8px!important;color:#bcc2c0!important;font-size:10px!important;line-height:13px!important;white-space:nowrap!important;font-variant-numeric:tabular-nums!important}
+#site-nav .site-progress input{display:block!important;width:100%!important;height:5px!important;margin:5px 0 0!important;padding:0!important;appearance:auto!important;accent-color:#00ff66!important;cursor:pointer!important}
+#site-nav .site-theme{display:grid!important;flex:0 0 38px!important;place-items:center!important;width:38px!important;height:38px!important;border:1px solid rgba(0,255,102,.2)!important;border-radius:50%!important;background:rgba(24,27,26,.92)!important;color:#fff!important;cursor:pointer!important;padding:0!important;font-size:17px!important;line-height:1!important}
+#site-nav a:focus-visible,#site-nav button:focus-visible{outline:2px solid #00ff66!important;outline-offset:2px!important}
+/* 僅首頁、課程等主網站的明暗切換會影響頁面主體；其他專區保留自訂內容風格 */
+html[data-theme="light"] #site-nav{background:rgba(255,255,255,.97)!important;border-bottom-color:rgba(37,99,235,.19)!important;color:#14233a!important}
+html[data-theme="light"] #site-nav .site-brand,html[data-theme="light"] #site-nav .site-links a{color:#14233a!important}
+html[data-theme="light"] #site-nav .site-links a:hover,html[data-theme="light"] #site-nav .site-links a[aria-current="page"]{color:#2258b9!important;background:rgba(37,99,235,.09)!important}
+html[data-theme="light"] #site-nav .site-special{color:#906b1f!important}
+html[data-theme="light"] #site-nav .site-player,html[data-theme="light"] #site-nav .site-theme{background:#f0f4fb!important;border-color:#bfd0e8!important;color:#14233a!important}
+html[data-theme="light"] #site-nav .site-progress>div{color:#566276!important}
+html[data-theme="light"] #site-nav .site-disc span{background:#2563eb!important}
+html[data-theme="light"] #site-nav .site-progress input{accent-color:#2563eb!important}
+/* 統一頂部空間，避免導航覆蓋內容或把互動區擠壞 */
+body:has(> #site-nav){padding-top:88px!important}
+body.site-subpage:has(> #site-nav)>.app{height:calc(100dvh - 88px)!important;max-height:calc(100dvh - 88px)!important}
+body.site-subpage:has(> #site-nav)>header{top:70px!important}
+body.site-subpage:has(> #site-nav) .sendbar{display:flex!important;flex-direction:row!important;align-items:flex-end!important;min-width:0!important}
+body.site-subpage:has(> #site-nav) .sendbar .input{min-width:0!important}
+body.site-subpage:has(> #site-nav) .sendbar .send{display:inline-flex!important;align-items:center!important;justify-content:center!important;min-width:70px!important;flex:0 0 70px!important;white-space:nowrap!important;writing-mode:horizontal-tb!important;padding:0 10px!important}
+@media(max-width:1220px){#site-nav .site-brand-text{display:none!important}#site-nav .site-links{gap:3px!important}#site-nav .site-links a{padding:5px 4px!important}#site-nav .site-progress{width:70px!important;min-width:70px!important}}
+@media(max-width:850px){#site-nav{height:62px!important;min-height:62px!important;padding:0 7px!important;gap:4px!important}#site-nav .site-word{display:none!important}#site-nav .site-links{flex:1 1 auto!important;justify-content:flex-end!important;gap:1px!important}#site-nav .site-links a{font-size:18px!important;padding:5px 4px!important;min-width:30px!important}#site-nav .site-brand{font-size:16px!important}#site-nav .site-controls{gap:3px!important}#site-nav .site-player{padding:2px!important;min-height:34px!important;border:0!important;background:transparent!important}#site-nav .site-progress{display:none!important}#site-nav .site-disc{width:29px!important;height:29px!important;flex-basis:29px!important}#site-nav .site-theme{width:30px!important;height:30px!important;flex-basis:30px!important;font-size:16px!important}body:has(> #site-nav){padding-top:72px!important}body.site-subpage:has(> #site-nav)>.app{height:calc(100dvh - 72px)!important;max-height:calc(100dvh - 72px)!important}body.site-subpage:has(> #site-nav)>header{top:62px!important}}
+@media(max-width:470px){#site-nav .site-links a{padding:4px 2px!important;min-width:26px!important;font-size:16px!important}#site-nav .site-bolt{font-size:18px!important}#site-nav .site-controls{gap:1px!important}#site-nav .site-theme{width:28px!important;height:28px!important;flex-basis:28px!important}}
+@media(prefers-reduced-motion:reduce){#site-nav .site-disc.playing{animation:none!important}}
+/* 保證首頁「送出」橫向排版，不被長訊息欄位擠成直排 */
+.chat-input-area .input-row{display:flex!important;flex-direction:row!important;align-items:stretch!important;flex-wrap:nowrap!important;min-width:0!important}
+.chat-input-area .input-row .name-input{flex:0 0 87px!important;min-width:0!important;max-width:87px!important}
+.chat-input-area .input-row .msg-input{min-width:0!important;width:0!important;flex:1 1 auto!important}
+.chat-input-area .input-row .chat-send-btn{display:inline-flex!important;align-items:center!important;justify-content:center!important;flex:0 0 68px!important;width:68px!important;min-width:68px!important;white-space:nowrap!important;word-break:keep-all!important;writing-mode:horizontal-tb!important;padding:0 8px!important;min-height:42px!important}
+@media(max-width:420px){.chat-input-area .input-row .name-input{flex-basis:68px!important;max-width:68px!important}.chat-input-area .input-row .chat-send-btn{flex-basis:58px!important;min-width:58px!important;width:58px!important}}
