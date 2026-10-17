@@ -282,6 +282,10 @@ input, textarea { cursor: text; }
             object-fit: cover;
         }
 
+        /* 兩張人像照優先保留臉部，原圖不需裁切 */
+        .course-photo-basic img { object-position: center 17%; }
+        .course-photo-math img { object-position: center 4%; }
+
         .price-tag {
             font-size: 1.5rem;
             color: var(--accent);
@@ -387,7 +391,7 @@ input, textarea { cursor: text; }
             <!-- 1 數位邏輯 -->
             <div class="course-card">
                 <div>
-                    <div class="video-wrapper">
+                    <div class="video-wrapper course-media" data-media="./digital_logic.mp4">
                         <video src="./digital_logic.mp4" controls muted playsinline preload="none" aria-label="數位邏輯課程示範影片"></video>
                     </div>
                     <h3>數位邏輯補救班</h3>
@@ -404,7 +408,7 @@ input, textarea { cursor: text; }
             <!-- 2 微處理機 -->
             <div class="course-card">
                 <div>
-                    <div class="image-wrapper">
+                    <div class="image-wrapper course-media" data-media="./microprocessor.jpg" data-fallback="./microprocessor.svg">
                         <img src="./microprocessor.svg" alt="微處理機電路示意圖" loading="lazy">
                     </div>
                     <h3>微處理機補救班</h3>
@@ -421,7 +425,7 @@ input, textarea { cursor: text; }
             <!-- 3 電子學 -->
             <div class="course-card">
                 <div>
-                    <div class="image-wrapper">
+                    <div class="image-wrapper course-media" data-media="./electronics.jpg" data-fallback="./electronics.svg">
                         <img src="./electronics.svg" alt="電子學">
                     </div>
                     <h3>電子學補救班</h3>
@@ -438,7 +442,7 @@ input, textarea { cursor: text; }
             <!-- 4 基本電學 -->
             <div class="course-card">
                 <div>
-                    <div class="image-wrapper">
+                    <div class="image-wrapper course-media course-photo-basic" data-media="./basic_electricity.jpg">
                         <img src="./basic_electricity.jpg" alt="基本電學">
                     </div>
                     <h3>基本電學補救班</h3>
@@ -455,7 +459,7 @@ input, textarea { cursor: text; }
             <!-- 5 統測數學 -->
             <div class="course-card">
                 <div>
-                    <div class="image-wrapper">
+                    <div class="image-wrapper course-media course-photo-math" data-media="./math.jpg">
                         <img src="./math.jpg" alt="統測數學">
                     </div>
                     <h3>統測數學高分班</h3>
@@ -472,7 +476,7 @@ input, textarea { cursor: text; }
             <!-- 6 國文 -->
             <div class="course-card">
                 <div>
-                    <div class="image-wrapper">
+                    <div class="image-wrapper course-media" data-media="./chinese.jpg">
                         <img src="./chinese.jpg" alt="國文補救班">
                     </div>
                     <h3>國文補救班</h3>
@@ -489,7 +493,7 @@ input, textarea { cursor: text; }
             <!-- 7 英文 -->
             <div class="course-card">
                 <div>
-                    <div class="image-wrapper">
+                    <div class="image-wrapper course-media" data-media="./english.jpg" data-fallback="./english.svg">
                         <img src="./english.svg" alt="英文補救班">
                     </div>
                     <h3>英文補救班</h3>
@@ -506,7 +510,7 @@ input, textarea { cursor: text; }
             <!-- 8 計算機概論 -->
             <div class="course-card">
                 <div>
-                    <div class="image-wrapper">
+                    <div class="image-wrapper course-media" data-media="./computer.jpg" data-fallback="./basic_electricity.jpg">
                         <img
                             src="./computer.jpg"
                             alt="計算機概論補救班"
@@ -534,6 +538,55 @@ input, textarea { cursor: text; }
         </div>
     </div>
 
+    <script>
+    // 課程媒體：只需修改 data-media 的檔名即可切換圖片／影片。
+    // jpg/png/webp/svg 顯示圖片；mp4/webm/ogg 顯示可點播的影片。
+    (() => {
+      const isVideoFile = /\.(mp4|webm|ogg|ogv)(?:[?#].*)?$/i;
+      function initializeMedia() {
+        document.querySelectorAll('.course-media[data-media]').forEach(wrapper => {
+          const filename = (wrapper.dataset.media || '').trim();
+          if (!filename) return;
+          const fallback = wrapper.dataset.fallback || '';
+          const old = wrapper.querySelector('img, video');
+          const label = old?.getAttribute('alt') || old?.getAttribute('aria-label') ||
+            wrapper.closest('.course-card')?.querySelector('h3')?.textContent?.trim() || '課程介紹';
+          const video = isVideoFile.test(filename);
+          function displayFallback() {
+            if (!fallback || fallback === filename) return;
+            const img = document.createElement('img');
+            img.alt = label;
+            img.loading = 'lazy';
+            img.src = fallback;
+            wrapper.classList.remove('video-wrapper');
+            wrapper.classList.add('image-wrapper');
+            wrapper.replaceChildren(img);
+          }
+          let media;
+          if (video) {
+            media = document.createElement('video');
+            media.src = filename;
+            media.controls = true;
+            media.preload = 'none';
+            media.playsInline = true;
+            media.setAttribute('aria-label', label + '影片');
+          } else {
+            media = document.createElement('img');
+            media.src = filename;
+            media.alt = label;
+            media.loading = 'lazy';
+          }
+          if (fallback) media.addEventListener('error', displayFallback, {once:true});
+          wrapper.classList.toggle('video-wrapper', video);
+          wrapper.classList.toggle('image-wrapper', !video);
+          wrapper.replaceChildren(media);
+        });
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initializeMedia, {once:true});
+      } else initializeMedia();
+    })();
+    </script>
     <script>
         const API_BASE_URL =
             window.location.hostname === 'localhost' ||
