@@ -49,11 +49,12 @@ nav a:hover{color:var(--primary-light)}
 
 /* MAIN */
 .main-layout{display:flex;max-width:1200px;margin:40px auto;padding:0 20px;gap:40px;align-items:flex-start}
-.hero-section{flex:1;padding:20px 0}
-.hero-section h1{font-size:3rem;margin-bottom:20px;color:var(--primary-light)}
-.hero-section p{color:var(--text-muted);font-size:1.2rem;line-height:1.8;margin-bottom:30px}
-.media-box{width:min(78%,620px);border-radius:15px;overflow:hidden;border:2px solid var(--card-border);margin:25px auto;box-shadow:var(--shadow);background:#050505}
-.media-box img,.media-box video{width:100%;display:block;object-fit:cover;max-height:560px}
+.hero-section{flex:1;min-width:0;padding:0}
+.hero-section h1{font-size:clamp(2rem,2.4vw,2.7rem);line-height:1.2;margin-bottom:14px;color:var(--primary-light)}
+.hero-section p{color:var(--text-muted);font-size:1.1rem;line-height:1.75;margin-bottom:17px}
+.media-box{width:min(100%,350px);border-radius:14px;overflow:hidden;border:2px solid var(--card-border);margin:16px 0 18px;box-shadow:var(--shadow);background:#050505}
+.media-box img,.media-box video{width:100%;display:block;object-fit:contain;max-height:350px}
+.media-box video{aspect-ratio:1/1;height:auto;background:#050505}
 .cta-btn{background:var(--primary-light);color:#000;padding:14px 35px;border-radius:50px;font-size:1.1rem;text-decoration:none;display:inline-block;font-weight:700;box-shadow:var(--shadow)}
 .chat-container{width:400px;background:var(--chat-bg);border:1px solid var(--card-border);border-radius:20px;display:flex;flex-direction:column;height:580px;box-shadow:var(--shadow);overflow:hidden}
 .chat-header{background:rgba(59,130,246,.1);padding:15px;font-weight:700;border-bottom:1px solid var(--card-border)}
@@ -96,7 +97,7 @@ nav a:hover{color:var(--primary-light)}
   .floating-call-btn{bottom:16px;right:16px;width:48px;height:48px;border-width:2px}
   .main-layout{flex-direction:column;width:100%;padding:0 12px;gap:25px;margin-top:10px}
   .hero-section{width:100%;text-align:center}.hero-section h1{font-size:2rem}.hero-section p{font-size:1rem}
-  .media-box{width:100%;max-width:420px}.media-box img,.media-box video{max-height:260px}.cta-btn{width:100%;text-align:center}.chat-container{width:100%;height:540px}
+  .media-box{width:100%;max-width:300px;margin:16px auto}.media-box img,.media-box video{max-height:300px}.media-box video{height:auto}.cta-btn{width:100%;text-align:center}.chat-container{width:100%;height:540px}
   .sim-call-controls{gap:25px}.sim-round-btn{width:66px;height:66px;font-size:25px}.sim-call-avatar{width:112px;height:112px}.sim-call-name{font-size:29px}
 }
 /* 原首頁格局：左側主視覺 + 右側聊天室，置中 1200px */
@@ -136,7 +137,7 @@ nav a:hover{color:var(--primary-light)}
 
 <div class="main-layout">
   <div class="hero-section">
-    <p class="home-eyebrow"></p><h1>鈞一寶寶教室</h1>
+    <h1>鈞一寶寶教室</h1>
     <p>有統測國文前標的鈞神當首席老師,還有一堆好老師,好好學習,就能進步</p>
    
 <div class="media-box">
@@ -146,7 +147,7 @@ nav a:hover{color:var(--primary-light)}
     muted
     playsinline
     preload="metadata"
-    style="width:100%;height:100%;object-fit:cover;display:block;"
+    style="object-fit:contain;display:block;background:#050505;"
   >
     <source src="junyiball.mp4" type="video/mp4">
     您的瀏覽器不支援影片播放。
