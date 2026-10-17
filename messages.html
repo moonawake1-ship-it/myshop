@@ -17,8 +17,9 @@
 .composer{padding:9px 11px;border-top:1px solid var(--line)}.sendbar{display:flex;align-items:end;gap:7px}.image-label{width:38px;height:38px;flex:0 0 38px;border-radius:10px;border:1px solid var(--line);display:grid;place-items:center;color:var(--gold);background:rgba(217,184,95,.04)}.image-label input{display:none}.input{flex:1;height:38px;min-height:38px;max-height:38px;resize:none;overflow:hidden;outline:0;border:1px solid rgba(255,255,255,.08);border-radius:11px;background:rgba(255,255,255,.04);color:#fff;padding:9px 11px;line-height:20px}.send{height:38px;padding:0 14px;border:0;border-radius:9px;background:linear-gradient(135deg,var(--red),var(--red2));color:#fff;font-weight:800}.preview{display:none;position:relative;width:max-content;max-width:100%;margin-bottom:8px}.preview img{width:110px;height:80px;object-fit:cover;border-radius:10px;border:1px solid var(--line)}.remove-preview{position:absolute;top:-7px;right:-7px;width:25px;height:25px;border:0;border-radius:50%;background:#000;color:#fff}.status{font-size:11px;min-height:15px;margin-top:5px;color:var(--muted)}.status.bad{color:#ff9090}.hidden{display:none!important}
 @media(max-width:700px){.app{grid-template-rows:54px 1fr}header{padding:0 7px}.brand b{font-size:12px}.brand small{display:none}.emblem{width:29px;height:29px}.hbtn{width:34px;height:34px;padding:0;font-size:0;display:grid;place-items:center}.hbtn[href="revolution.html"]::before{content:"🏴";font-size:16px}.hbtn[href="feed.html"]::before{content:"📰";font-size:16px}#logoutBtn::before{content:"↪";font-size:16px}.layout{display:block;position:relative}.sidebar,.chat{position:absolute;inset:0}.chat{display:none}body.chat-open .sidebar{display:none}body.chat-open .chat{display:flex}.back{display:block}.sidebar{border-right:0}.bubble{max-width:86%}}
 </style>
-<link rel="stylesheet" href="site-nav.css?v=4">
-<link rel="stylesheet" href="site-petals.css?v=5">
+<link rel="stylesheet" href="site-nav.css?v=7">
+<link rel="stylesheet" href="site-petals.css?v=6">
+<link rel="stylesheet" href="site-editorial.css?v=7">
 </head>
 <body class="site-subpage">
 <nav id="site-nav" aria-label="網站主要導覽">
@@ -236,7 +237,7 @@ send.onclick=sendMsg;input.onkeydown=e=>{if(e.key==="Enter"&&!e.shiftKey){e.prev
 $("backBtn").onclick=()=>document.body.classList.remove("chat-open");
 $("logoutBtn").onclick=async()=>{await signOut(auth);location.href="login.html"};
 </script>
-<script src="site-nav.js?v=4"></script>
-<script src="site-petals.js?v=5"></script>
+<script src="site-nav.js?v=7"></script>
+<script src="site-petals.js?v=6"></script>
 </body>
 </html>

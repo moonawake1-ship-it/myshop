@@ -1,9 +1,65 @@
-/* 手繪落花：不使用滑鼠跟隨、不吃點擊、不干擾頁面 */
-#junyi-petal-layer{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:2;contain:layout style;isolation:isolate}
-#junyi-petal-layer .junyi-petal{position:absolute;display:block;top:-32px;width:14px;height:11px;border-radius:78% 0 76% 5%;background:linear-gradient(145deg,#ffdbe9,#ef9dbe 84%);opacity:.52;box-shadow:inset -2px -1px 1px #ee86a233;transform-origin:50% 80%;animation:junyi-fall var(--duration,15s) linear var(--delay,0s) infinite;will-change:transform}
-html[data-theme=dark] #junyi-petal-layer .junyi-petal{opacity:.46}
-html[data-theme=light] #junyi-petal-layer .junyi-petal,html[data-theme=sky] #junyi-petal-layer .junyi-petal{opacity:.35}
-@keyframes junyi-fall{0%{transform:translate3d(0,-45px,0) rotate(0deg)}50%{transform:translate3d(var(--drift,45px),50vh,0) rotate(160deg)}100%{transform:translate3d(calc(var(--drift,45px) * -0.55),110vh,0) rotate(370deg)}}
-#junyi-petal-layer[hidden]{display:none!important}
-@media(max-width:680px){#junyi-petal-layer .junyi-petal:nth-child(n+8){display:none}}
-@media(prefers-reduced-motion:reduce){#junyi-petal-layer .junyi-petal{animation:none!important;top:var(--static-top,10%)!important;transform:rotate(25deg)!important}}
+/* 軍一補救教室 v6 — Aurora Bloom / Winter Luminance
+   主題常駐視覺層：不影響頁面排版、音樂、聊天或滑鼠事件。 */
+#junyi-atmosphere,
+#junyi-petal-layer {
+  position:fixed!important;inset:0!important;width:100%!important;height:100%!important;
+  overflow:hidden!important;pointer-events:none!important;user-select:none!important;
+  -webkit-user-select:none!important;isolation:isolate;
+}
+#junyi-atmosphere{z-index:0!important;opacity:.82;transition:opacity .45s ease;background:
+ radial-gradient(ellipse 50% 65% at 0% 75%,rgba(13,116,76,.2),transparent 75%),
+ radial-gradient(ellipse 48% 55% at 102% 8%,rgba(5,127,113,.16),transparent 76%),
+ radial-gradient(ellipse 35% 38% at 47% 103%,rgba(26,52,105,.12),transparent 78%);
+}
+#junyi-atmosphere .junyi-orbit,
+#junyi-atmosphere .junyi-orbit::before,
+#junyi-atmosphere .junyi-orbit::after {position:absolute;box-sizing:border-box;border-radius:50%;pointer-events:none}
+#junyi-atmosphere .junyi-orbit{border:1px solid rgba(89,226,169,.25);
+ box-shadow:0 0 22px rgba(49,231,168,.06),inset 0 0 18px rgba(29,153,114,.03);
+ animation:junyi-orbit-drift 36s ease-in-out infinite alternate}
+#junyi-atmosphere .junyi-orbit::before{content:"";inset:13%;border:1px dashed rgba(99,204,166,.10)}
+#junyi-atmosphere .junyi-orbit::after{content:"";inset:-16%;border:1px solid rgba(71,210,158,.11)}
+#junyi-atmosphere .junyi-orbit--a{width:min(57vw,710px);aspect-ratio:1;left:-26%;bottom:-43%;transform:rotate(-18deg)}
+#junyi-atmosphere .junyi-orbit--b{width:min(49vw,600px);aspect-ratio:1;right:-22%;top:-34%;animation-delay:-13s}
+#junyi-atmosphere .junyi-orbit--c{width:min(25vw,350px);aspect-ratio:1;left:44%;top:75%;animation-delay:-21s;border-style:dotted;opacity:.52}
+#junyi-atmosphere .junyi-halo{position:absolute;inset:0;opacity:.73;background:
+ radial-gradient(ellipse 23% 34% at 5% 49%,rgba(63,220,170,.12),transparent 85%),
+ radial-gradient(ellipse 26% 45% at 93% 64%,rgba(34,174,127,.10),transparent 84%),
+ repeating-linear-gradient(113deg,transparent 0 134px,rgba(126,229,177,.012) 135px,transparent 136px 285px)}
+#junyi-atmosphere .junyi-lens{position:absolute;width:2px;height:2px;background:#c3ffe9;border-radius:50%;box-shadow:
+ 0 0 7px 1px #50e6ae,56px 65px 0 -0.5px #a0f9d5,114px 102px 2px #4ce5b7,
+ 250px 87px 1px #79cdb0,356px 180px 2px #6bd5b5,680px 115px 1px #83f7cf;
+ opacity:.36;animation:junyi-lens-glow 5s ease-in-out infinite alternate}
+#junyi-atmosphere .junyi-lens--a{left:11%;top:22%}
+#junyi-atmosphere .junyi-lens--b{right:25%;bottom:32%;animation-delay:-3s}
+#junyi-petal-layer{z-index:3!important;display:block;opacity:.94}
+#junyi-petal-layer canvas{display:block;width:100%;height:100%;pointer-events:none!important}
+#junyi-atmosphere[hidden],#junyi-petal-layer[hidden]{display:none!important}
+/* 冬季：背景改為冰藍光景與霧白光環，而非暗色覆蓋 */
+html[data-theme="light"] #junyi-atmosphere,
+html[data-theme="sky"] #junyi-atmosphere{
+ opacity:.95;background:
+ radial-gradient(ellipse 53% 68% at 2% 83%,rgba(89,170,248,.19),transparent 78%),
+ radial-gradient(ellipse 56% 61% at 100% 4%,rgba(104,180,235,.22),transparent 73%),
+ radial-gradient(ellipse 39% 50% at 47% 110%,rgba(154,193,255,.16),transparent 82%);
+}
+html[data-theme="light"] #junyi-atmosphere .junyi-orbit,
+html[data-theme="sky"] #junyi-atmosphere .junyi-orbit{
+ border-color:rgba(80,149,206,.25);box-shadow:0 0 28px rgba(79,158,220,.06),inset 0 0 18px rgba(53,141,220,.05)}
+html[data-theme="light"] #junyi-atmosphere .junyi-orbit::before,
+html[data-theme="sky"] #junyi-atmosphere .junyi-orbit::before{border-color:rgba(80,148,218,.13)}
+html[data-theme="light"] #junyi-atmosphere .junyi-orbit::after,
+html[data-theme="sky"] #junyi-atmosphere .junyi-orbit::after{border-color:rgba(78,150,211,.095)}
+html[data-theme="light"] #junyi-atmosphere .junyi-halo,
+html[data-theme="sky"] #junyi-atmosphere .junyi-halo{background:
+ radial-gradient(ellipse 31% 36% at 5% 52%,rgba(116,184,240,.21),transparent 83%),
+ radial-gradient(ellipse 31% 40% at 94% 70%,rgba(140,191,236,.14),transparent 86%),
+ repeating-linear-gradient(118deg,transparent 0 135px,rgba(75,140,212,.018) 136px,transparent 137px 286px)}
+html[data-theme="light"] #junyi-atmosphere .junyi-lens,
+html[data-theme="sky"] #junyi-atmosphere .junyi-lens{background:#fff;box-shadow:0 0 8px 2px #99d5ff,67px 84px 1px #afdefa,190px 127px 1px #adddff,330px 35px 1px #a0d7ff;opacity:.44}
+html[data-theme="light"] #junyi-petal-layer,
+html[data-theme="sky"] #junyi-petal-layer{opacity:.96}
+@keyframes junyi-orbit-drift{0%{translate:0 0;opacity:.7}100%{translate:18px -16px;opacity:1}}
+@keyframes junyi-lens-glow{from{opacity:.16}to{opacity:.54}}
+@media(max-width:650px){#junyi-atmosphere .junyi-orbit--a{width:380px;left:-280px;bottom:-140px}#junyi-atmosphere .junyi-orbit--b{width:340px;right:-260px;top:-130px}#junyi-atmosphere .junyi-orbit--c{display:none}#junyi-atmosphere{opacity:.62}#junyi-petal-layer{opacity:.8}}
+@media(prefers-reduced-motion:reduce){#junyi-atmosphere *{animation:none!important}#junyi-atmosphere .junyi-lens{opacity:.2}}

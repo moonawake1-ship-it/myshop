@@ -103,8 +103,9 @@ nav a:hover{color:var(--primary-light)}
 .main-layout{display:flex;max-width:1200px;margin:40px auto;padding:0 20px;gap:40px;align-items:flex-start}
 @media(max-width:768px){.main-layout{flex-direction:column;margin:10px auto 30px;gap:25px}}
 </style>
-<link rel="stylesheet" href="site-nav.css?v=4">
-<link rel="stylesheet" href="site-petals.css?v=5">
+<link rel="stylesheet" href="site-nav.css?v=7">
+<link rel="stylesheet" href="site-petals.css?v=6">
+<link rel="stylesheet" href="site-editorial.css?v=7">
 </head>
 <body>
 
@@ -135,10 +136,10 @@ nav a:hover{color:var(--primary-light)}
 
 <div class="main-layout">
   <div class="hero-section">
-    <h1>軍一補救教室主頁</h1>
-    <p>歡迎來到軍一補救教室！提供全台最精準的數位邏輯與微處理機複習，由淺入深帶您突破學習瓶頸。</p>
+    <p class="home-eyebrow">JUNYI / STUDY NOTES · EST. 2026</p><h1>軍一補救教室</h1>
+    <p>把沒聽懂的再講一次，把難題拆成看得懂的小步驟。這裡有數位邏輯、微處理機和其他科目的複習內容，也有可以和大家一起聊天的角落。</p>
     <div class="media-box"><img src="hero.svg" alt="主頁大圖"></div>
-    <a href="courses.html" class="cta-btn">立即前往選購課程</a>
+    <a href="courses.html" class="cta-btn">看看有哪些課程 ↗</a><p class="home-detail"><b>從哪裡開始都可以。</b>　先選一科、做一道題，再慢慢往下走。</p>
   </div>
   <div class="chat-container">
     <div class="chat-header">💬 線上公共聊天室</div>
@@ -203,7 +204,7 @@ onSnapshot(query(collection(db,"messages"),orderBy("time")),s=>{box.innerHTML=""
 async function sendMsg(){const text=input.value.trim();if(!text)return;await addDoc(collection(db,"messages"),{user:name.value.trim()||"匿名同學",text,time:Date.now()});input.value=""}
 send.onclick=e=>{e.stopPropagation();sendMsg()};input.onkeypress=e=>{if(e.key==="Enter")sendMsg()};
 </script>
-<script src="site-nav.js?v=4"></script>
-<script src="site-petals.js?v=5"></script>
+<script src="site-nav.js?v=7"></script>
+<script src="site-petals.js?v=6"></script>
 </body>
 </html>

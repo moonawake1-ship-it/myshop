@@ -331,8 +331,9 @@
             }
         }
     </style>
-<link rel="stylesheet" href="site-nav.css?v=4">
-<link rel="stylesheet" href="site-petals.css?v=5">
+<link rel="stylesheet" href="site-nav.css?v=7">
+<link rel="stylesheet" href="site-petals.css?v=6">
+<link rel="stylesheet" href="site-editorial.css?v=7">
 </head>
 
 <body>
@@ -358,13 +359,13 @@
 
     <div class="container">
         <div class="page-title">
-            <h1>🤖 軍一 AI 智慧題庫</h1>
-            <p>選擇科目、章節與難度，讓 AI 即時生成四選一練習題。</p>
+            <h1>軍一 AI 練習題庫</h1>
+            <p>選擇科目、章節與難度，先選一個科目，再出一道題。練懂一題，比盲猜十題更有用。</p>
         </div>
 
         <div class="ai-layout">
             <div class="panel">
-                <h2>⚙️ 命題條件設定</h2>
+                <h2>想練什麼？</h2>
 
                 <label for="subject-select">選擇科目</label>
 
@@ -402,26 +403,26 @@
                     class="generate-btn"
                     id="generate-btn"
                     onclick="generateQuestion()">
-                    🔮 立即生成單選題
+                    出一道題目 →
                 </button>
 
                 <p class="hint">
-                    💡 計算機概論可以輸入：資料表示法、作業系統、電腦硬體、網路、資訊安全等主題。
+                    想練計算機概論？可以輸入：資料表示法、作業系統、電腦硬體、網路、資訊安全等主題。
                 </p>
             </div>
 
             <div class="result-card">
                 <div class="result-header">
-                    <h2>📝 智慧生成試題</h2>
+                    <h2>這次的練習題</h2>
                     <span class="badge" id="status-badge">等待命題</span>
                 </div>
 
                 <div id="question-box">
                     <div class="empty-state">
-                        <div class="empty-icon">🤖</div>
-                        <p>請於左側選取科目並點擊生成按鈕</p>
+                        <div class="empty-icon" aria-hidden="true">?</div>
+                        <p>題目還沒出現。</p>
                         <p style="font-size: 0.85rem; margin-top: 5px;">
-                            系統將即時產生一題四選一練習題
+                            選好科目與主題，按左邊按鈕就能開始。
                         </p>
                     </div>
                 </div>
@@ -586,7 +587,7 @@
                     false;
 
                 generateBtn.innerText =
-                    '🔮 立即生成單選題';
+                    '出一道題目 →';
             }
         }
 
@@ -639,7 +640,7 @@
                 .replaceAll("'", '&#039;');
         }
     </script>
-<script src="site-nav.js?v=4"></script>
-<script src="site-petals.js?v=5"></script>
+<script src="site-nav.js?v=7"></script>
+<script src="site-petals.js?v=6"></script>
 </body>
 </html>

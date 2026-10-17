@@ -4,11 +4,11 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="theme-color" content="#080d0b" />
-<title>🎨 軍一亂畫社｜你畫我猜・手繪新版 V3.1</title>
+<title>🎨 軍一亂畫社｜你畫我猜・DRAW CLUB / EDITION 07</title>
 <meta name="junyi-doodle-version" content="2026.10-v3.1" />
 <style>
 /* JUNYI DOODLE CLUB — indie-paper visual language; all artwork is original CSS/SVG. */
-/* 正式入口：/draw-guess.html；手繪新版 V3.1（2026.10），非 gameee 資料夾中的歷史版本。 */
+/* 正式入口：/draw-guess.html；DRAW CLUB / EDITION 07（2026.10），非 gameee 資料夾中的歷史版本。 */
 :root{--bg:#101c16;--ink:#f4f0df;--dim:#a9b9a7;--paper:#fff9ea;--paper-ink:#21291d;--surface:#1b2b21;--surface2:#22382a;--line:#637567;--line-soft:#365143;--green:#c4ef69;--green-ink:#15200f;--mint:#d2e6bd;--yellow:#fbc774;--red:#f37566;--cyan:#73c9df;--blue:#3874be;--accent:#c4ef69;--off:#fdedcb;--r:13px}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -73,17 +73,18 @@ html[data-theme="sky"] .footer{color:#6e83a4}
 @media(max-width:440px){.top{display:block}.theme-controls{max-width:none;justify-content:flex-start;margin-top:10px}.hero-art{min-height:215px}.mode-choice span{min-height:84px;padding:9px}.mode-choice b{font-size:12px}.mode-choice small{font-size:10px}.art-pin{font-size:10px}.stat-box{gap:6px}.stat strong{font-size:20px}.room-title{font-size:15px}.board-head{margin:1px 2px 11px}.word-mask{font-size:17px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
 </style>
-<link rel="stylesheet" href="site-petals.css?v=5">
+<link rel="stylesheet" href="site-petals.css?v=6">
+<link rel="stylesheet" href="draw-editorial.css?v=7">
 </head>
 <body>
 <header class="top">
  <a href="draw-guess.html?v=20261015-v3-2" class="brand" aria-label="回軍一亂畫社遊戲大廳"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M6 24l7-2 12-12c3-3-3-8-6-5L7 18z" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linejoin="round"/><path d="M7 18l6 4M19 7l6 5" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M4 7l1 3M2 11l3-1M25 24l-2 3M28 26l-4-1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span class="brand-title"><strong>軍一亂畫社</strong><small>JUNYI DOODLE CLUB</small></span></a>
- <div class="theme-controls"><button id="themeBtn" class="mini-action" type="button" aria-label="切換黑綠或藍白主題">黑綠配色</button><button id="musicBtn" class="mini-action" type="button" aria-pressed="false">♫ 背景音樂 OFF</button><button id="soundBtn" class="mini-action" type="button" aria-pressed="true">♪ 音效 ON</button><span id="connection" class="connection"><i class="dot"></i><span id="connectText">連線中…</span></span><a class="small-link" href="index.html">返回軍一 ↗</a></div>
+ <div class="theme-controls"><button id="themeBtn" class="mini-action" type="button" aria-label="切換黑綠或藍白主題">黑綠配色</button><button id="musicBtn" class="mini-action" type="button" aria-pressed="false">音樂 OFF</button><button id="soundBtn" class="mini-action" type="button" aria-pressed="true">音效 ON</button><span id="connection" class="connection"><i class="dot"></i><span id="connectText">連線中…</span></span><a class="small-link" href="index.html">返回軍一 ↗</a></div>
 </header>
 <main class="shell">
  <section id="gateway">
   <div class="hero">
-   <div class="hero-copy"><div class="scribble-kicker"><i></i> FRIENDS &amp; DOODLES / 手繪新版 V3.1</div><h1>你畫，<br><em class="hand">我亂猜！</em></h1><p>畫得很不像，也沒關係。<br>最好玩的，往往就是那張沒人看得懂的畫。</p><p class="hero-sub"><span>✳</span> 隨手塗鴉 · 朋友互猜 · 沒有美術考試<br><span>✳</span> 黑綠／藍白切換 · 經典／擴充繪圖由房主決定</p></div>
+   <div class="hero-copy"><div class="scribble-kicker"><i></i> ISSUE 01 · 一群人的畫畫派對</div><h1>你畫一筆，<br><em class="hand">我猜半天。</em></h1><p>畫得太像，反而少了點意思。<br>開一間房，看看朋友能把題目畫成什麼樣子。</p><p class="hero-sub"><span>✳</span> 沒有標準畫法 · 只有朋友的怪答案<br><span>✳</span> 普通畫筆或素材工具，房主說了算</p></div>
    <div class="hero-art" aria-label="原創手繪小怪物插畫：畫得很怪，大家還是玩得很開心">
     <div class="art-shadow"></div><div class="art-paper"><svg viewBox="0 0 430 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="手繪塗鴉小怪物與畫筆">
     <path d="M12 258q150 17 380-8" stroke="#dad4c1" stroke-width="2" fill="none" stroke-dasharray="3 9"/>
@@ -143,7 +144,7 @@ html[data-theme="sky"] .footer{color:#6e83a4}
    <aside class="card panel chat-panel"><h3>大家猜猜看 <span aria-hidden="true">✳</span></h3><div class="messages" id="messages" aria-live="polite"></div><form id="chatForm" class="chat-form"><label class="sr-only" for="chatInput">輸入猜測</label><input id="chatInput" maxlength="70" placeholder="我猜是……" autocomplete="off"><button class="btn btn-main" type="submit">猜！</button></form><div class="hint" style="margin-top:11px">答得快，拿分就多。</div></aside>
   </div>
  </section>
- <footer class="foot">JUNYI DOODLE CLUB · 畫得不像也值得收藏<br>房間資料在伺服器重新啟動後會清空，聊天時請不要分享個人資料。</footer>
+ <footer class="foot">JUNYI DOODLE CLUB · 畫得好不好沒關係，猜得到才厲害<br>房間資料在伺服器重新啟動後會清空，聊天時請不要分享個人資料。</footer>
 </main><div class="toast" id="toast" role="status"></div>
 <script>
 'use strict';
@@ -177,10 +178,10 @@ function tone(freq,delay=.0,duration=.11,vol=.023,type='sine'){
 }
 function pop(){if(soundEnabled){tone(510,0,.095,.026);tone(720,.05,.085,.015);}}
 document.addEventListener('click',e=>{if(e.target.closest('button'))pop();});
-function stopMusic(){if(musicLoop){clearInterval(musicLoop);musicLoop=null;}$('musicBtn').textContent='♫ 背景音樂 OFF';$('musicBtn').setAttribute('aria-pressed','false');}
+function stopMusic(){if(musicLoop){clearInterval(musicLoop);musicLoop=null;}$('musicBtn').textContent='音樂 OFF';$('musicBtn').setAttribute('aria-pressed','false');}
 function musicBeat(){const notes=[261.63,329.63,392,329.63,293.66,349.23,440,349.23,246.94,329.63,392,329.63,220,293.66,349.23,293.66];tone(notes[melodyTick%notes.length],0,.26,.008,'sine');if(melodyTick%4===0)tone(notes[melodyTick%notes.length]/2,.03,.43,.006,'triangle');melodyTick++;}
 $('musicBtn').onclick=()=>{if(musicLoop){stopMusic();return;}musicBeat();musicLoop=setInterval(musicBeat,500);$('musicBtn').textContent='♫ 背景音樂 ON';$('musicBtn').setAttribute('aria-pressed','true');};
-$('soundBtn').onclick=()=>{soundEnabled=!soundEnabled;$('soundBtn').textContent=soundEnabled?'♪ 音效 ON':'♪ 音效 OFF';$('soundBtn').setAttribute('aria-pressed',String(soundEnabled));};
+$('soundBtn').onclick=()=>{soundEnabled=!soundEnabled;$('soundBtn').textContent=soundEnabled?'音效 ON':'♪ 音效 OFF';$('soundBtn').setAttribute('aria-pressed',String(soundEnabled));};
 function themeSet(v){document.documentElement.dataset.theme=v;$('themeBtn').textContent=v==='sky'?'藍白配色':'黑綠配色';try{localStorage.setItem('drawGuessTheme',v);localStorage.setItem('junyi-theme',v==='sky'?'light':'dark')}catch{}}
 let defaultTheme='dark';try{if(localStorage.getItem('junyi-theme')==='light'||(!localStorage.getItem('junyi-theme')&&localStorage.getItem('drawGuessTheme')==='sky'))defaultTheme='sky';}catch{}themeSet(defaultTheme);
 $('themeBtn').onclick=()=>themeSet(document.documentElement.dataset.theme==='sky'?'dark':'sky');
@@ -297,6 +298,6 @@ function connect(){const scr=document.createElement('script');scr.src=API_BASE+'
 const preset=new URLSearchParams(location.search).get('room');if(preset)$('roomCode').value=preset.toUpperCase().slice(0,6);
 connect();
 </script>
-<script src="site-petals.js?v=5"></script>
+<script src="site-petals.js?v=6"></script>
 </body>
 </html>
