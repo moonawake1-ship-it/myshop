@@ -52,8 +52,8 @@ nav a:hover{color:var(--primary-light)}
 .hero-section{flex:1;padding:20px 0}
 .hero-section h1{font-size:3rem;margin-bottom:20px;color:var(--primary-light)}
 .hero-section p{color:var(--text-muted);font-size:1.2rem;line-height:1.8;margin-bottom:30px}
-.media-box{width:100%;border-radius:15px;overflow:hidden;border:2px solid var(--card-border);margin:25px 0;box-shadow:var(--shadow)}
-.media-box img{width:100%;display:block;object-fit:cover}
+.media-box{width:min(78%,620px);border-radius:15px;overflow:hidden;border:2px solid var(--card-border);margin:25px auto;box-shadow:var(--shadow);background:#050505}
+.media-box img,.media-box video{width:100%;display:block;object-fit:cover;max-height:560px}
 .cta-btn{background:var(--primary-light);color:#000;padding:14px 35px;border-radius:50px;font-size:1.1rem;text-decoration:none;display:inline-block;font-weight:700;box-shadow:var(--shadow)}
 .chat-container{width:400px;background:var(--chat-bg);border:1px solid var(--card-border);border-radius:20px;display:flex;flex-direction:column;height:580px;box-shadow:var(--shadow);overflow:hidden}
 .chat-header{background:rgba(59,130,246,.1);padding:15px;font-weight:700;border-bottom:1px solid var(--card-border)}
@@ -96,7 +96,7 @@ nav a:hover{color:var(--primary-light)}
   .floating-call-btn{bottom:16px;right:16px;width:48px;height:48px;border-width:2px}
   .main-layout{flex-direction:column;width:100%;padding:0 12px;gap:25px;margin-top:10px}
   .hero-section{width:100%;text-align:center}.hero-section h1{font-size:2rem}.hero-section p{font-size:1rem}
-  .media-box img{max-height:260px}.cta-btn{width:100%;text-align:center}.chat-container{width:100%;height:540px}
+  .media-box{width:100%;max-width:420px}.media-box img,.media-box video{max-height:260px}.cta-btn{width:100%;text-align:center}.chat-container{width:100%;height:540px}
   .sim-call-controls{gap:25px}.sim-round-btn{width:66px;height:66px;font-size:25px}.sim-call-avatar{width:112px;height:112px}.sim-call-name{font-size:29px}
 }
 /* 原首頁格局：左側主視覺 + 右側聊天室，置中 1200px */
