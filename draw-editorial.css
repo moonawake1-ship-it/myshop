@@ -1,4 +1,4 @@
-/* 軍一亂畫社：紙張邊緣、俱樂部標記、顏色節奏，而非儀表板 */
+/*畫社：紙張邊緣、俱樂部標記、顏色節奏，而非儀表板 */
 :root{--ds-stroke:rgba(220,235,195,.27)}
 body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(circle at 90% 19%,rgba(224,193,108,.10),transparent 30%),radial-gradient(circle at 4% 87%,rgba(143,205,137,.09),transparent 25%)}
 .top{max-width:1450px;border-bottom:1px dashed var(--line-soft);margin-bottom:14px;padding-bottom:16px!important}
