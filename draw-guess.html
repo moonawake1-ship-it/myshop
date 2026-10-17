@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="zh-TW" data-theme="dark">
+<html lang="zh-TW" data-theme="sky">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="theme-color" content="#080d0b" />
-<title>🎨 鈞一寶寶｜你畫我猜・DRAW CLUB / EDITION 07</title>
-<meta name="junyi-doodle-version" content="2026.10-v3.1" />
+<meta name="theme-color" content="#2258c9" />
+<title>鈞一寶寶｜你畫我猜 · 朋友一起畫</title>
+<meta name="junyi-doodle-version" content="2026.10-v9-party" />
 <style>
 /* JUNYI DOODLE CLUB — indie-paper visual language; all artwork is original CSS/SVG. */
 /* 正式入口：/draw-guess.html；DRAW CLUB / EDITION 07（2026.10），非 gameee 資料夾中的歷史版本。 */
@@ -80,66 +80,170 @@ html[data-theme="sky"] .footer{color:#6e83a4}
 </style>
 <link rel="stylesheet" href="site-petals.css?v=6">
 <link rel="stylesheet" href="draw-editorial.css?v=7">
+<style>
+/* JUNYI PARTY EDITION 09 · Original interface based on a friendly two-column game lobby.
+   Preserve all multiplayer IDs and the existing real-time canvas. */
+html{--p-navy:#173659;--p-blue:#2864d8;--p-ink:#193650;--p-sun:#ffce54;--p-coral:#ff846c;--p-cream:#fffcf5;--p-muted:#566779;--p-sky:#a0e5fb}
+body{background:#235cda}
+body:has(#gateway:not(.hide)){background:linear-gradient(135deg,#2258c9 0%,#355fe2 53%,#376bd1 100%);background-attachment:fixed;}
+body:has(#gateway:not(.hide)):before{background:radial-gradient(circle at 12% 20%,rgba(255,255,255,.14),transparent 30%),radial-gradient(circle at 92% 72%,rgba(124,212,254,.23),transparent 37%);}
+body:has(#gateway:not(.hide)):after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.26;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='180' viewBox='0 0 240 180'%3E%3Cg fill='none' stroke='%23092b75' stroke-width='2.1' opacity='.65' stroke-linecap='round'%3E%3Cpath d='M24 31l10-14 24 17-10 14zM26 30l24 17M45 23l8-11M153 134l17-34 10 6-17 34-12 9zM206 37q-14-14-23 0q-2 12 20 19q20-8 20-19q-7-11-17 0z'/%3E%3Ccircle cx='95' cy='111' r='14'/%3E%3Cpath d='M87 109q7-11 15-1M91 119q5 4 10-2M126 28l13 3M132 22l3 15'/%3E%3C/g%3E%3C/svg%3E")}
+#gateway,.party-shell,.party-topbar{position:relative;z-index:1}
+.party-topbar{max-width:1250px;padding:17px 28px;border-bottom:none!important;margin:0 auto!important;color:#fff;min-height:78px}
+.party-brand{gap:10px;color:#fff}.party-brand-badge{height:51px;width:51px;border-radius:16px;background:#fff;box-shadow:4px 4px 0 #123b96;display:grid;place-items:center;transform:rotate(-5deg)}.party-brand-badge svg{width:39px;height:39px}
+.party-brand-name{font-size:23px;font-weight:1000;letter-spacing:-.8px;line-height:1.08}.party-brand-name small{font-size:11px;display:block;font-weight:750;letter-spacing:3px;opacity:.86;margin-top:5px}
+.party-top-controls{gap:9px}.party-top-controls .mini-action{background:#fff2;color: #fff;border-color:#ffffff75!important;font-size:12px;border-radius:20px!important;padding:9px 12px!important;box-shadow:none}.party-top-controls .mini-action:hover{background:#fff3}.party-top-controls .small-link{font-size:12px;color:#fff;font-weight:800;text-underline-offset:4px}.party-top-controls .connection{background:#123b8c8a;padding:7px 10px;border-radius:30px;border:1px solid #ffffff40;color:#fff}
+.party-top-controls .connection .dot{background:#fcb95c}.party-top-controls .connection.online .dot{background:#9bea83}
+.party-shell{max-width:1290px;padding:0 24px 26px}
+.party-masthead{display:grid;grid-template-columns:1fr 2.5fr 1fr;align-items:center;color:#fff;gap:15px;padding:13px 5px 24px}
+.party-heading{text-align:center}.party-top-sticker{font-size:10px;letter-spacing:2.6px;font-weight:900;background:#fff2;padding:5px 14px;border:1px solid #ffffff45;border-radius:20px}
+.party-heading h1{font-size:clamp(48px,6vw,77px);font-weight:1000;line-height:1.15;letter-spacing:-5px;text-shadow:4px 5px 0 #103888;margin:13px 0 0;white-space:nowrap}.party-heading-spark{display:inline-block;color:var(--p-sun);font-size:37px;vertical-align:top;margin-left:4px;transform:rotate(13deg)}
+.party-heading p{margin:4px 0 0;font-size:16px;font-weight:750;letter-spacing:1px;color:#ecf4ff}
+.party-side-note{font-size:11px;font-weight:900;letter-spacing:1.5px;opacity:.89;padding-top:30px}.party-side-note span{display:block;font-size:10px;opacity:.75}.party-right-note{text-align:right}.party-live-dot{display:inline-block!important;background:#fadd67;width:7px;height:7px;border-radius:50%;opacity:1!important;margin-right:5px}
+.party-board{max-width:1140px;margin:0 auto;background:var(--p-cream);color:var(--p-ink);border:3px solid #122d59;border-radius:21px;box-shadow:0 19px 0 #153d9c75,0 35px 65px #061f6b69;position:relative;overflow:visible}
+.party-ribbon{position:absolute;z-index:5;left:50%;top:-16px;transform:translateX(-50%) rotate(-1deg);background:var(--p-sun);border:3px solid #122e53;border-radius:10px;box-shadow:4px 5px 0 #133580;font-weight:1000;font-size:18px;color:#183657;padding:7px 24px;white-space:nowrap}.party-ribbon svg{position:absolute;width:55px;right:-66px;top:8px;color:#fff}
+.party-board-body{display:grid;grid-template-columns:1fr 1fr;min-height:550px;overflow:hidden;border-radius:19px}
+.party-half{padding:42px clamp(23px,4vw,55px) 28px;position:relative}.party-host{background:#fffdf8}.party-join{background:#f0f6ff;border-left:2px dashed #b6cae7}
+.party-half-head{display:flex;align-items:center;gap:14px}.party-step{display:inline-grid;place-items:center;width:43px;height:43px;background:#fee490;color:#173859;flex-shrink:0;border:2px solid #173859;border-radius:13px 12px 16px 12px;font-weight:1000;font-size:16px;transform:rotate(-5deg);box-shadow:3px 3px 0 #d1ddec}.party-step.coral{background:#ffc2a8;transform:rotate(5deg)}
+.party-eyebrow{color:#627b97;font-size:10px;font-weight:1000;letter-spacing:1.8px}.party-half h2{font-size:clamp(20px,2vw,27px);color:var(--p-ink);font-weight:1000;letter-spacing:-1px;margin:2px 0 0;line-height:1.32}
+.party-portrait-line{display:flex;align-items:center;justify-content:center;gap:4px;height:150px;margin:4px 0 12px}.party-mascot{width:min(62%,240px);transform:rotate(-3deg)}.party-mascot svg{width:100%;display:block;filter:drop-shadow(3px 5px 0 #d6e6fc)}
+.party-speech{font-size:14px;position:relative;align-self:flex-start;margin-top:29px;background:#eaf5ff;border:2px solid #213c5f;border-radius:16px 16px 16px 6px;padding:13px 12px;transform:rotate(5deg);box-shadow:3px 3px 0 #a9c4e0}.party-speech b{display:block;font-size:15px}.party-speech span{display:block;white-space:nowrap;font-size:12px;color:#506783}
+#gateway .field label,.party-setting-label{color:#213c5f;font-size:13px;font-weight:900}
+#gateway .field{gap:6px;margin-bottom:12px}
+#gateway input,#gateway select{background:white;border:2px solid #b7c5d4;color:#203a59;padding:11px 14px;border-radius:10px;min-height:46px;font-size:14px;box-shadow:0 2px 0 #dae4ec}
+#gateway input::placeholder{color:#9aa7b8}#gateway input:focus,#gateway select:focus{border-color:#3979ec;box-shadow:0 0 0 3px #c7d9fe}
+#gateway .topic-note{font-size:11px;color:#738298;margin-top:0}
+.party-settings{border:1px solid #c4d3e5;border-radius:11px;background:#f7fbff;margin:8px 0 14px;color:#24415f}.party-settings>summary{display:flex;justify-content:space-between;align-items:center;cursor:pointer;padding:10px 12px;font-weight:900;font-size:12px;list-style:none;gap:10px}.party-settings>summary::-webkit-details-marker{display:none}.party-settings>summary span{font-size:11px;font-weight:600;color:#6d8097;display:flex;align-items:center;gap:6px}.party-settings[open]>summary svg{transform:rotate(180deg)}.party-settings-inside{padding:6px 12px 12px;border-top:1px dashed #c3d4e3}.party-settings-inside .row{margin-top:9px}.party-settings-inside .field{margin-bottom:11px}.party-setting-label{display:block;font-size:12px;margin:3px 0 7px}
+#gateway .mode-choice{grid-template-columns:1fr 1fr;gap:8px;margin:0}#gateway .mode-choice span{min-height:66px;background:#fff;color:#263e58;border-radius:8px!important;border:2px solid #c7d3e3;padding:9px 10px;box-shadow:none;transform:none}#gateway .mode-choice b{font-size:13px}#gateway .mode-choice small{font-size:10px;color:#6b7e93}#gateway .mode-choice input:checked+span{border-color:#3168c9;background:#e7efff;box-shadow:inset 0 0 0 1px #a5c0f8;transform:none}
+#gateway .btn{border-radius:13px!important;border:2px solid #1f3a62;box-shadow:3px 4px 0 #1c3c71;font-size:15px;font-weight:1000;min-height:50px}
+#gateway .party-primary{background:#ffcc57;color:#173657;margin-top:9px}#gateway .party-primary:hover{background:#ffe18c}
+#gateway .party-preview{background:transparent!important;color:#2d5485;border:none!important;box-shadow:none!important;min-height:40px;font-size:12px;margin-top:4px;text-decoration:underline;text-underline-offset:4px}
+.party-divider{position:absolute;left:50%;top:49%;transform:translate(-50%,-50%);z-index:4}.party-divider span{background:#fff;display:grid;place-items:center;border:2px solid #abbcce;color:#6c819c;border-radius:50%;font-weight:900;font-size:13px;width:42px;height:42px;box-shadow:2px 3px 0 #bdcedc}
+.party-join-lead{margin:23px 0 0;color:#5b6d83;font-size:14px;line-height:1.65}.party-join-illustration{height:162px;display:flex;align-items:center;justify-content:center;position:relative}.party-join-illustration svg{width:230px;height:135px}.party-join-illustration span{position:absolute;right:10px;bottom:2px;color:#2b61cb;font-size:12px;font-weight:900;transform:rotate(-5deg)}.party-code-input{text-transform:uppercase;letter-spacing:4px!important;font-size:19px!important;font-weight:900!important}
+#gateway .party-join-button{background:#ff806d;color:#fff;border-color:#213a60;margin-top:16px}#gateway .party-join-button:hover{background:#f15b54}
+.party-join-help{font-size:12px;color:#748399;line-height:1.6;margin:15px 0 0;text-align:center}
+.party-board-foot{display:flex;gap:15px;justify-content:center;align-items:center;flex-wrap:wrap;background:#eaf1fd;border-radius:0 0 17px 17px;border-top:1px solid #cbd7eb;color:#557099;font-size:12px;font-weight:800;padding:12px 15px}
+#gateway .topic-note,.party-join-help{line-height:1.45}.party-shell>.foot{color:#e3efff;border-top:0;margin:38px auto 0;line-height:1.6}
+/* Keep the original multiplayer canvas mechanics. Give its main surfaces stronger hierarchy. */
+#game .toolbar{background:#fffffff5;color:#203a56;border:2px solid #153d83;border-radius:13px;padding:13px;box-shadow:4px 5px 0 #103d93}
+#game .toolbar .room-title{color:#203a56}
+#game .toolbar .stat strong{color:#163d8e}
+#game .canvas-shell{border:2px solid #b2c4cf;border-radius:9px;overflow:hidden}
+#game .board-wrap{box-shadow:0 10px 0 #0c367058!important}
+#game .tools{flex-wrap:wrap}
+#game .chat-form button{white-space:nowrap}
+/* Dual-color scheme. This is independent from the main site's black/green preference. */
+html[data-theme="dark"] #gateway,html[data-theme="sky"] #gateway{color:#193650}
+html[data-theme="dark"] #gateway .gate-panel,html[data-theme="sky"] #gateway .gate-panel{background:transparent}
+html[data-theme="sky"] .party-top-controls .mini-action,html[data-theme="dark"] .party-top-controls .mini-action{background:#ffffff27;color:#fff;border-color:#ffffff70!important}
+html[data-theme="sky"] #gateway .btn:not(.btn-main){color:#24436b;background:transparent;border-color:#1f3a62}
+html[data-theme="sky"] #gateway .party-join-button{color:white!important;background:#ff806d!important;border-color:#1f3a62!important}
+html[data-theme="sky"] #gateway .party-primary{background:#ffcc57;color:#193650;border-color:#1f3a62}
+html[data-theme="sky"] #gateway input,html[data-theme="sky"] #gateway select{background:white;color:#193650;border-color:#b7c5d4}
+html[data-theme="sky"] #gateway .mode-choice span{background:#fff}
+html[data-theme="sky"] #gateway .mode-choice input:checked+span{background:#e7efff;border-color:#3168c9}
+html[data-theme="dark"] body:has(#gateway:not(.hide)){background:linear-gradient(135deg,#122b65 0%,#24419e 54%,#1d4b8c 100%)}
+html[data-theme="dark"] .party-board{box-shadow:0 19px 0 #08234c9e,0 35px 65px #0007}
+@media(max-width:1000px){.party-side-note{display:none}.party-masthead{grid-template-columns:1fr}.party-board-body{min-height:0}.party-half{padding:40px 25px 28px}.party-heading h1{font-size:clamp(43px,7vw,64px)}.party-join-illustration svg{width:190px}.party-topbar{flex-wrap:wrap;gap:9px}}
+@media(max-width:730px){.party-shell{padding:0 13px 26px}.party-topbar{padding:13px 15px 5px;display:flex!important;align-items:center;flex-wrap:wrap}.party-top-controls{width:100%;justify-content:flex-start;gap:6px}.party-top-controls .connection{margin-right:auto}.party-top-controls .mini-action{font-size:11px;padding:7px 9px!important}.party-brand-name{font-size:20px}.party-brand-badge{width:42px;height:42px}.party-masthead{padding:13px 5px 29px}.party-heading h1{font-size:clamp(43px,10vw,68px);letter-spacing:-3px}.party-heading p{font-size:13px}.party-board{border-width:2px;border-radius:16px}.party-board-body{grid-template-columns:1fr;border-radius:14px}.party-half{padding:35px 22px 23px}.party-host{padding-top:43px}.party-join{border-left:0;border-top:2px dashed #b6cae7}.party-divider{left:50%;top:auto;bottom:auto;transform:translate(-50%,-50%);margin-top:0;display:none}.party-ribbon{font-size:13px;padding:6px 17px;top:-16px}.party-ribbon svg{display:none}.party-portrait-line{height:118px;margin:0 0 14px}.party-mascot{width:185px}.party-speech{margin-top:10px;font-size:11px}.party-half h2{font-size:23px}.party-join-illustration{height:120px}.party-join-illustration svg{width:185px;height:115px}.party-join-lead{margin:13px 0 0}.party-board-foot{font-size:10px;gap:8px}.party-heading-spark{font-size:28px}}
+@media(max-width:390px){.party-top-controls .mini-action{padding:6px 7px!important}.party-top-controls .small-link{font-size:11px}.party-heading h1{font-size:40px}.party-portrait-line{height:110px}.party-half{padding-left:15px;padding-right:15px}.party-speech{padding:7px 9px}.party-board-foot{padding:9px 7px}}
+/* Game-room polish: colored paper rather than the former dark green dashboard. */
+#game .panel{background:#fffdf7;color:#213b5b;border:2px solid #243f67;border-radius:13px!important;box-shadow:5px 6px 0 #17316a7d!important}
+#game .panel h3,#game .panel .hint{color:#253f63}
+#game .tag{background:#ffcf59;color:#193650;border-radius:8px}
+#game .player{border-bottom-color:#d7e2f1;color:#253f63}
+#game .player .score{color:#245ccb}
+#game .player.answered{background:#e9f7e0}
+#game .board-wrap{background:#fff7e5!important;color:#233f62;border-radius:12px!important;box-shadow:5px 7px 0 #17316a7d!important;border:2px solid #243f67!important}
+#game .word-label{color:#263d63}
+#game .word-mask{color:#bf602e}
+#game .canvas-shell{background:white;box-shadow:2px 3px 0 #b9c3d4;transform:none}
+#game .tool{background:#fff!important;color:#233b5d!important;border:1.5px solid #95a8c5!important;border-radius:8px!important}
+#game .tool:hover{background:#eaf2ff!important}
+#game .tool.selected{background:#ffdb73!important;color:#193650!important;border-color:#21395b!important}
+#game .tools select{background:white;color:#233b5d;border:1.5px solid #b7c6d8}
+#game .sticker-tools{background:#f1f6ff;color:#1a3559;border:1.5px dashed #9fb7dc;border-radius:10px}
+#game .sticker-help,#game .sticker-options label{color:#526984}
+#game .stamp{background:white;border-color:#b6c5d9;color:#18365a}
+#game .stamp.active{background:#ffe8a1;border-color:#1c406f}
+#game .chat-panel{background:#eff6ff!important}
+#game .messages{background:white;border-color:#b5c9e0;color:#203752;border-radius:10px}
+#game .msg .sender{color:#244f9e}
+#game .msg.mine .sender{color:#12386f}
+#game .msg.system{color:#ad5628}
+#game .chat-form input{background:white;color:#223c5c;border-color:#b7c7de}
+#game .chat-form button{background:#ffc95e!important;color:#213756!important;border-color:#1e3a5e!important}
+#game .notice{background:#f8fbff;border:2px dashed #aac2e3;color:#203d60;border-radius:13px}
+#game .waiting p{color:#637895}
+#game .stat small{color:#607595}
+#game .room-title span#roomLabel{color:#2862cf}
+#game .mode-tag{background:#ffe3a0;color:#193650}
+#game .canvas-disabled .canvas-note{background:#223e63}
+@media(max-width:730px){#game .toolbar{padding:10px}#game .panel{padding:13px}#game .board-wrap{padding:11px 9px!important}}
+@media(prefers-reduced-motion:reduce){.party-mascot,.party-step,.party-ribbon{transform:none!important}}
+</style>
 </head>
 <body>
-<header class="top">
-  <a class="site-brand" href="index.html" title="鈞一補救教室"><span class="site-bolt">⚡</span><span class="site-brand-text">鈞一寶寶教室</span></a>
- <a href="draw-guess.html?v=20261015-v3-2" class="brand" aria-label="回鈞一寶寶遊戲大廳"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M6 24l7-2 12-12c3-3-3-8-6-5L7 18z" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linejoin="round"/><path d="M7 18l6 4M19 7l6 5" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M4 7l1 3M2 11l3-1M25 24l-2 3M28 26l-4-1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span class="brand-title"><strong></strong><small>JUNYI DOODLE CLUB</small></span></a>
- <div class="theme-controls"><button id="themeBtn" class="mini-action" type="button" aria-label="切換黑綠或藍白主題">黑綠配色</button><button id="musicBtn" class="mini-action" type="button" aria-pressed="false">音樂 OFF</button><button id="soundBtn" class="mini-action" type="button" aria-pressed="true">音效 ON</button><span id="connection" class="connection"><i class="dot"></i><span id="connectText">連線中…</span></span><a class="small-link" href="index.html">返回鈞一 ↗</a></div>
-</header>
-<main class="shell">
- <section id="gateway">
-  <div class="hero">
-   <div class="hero-copy"><div class="scribble-kicker"><i></i> ISSUE 01 · 一群人的畫畫派對</div><h1>鈞一的畫，<br><em class="hand">我的楷模。</em></h1><p>畫得太像，反而少了點意思。<br>開一間房，看看朋友能把題目畫成什麼樣子。</p><p class="hero-sub"><span>✳</span> 沒有標準畫法 · 只有朋友的怪答案<br><span>✳</span> 普通畫筆或素材工具，房主說了算</p></div>
-   <div class="hero-art" aria-label="觀賞鈞神的畫：每幅都要幾百萬，好羨慕那麼強">
-    <div class="art-shadow"></div><div class="art-paper"><svg viewBox="0 0 430 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="手繪塗鴉小怪物與畫筆">
-    <path d="M12 258q150 17 380-8" stroke="#dad4c1" stroke-width="2" fill="none" stroke-dasharray="3 9"/>
-    <path d="M54 42q-12-25-21-19M64 32l-4-25M75 37l15-22" stroke="#1d3525" stroke-width="4" stroke-linecap="round" fill="none"/>
-    <path d="M327 31q4-13 12-8t-2 19l-8 8-10-10q-8-11 1-14t7 5z" fill="#ed7774" stroke="#273a27" stroke-width="3"/>
-    <path d="M101 160q-39-78 41-105 100-36 158 21 49 50 5 131-39 68-122 50Q125 252 101 160z" fill="#f5cb67" stroke="#283525" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M149 58q17-30 59-28 41 2 58 29" fill="none" stroke="#34442b" stroke-width="11" stroke-linecap="round"/>
-    <path d="M138 75q-31-34-38-12 1 15 36 27M285 77q26-30 36-8-1 17-31 24" fill="#f5cb67" stroke="#283525" stroke-width="4"/>
-    <ellipse cx="165" cy="139" rx="27" ry="34" fill="#fffdf3" stroke="#25362a" stroke-width="4"/>
-    <ellipse cx="241" cy="139" rx="29" ry="35" fill="#fffdf3" stroke="#25362a" stroke-width="4"/>
-    <circle cx="171" cy="148" r="9" fill="#263b2d"/><circle cx="234" cy="148" r="9" fill="#263b2d"/><circle cx="174" cy="144" r="3" fill="white"/><circle cx="236" cy="144" r="3" fill="white"/>
-    <ellipse cx="119" cy="176" rx="14" ry="8" fill="#eb7970" opacity=".75"/><ellipse cx="283" cy="176" rx="14" ry="8" fill="#eb7970" opacity=".75"/>
-    <path d="M173 187q32 27 59-5" stroke="#243327" fill="none" stroke-width="5" stroke-linecap="round"/>
-    <path d="M110 194q-34 10-43 27M304 184q33-4 44 27" stroke="#283525" fill="none" stroke-width="5" stroke-linecap="round"/>
-    <path d="M166 256l-13 19m93-25 15 24" stroke="#283525" fill="none" stroke-width="5" stroke-linecap="round"/>
-    <path d="M352 122l33 17-61 104-20-10z" fill="#a6d8dd" stroke="#273825" stroke-width="4" stroke-linejoin="round"/><path d="M350 124l9 8m-46 92 20 10m-16-9-10 21 18-10" stroke="#273825" stroke-width="4" stroke-linejoin="round" fill="none"/>
-    <path d="M42 139l17 1m-8-12 1 23M36 142l23 0M373 66l20 3m-13-14 2 28" stroke="#ef8d6f" stroke-width="4" stroke-linecap="round"/>
-    <text x="37" y="286" font-family="Comic Sans MS, Segoe Print, cursive" font-size="18" fill="#304331" transform="rotate(-6 37 286)">hmm... what is that?!</text>
-    <path d="M278 258q16 14 47 5" stroke="#bd6d4a" stroke-width="3" stroke-linecap="round" fill="none"/>
-    </svg></div><div class="art-pin">這到底是<br>什麼啦？！</div>
-   </div>
+<header class="top party-topbar">
+  <a class="brand party-brand" href="draw-guess.html" aria-label="鈞一寶寶遊戲首頁">
+    <span class="party-brand-badge" aria-hidden="true"><svg viewBox="0 0 56 56"><path d="M15 42L38 12q4-4 8 0t0 8L23 49 11 52z" fill="#ffcb52" stroke="#122b51" stroke-width="3" stroke-linejoin="round"/><path d="M14 41l9 8M34 16l11 9" stroke="#122b51" stroke-width="3"/><path d="M10 14l-4-5M17 8l0-6M47 36l6 4" stroke="white" stroke-width="3" stroke-linecap="round"/></svg></span>
+    <span class="party-brand-name">鈞一寶寶 <small>你畫我猜</small></span>
+  </a>
+  <div class="theme-controls party-top-controls">
+    <span id="connection" class="connection"><i class="dot"></i><span id="connectText">連線中…</span></span>
+    <button id="musicBtn" class="mini-action" type="button" aria-pressed="false" title="遊戲背景音樂">♫ 音樂 OFF</button>
+    <button id="soundBtn" class="mini-action" type="button" aria-pressed="true" title="按鍵音效">音效 ON</button>
+    <button id="themeBtn" class="mini-action" type="button" aria-label="切換遊戲明亮或深色主題">明亮派對</button>
+    <a class="small-link party-back" href="index.html">↖ 返回教室</a>
   </div>
-  <div class="section-stripe"><span><strong>今晚開畫嗎？</strong>　揪朋友，從一張白紙開始。</span><span class="handmark">no drawing skills required ↘</span></div>
-  <div class="gateway">
-   <div class="card gate-panel">
-    <div class="gate-topline"><span class="gate-number">01 / HOST A GAME</span><span class="gate-doodle">✳ 畫家集合</span></div>
-    <h2>我來開一局。</h2><p class="gate-desc">你當房主，規則你決定。朋友來了就開畫。</p>
-    <div class="field"><label for="createName">先取個綽號</label><input id="createName" maxlength="14" placeholder="像是：畫不出來的貓" autocomplete="nickname"></div>
-    <div class="row"><div class="field"><label for="rounds">每個人畫幾輪？</label><select id="rounds"><option value="1">1 輪</option><option value="2" selected>2 輪</option><option value="3">3 輪</option></select></div><div class="field"><label for="seconds">每張圖畫多久？</label><select id="seconds"><option value="60">60 秒</option><option value="80" selected>80 秒</option><option value="100">100 秒</option></select></div></div>
-    <div class="field" id="topicField"><label for="topicCategory">這局要畫什麼？</label>
-      <select id="topicCategory" aria-label="題庫分類"><option value="all">綜合（全部主題混合）</option><option value="anime">動漫</option><option value="games">遊戲</option><option value="film">電影・影視</option><option value="daily">日常生活</option><option value="memes">網路趣味</option></select>
-      <small class="topic-note">每人畫 1～3 輪；同一場不會抽到重複題目。</small>
-    </div>
-    <div class="field" style="margin-bottom:1px"><label>這局想怎麼畫？</label></div><div class="mode-choice" role="radiogroup" aria-label="繪圖玩法">
-      <label><input type="radio" name="drawingMode" value="standard" checked><span><svg viewBox="0 0 40 36" aria-hidden="true"><path d="M6 27l7-2 21-21 4 4-20 21-8 5z" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M6 27l7 2M15 18l7 6" fill="none" stroke="currentColor" stroke-width="2.5"/></svg><b>經典亂畫</b><small>畫筆就夠了，純靠實力（？）</small></span></label>
-      <label><input type="radio" name="drawingMode" value="expanded"><span><svg viewBox="0 0 40 36" aria-hidden="true"><path d="M8 22q1-17 16-16t11 17" fill="none" stroke="currentColor" stroke-width="2.5"/><circle cx="16" cy="21" r="2" fill="currentColor"/><circle cx="28" cy="21" r="2" fill="currentColor"/><path d="M18 29q5 4 9-1" stroke="currentColor" fill="none" stroke-width="2.5"/><path d="M3 9l6 2M5 2l2 5" stroke="currentColor" stroke-width="2.5"/></svg><b>幫我一筆</b><small>多幾個素材，畫不出就拼一下</small></span></label>
-    </div>
-    <button id="createBtn" class="btn btn-main full">開房間，叫朋友來 <span aria-hidden="true">↗</span></button><button id="previewBtn" class="btn full secondary-btn" type="button">先隨便畫畫看（免連線）</button>
+</header>
+<main class="shell party-shell">
+ <section id="gateway">
+  <div class="party-masthead">
+   <div class="party-side-note">JUNYI BABY <span>© DRAW CLUB</span></div>
+   <div class="party-heading"><span class="party-top-sticker">NO.01 / FRIENDS FIRST</span><h1>鈞一寶寶<span class="party-heading-spark" aria-hidden="true">✳</span></h1><p>畫得怎麼樣不重要，猜得到才好玩！</p></div>
+   <div class="party-side-note party-right-note"><span class="party-live-dot"></span> DRAW • GUESS • LAUGH</div>
+  </div>
+  <div class="party-board">
+   <div class="party-ribbon"><span>畫畫時間到了！</span><svg viewBox="0 0 80 30" aria-hidden="true"><path d="M4 16q16-20 33 0t38 0" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><circle cx="71" cy="6" r="3" fill="currentColor"/></svg></div>
+   <div class="party-board-body">
+    <section class="party-half party-host" aria-labelledby="party-host-heading">
+     <div class="party-half-head"><span class="party-step">01</span><div><span class="party-eyebrow">START A GAME</span><h2 id="party-host-heading">開一間房，找朋友來！</h2></div></div>
+     <div class="party-portrait-line">
+       <div class="party-mascot" aria-hidden="true">
+         <svg viewBox="0 0 230 175"><path d="M41 151q-8-30 22-43l101 0q29 5 28 44" fill="#63bce0" stroke="#18365a" stroke-width="5" stroke-linejoin="round"/><path d="M66 112q-14 4-19 21M166 111q17 4 19 21" stroke="#18365a" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M59 76q-6-50 49-55 60 0 64 57v27q-30 22-59 22-34 0-54-25z" fill="#ffcf65" stroke="#18365a" stroke-width="5"/><path d="M64 63q16-37 42-21 28-24 58 14" fill="none" stroke="#18365a" stroke-width="5" stroke-linecap="round"/><ellipse cx="85" cy="84" rx="6" ry="8" fill="#18365a"/><ellipse cx="143" cy="84" rx="6" ry="8" fill="#18365a"/><path d="M98 100q17 17 32 0" stroke="#18365a" stroke-width="4" stroke-linecap="round" fill="none"/><ellipse cx="72" cy="101" rx="9" ry="5" fill="#ff9298" opacity=".75"/><ellipse cx="159" cy="101" rx="9" ry="5" fill="#ff9298" opacity=".75"/><path d="M172 134l18-51 17 5-18 53" fill="#fc826c" stroke="#18365a" stroke-width="4" stroke-linejoin="round"/><path d="M190 83l13-15 5 20" fill="#ffe9aa" stroke="#18365a" stroke-width="4" stroke-linejoin="round"/><path d="M41 50l-12-8M34 65H22M181 30l13-12M195 49l14-3" stroke="#18365a" stroke-width="4" stroke-linecap="round"/></svg>
+       </div>
+       <div class="party-speech"><b>不會畫？</b><span>亂畫也沒關係！</span><i></i></div>
+     </div>
+     <div class="field party-field"><label for="createName">你的暱稱</label><input id="createName" maxlength="14" placeholder="例如：麥克筆殺手" autocomplete="nickname"></div>
+     <div class="field party-field party-category" id="topicField"><label for="topicCategory">今天想畫什麼？</label><select id="topicCategory" aria-label="題庫分類"><option value="all">綜合 · 全部都有</option><option value="anime">動漫角色與作品</option><option value="games">遊戲世界</option><option value="film">電影・影視</option><option value="daily">日常生活</option><option value="memes">網路趣味</option></select><small class="topic-note">你選分類，系統幫忙出題。</small></div>
+     <details class="party-settings" id="partySettings">
+      <summary>房主設定 <span>回合時間、繪圖玩法 <svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true"><path d="m5 7 5 5 5-5" stroke="currentColor" fill="none" stroke-width="2"/></svg></span></summary>
+      <div class="party-settings-inside">
+       <div class="row"><div class="field"><label for="rounds">每人畫幾輪</label><select id="rounds"><option value="1">1 輪</option><option value="2" selected>2 輪</option><option value="3">3 輪</option></select></div><div class="field"><label for="seconds">每回合時間</label><select id="seconds"><option value="60">60 秒</option><option value="80" selected>80 秒</option><option value="100">100 秒</option></select></div></div>
+       <span class="party-setting-label">繪圖工具</span>
+       <div class="mode-choice" role="radiogroup" aria-label="繪圖玩法">
+        <label><input type="radio" name="drawingMode" value="standard" checked><span><b>✏ 經典</b><small>畫筆與橡皮擦</small></span></label>
+        <label><input type="radio" name="drawingMode" value="expanded"><span><b>✳ 素材擴充</b><small>附簡單拼貼小工具</small></span></label>
+       </div>
+      </div>
+     </details>
+     <button id="createBtn" class="btn btn-main full party-primary" type="button">建立房間 <span aria-hidden="true">→</span></button>
+     <button id="previewBtn" class="btn full secondary-btn party-preview" type="button">我先試畫看看 <span aria-hidden="true">✎</span></button>
+    </section>
+    <div class="party-divider" aria-hidden="true"><span>OR</span></div>
+    <section class="party-half party-join" aria-labelledby="party-join-heading">
+     <div class="party-half-head"><span class="party-step coral">02</span><div><span class="party-eyebrow">JOIN FRIENDS</span><h2 id="party-join-heading">朋友已經開房了？</h2></div></div>
+     <p class="party-join-lead">不用註冊、也不用找半天。<br>拿到房號，輸入就能加入。</p>
+     <div class="party-join-illustration" aria-hidden="true"><svg viewBox="0 0 290 144"><rect x="55" y="20" width="135" height="98" rx="12" fill="#fce7c1" stroke="#24385e" stroke-width="5" transform="rotate(-7 55 20)"/><rect x="114" y="11" width="143" height="99" rx="12" fill="#d6e8ff" stroke="#24385e" stroke-width="5" transform="rotate(7 114 11)"/><path d="M134 65q24-25 46 0 24 24 42-2" stroke="#f27962" stroke-width="6" fill="none" stroke-linecap="round"/><circle cx="130" cy="43" r="7" fill="#3265e6"/><circle cx="233" cy="91" r="7" fill="#ffd36c"/><path d="M28 80l-17-4M31 94l-15 7M263 44l18-11M267 58l20 2" stroke="#24385e" stroke-width="4" stroke-linecap="round"/></svg><span>6 碼小暗號</span></div>
+     <div class="field party-field"><label for="joinName">你的暱稱</label><input id="joinName" maxlength="14" placeholder="例如：我真的猜不出來" autocomplete="nickname"></div>
+     <div class="field party-field"><label for="roomCode">朋友給你的房號</label><input id="roomCode" maxlength="6" placeholder="ABC123" class="party-code-input" autocomplete="off" autocapitalize="characters" spellcheck="false"></div>
+     <button id="joinBtn" class="btn full party-join-button" type="button">加入房間 <span aria-hidden="true">→</span></button>
+     <p class="party-join-help">房號會出現在房主的畫面上，複製連結也能邀請朋友。</p>
+    </section>
    </div>
-   <div class="card gate-panel join-card">
-    <div class="gate-topline"><span class="gate-number">02 / JOIN YOUR FRIENDS</span><span class="gate-doodle" style="color:#d97349">↗ 快進來！</span></div>
-    <h2>朋友揪我。</h2><p class="gate-desc">跟朋友拿 6 碼房號，不要自己一個人亂猜。</p>
-    <div class="field"><label for="joinName">你要叫什麼？</label><input id="joinName" maxlength="14" placeholder="像是：猜不到就亂猜" autocomplete="nickname"></div>
-    <div class="field"><label for="roomCode">朋友給你的房號</label><input id="roomCode" maxlength="6" placeholder="ABC123" style="text-transform:uppercase;letter-spacing:3px;font-weight:900" autocomplete="off"></div>
-    <button id="joinBtn" class="btn full" style="margin-top:9px">進去看看他們在畫什麼 <span aria-hidden="true">→</span></button>
-    <div style="margin-top:24px;border-top:1px dashed #b8b09e;padding-top:14px;font-size:12px;color:#766d5e"><b style="color:#395340">小提醒／</b> 不用登入，也不用真的會畫畫。<br>當然，也不能先偷看答案啦。</div>
-    <svg viewBox="0 0 130 80" aria-hidden="true" style="display:block;width:115px;margin:13px 8px 0 auto;transform:rotate(-7deg)"><path d="M17 52q10-43 59-30t31 45" stroke="#cb9358" stroke-width="4" fill="none" stroke-linecap="round" stroke-dasharray="9 10"/><path d="M18 38l-1 14 14-4" stroke="#cb9358" stroke-width="4" fill="none" stroke-linecap="round"/></svg>
-   </div>
-  </div><p class="hint center" style="margin:20px 0 7px">2–8 人一起亂畫　／　電腦・手機都可以　／　朋友來了最好玩</p>
+   <div class="party-board-foot"><span>✳ 2–8 人一起玩</span><span>✎ 不會畫也能開心玩</span><span>⌁ 支援手機和電腦</span></div>
+  </div>
  </section>
  <section id="game" class="hide">
   <div class="toolbar"><div class="room-title">這一局 <span id="roomLabel">------</span> <span id="modeLabel" class="mode-tag">經典亂畫</span> <span id="categoryLabel" class="mode-tag">綜合</span> <button id="copyBtn" class="btn" style="padding:6px 9px;font-size:12px">複製邀請連結 ↗</button></div><div class="stat-box"><div class="stat"><strong id="turnLabel">－</strong><small>第幾回</small></div><div class="stat"><strong id="timeLabel">80</strong><small>秒倒數</small></div><button id="leaveBtn" class="btn">離開房間 ↗</button></div></div>
@@ -154,7 +258,7 @@ html[data-theme="sky"] .footer{color:#6e83a4}
    <aside class="card panel chat-panel"><h3>大家猜猜看 <span aria-hidden="true">✳</span></h3><div class="messages" id="messages" aria-live="polite"></div><form id="chatForm" class="chat-form"><label class="sr-only" for="chatInput">輸入猜測</label><input id="chatInput" maxlength="70" placeholder="我猜是……" autocomplete="off"><button class="btn btn-main" type="submit">猜！</button></form><div class="hint" style="margin-top:11px">答得快，拿分就多。</div></aside>
   </div>
  </section>
- <footer class="foot">畫得好不好沒關係，猜得到才厲害<br>房間資料在伺服器重新啟動後會清空，聊天時請不要分享個人資料。</footer>
+ <footer class="foot">JUNYI DOODLE CLUB · 畫得好不好沒關係，猜得到才厲害<br>房間資料在伺服器重新啟動後會清空，聊天時請不要分享個人資料。</footer>
 </main><div class="toast" id="toast" role="status"></div>
 <script>
 'use strict';
@@ -193,8 +297,8 @@ function musicBeat(){const notes=[261.63,329.63,392,329.63,293.66,349.23,440,349
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&musicLoop)stopMusic();});
 $('musicBtn').onclick=()=>{if(musicLoop){stopMusic();return;}musicBeat();musicLoop=setInterval(musicBeat,500);$('musicBtn').textContent='♫ 背景音樂 ON';$('musicBtn').setAttribute('aria-pressed','true');};
 $('soundBtn').onclick=()=>{soundEnabled=!soundEnabled;$('soundBtn').textContent=soundEnabled?'音效 ON':'♪ 音效 OFF';$('soundBtn').setAttribute('aria-pressed',String(soundEnabled));};
-function themeSet(v){document.documentElement.dataset.theme=v;$('themeBtn').textContent=v==='sky'?'藍白配色':'黑綠配色';try{localStorage.setItem('drawGuessTheme',v);localStorage.setItem('junyi-theme',v==='sky'?'light':'dark')}catch{}}
-let defaultTheme='dark';try{if(localStorage.getItem('junyi-theme')==='light'||(!localStorage.getItem('junyi-theme')&&localStorage.getItem('drawGuessTheme')==='sky'))defaultTheme='sky';}catch{}themeSet(defaultTheme);
+function themeSet(v){document.documentElement.dataset.theme=v;$('themeBtn').textContent=v==='sky'?'☀ 明亮派對':'☾ 夜間派對';try{localStorage.setItem('drawGuessTheme',v)}catch{}}
+let defaultTheme='sky';try{if(localStorage.getItem('drawGuessTheme')==='dark')defaultTheme='dark';}catch{}themeSet(defaultTheme);
 $('themeBtn').onclick=()=>themeSet(document.documentElement.dataset.theme==='sky'?'dark':'sky');
 
 function toast(msg){$('toast').textContent=msg;$('toast').classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').classList.remove('show'),3000);}
@@ -260,6 +364,15 @@ function syncView(s){state.game=s;state.room=s.code;state.myId=state.demo?'demo'
  paintTools();
 }
 function respond(event,payload,cb){if(!state.socket?.connected){toast('尚未連上伺服器，請稍候或確認已部署後端');return;}state.socket.emit(event,payload,(res)=>{if(!res?.ok){toast(res?.error||'操作失敗');return;}cb?.(res);});}
+// 暱稱跨開房與加入同步，重新整理頁面時也可快速繼續。
+try { const nick=localStorage.getItem('junyiPartyNickname'); if(nick){$('createName').value=nick;$('joinName').value=nick;} } catch {}
+for(const id of ['createName','joinName']) $(id).addEventListener('input', e => {
+ const value=e.target.value;
+ const other=$(id==='createName'?'joinName':'createName');
+ if(document.activeElement!==other)other.value=value;
+ try {localStorage.setItem('junyiPartyNickname',value);}catch{}
+});
+$('roomCode').addEventListener('input',e=>{e.target.value=e.target.value.toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,6)});
 $('createBtn').onclick=()=>{const name=$('createName').value.trim();if(!name){toast('請先輸入暱稱');return;}respond('create-room',{name,rounds:Number($('rounds').value),seconds:Number($('seconds').value),category:$('topicCategory').value,expanded:document.querySelector('input[name=drawingMode]:checked').value==='expanded'},()=>say('房間建立成功，分享房號邀請朋友！',null,'system'));};
 $('joinBtn').onclick=()=>{const name=$('joinName').value.trim();const code=$('roomCode').value.trim().toUpperCase();if(!name||code.length!==6){toast('請輸入暱稱與 6 位房號');return;}respond('join-room',{name,code},()=>say('你已加入房間，等房主開始。',null,'system'));};
 $('startBtn').onclick=()=>respond('start-game',{},()=>{$('waiting').classList.add('hide');say('遊戲開始！請看畫布猜題。',null,'system');});
