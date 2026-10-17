@@ -105,7 +105,7 @@ nav a:hover{color:var(--primary-light)}
 </style>
 <link rel="stylesheet" href="site-nav.css?v=7">
 <link rel="stylesheet" href="site-petals.css?v=6">
-<link rel="stylesheet" href="site-editorial.css?v=7">
+<link rel="stylesheet" href="site-editorial.css?v=8">
 </head>
 <body>
 
@@ -204,7 +204,7 @@ onSnapshot(query(collection(db,"messages"),orderBy("time")),s=>{box.innerHTML=""
 async function sendMsg(){const text=input.value.trim();if(!text)return;await addDoc(collection(db,"messages"),{user:name.value.trim()||"匿名同學",text,time:Date.now()});input.value=""}
 send.onclick=e=>{e.stopPropagation();sendMsg()};input.onkeypress=e=>{if(e.key==="Enter")sendMsg()};
 </script>
-<script src="site-nav.js?v=7"></script>
+<script src="site-nav.js?v=8"></script>
 <script src="site-petals.js?v=6"></script>
 </body>
 </html>

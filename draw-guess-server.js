@@ -7,13 +7,23 @@
 module.exports = function attachDrawGuess(io) {
   const channel = io.of('/draw-guess');
   const rooms = new Map();
-  const WORDS = [
-    '貓咪','雨傘','冰淇淋','太陽','月亮','飛機','火車','機器人','企鵝','西瓜','草莓','牙刷','電腦','手機','書包',
-    '彩虹','蘋果','大象','長頸鹿','獅子','熊貓','章魚','海豚','鯊魚','蝴蝶','蜜蜂','恐龍','蛋糕','披薩','漢堡',
-    '珍珠奶茶','薯條','氣球','吉他','鋼琴','棒球','籃球','溜滑梯','摩天輪','紅綠燈','消防車','飛碟','雪人','聖誕樹',
-    '眼鏡','皇冠','鑰匙','時鐘','城堡','燈泡','火箭','帆船','腳踏車','烏龜','兔子','狐狸','青蛙','櫻桃','蘑菇',
-    '巧克力','漢堡包','游泳池','咖啡杯','向日葵','相機','獨角獸','熱氣球','電風扇','足球','郵筒','滑板'
-  ];
+  // 由站長維護的本地題庫，無需外部 API。重開遊戲時重洗牌，不在同場重複題目。
+  const BANK = require('./draw-guess-words.json');
+  const LABELS = BANK.labels;
+  const CATEGORIES = BANK.categories;
+  const validCategories = new Set(['all', ...Object.keys(CATEGORIES)]);
+  const questionPool = category => {
+    const list = category === 'all' ? Object.values(CATEGORIES).flat() : CATEGORIES[category];
+    return Array.from(new Set((list || []).filter(x => typeof x === 'string' && x.trim().length)));
+  };
+  function shuffled(words) {
+    const result = words.slice();
+    for (let i = result.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [result[i], result[j]] = [result[j], result[i]];
+    }
+    return result;
+  }
   const MAX_PLAYERS = 8;
   const STICKERS = new Set(['shortHair','longHair','eyes','glasses','hat','smile','tree','house']);
   const ack = (callback, result) => { if (typeof callback === 'function') callback(result); };
@@ -32,6 +42,7 @@ module.exports = function attachDrawGuess(io) {
     const online = Array.from(r.players.values());
     return {
       code: r.code, status: r.status, ownerId:r.ownerId, expanded:r.expanded,
+      category:r.category, categoryLabel:LABELS[r.category], questionCount:r.questionDeck.length,
       players: online.map(p => ({id:p.id,name:p.name,score:p.score,guessed:r.guessed.has(p.id)})),
       seconds:r.seconds, rounds:r.rounds, currentTurn:r.turn + 1,
       totalTurns:r.totalTurns, drawerId:r.drawerId,
@@ -49,14 +60,12 @@ module.exports = function attachDrawGuess(io) {
   function nextTurn(r) {
     if (!rooms.has(r.code)) return;
     if(r.players.size<2){r.status='lobby';clearRound(r);r.turn=0;broadcast(r);return;}
-    if(r.turn>=r.totalTurns){finishGame(r);return;}
+    if(r.turn>=r.totalTurns || r.deckIndex>=r.questionDeck.length){finishGame(r);return;}
     const active = r.order.filter(id=>r.players.has(id));
     if(active.length===0){finishGame(r);return;}
     clearRound(r);
     r.drawerId=active[r.turn % active.length];
-    const candidates=WORDS.filter(w=>w!==r.lastWord);
-    r.word=candidates[Math.floor(Math.random()*candidates.length)];
-    r.lastWord=r.word;
+    r.word=r.questionDeck[r.deckIndex++];
     r.status='playing';r.deadline=Date.now()+r.seconds*1000;
     channel.to(r.code).emit('board-reset');
     broadcast(r);
@@ -112,7 +121,8 @@ module.exports = function attachDrawGuess(io) {
       const seconds=[60,80,100].includes(Number(payload?.seconds))?Number(payload.seconds):80;
       const code=roomCode();
       const expanded=payload?.expanded === true;
-      const r={code,expanded,players:new Map(),order:[socket.id],ownerId:socket.id,rounds,seconds,status:'lobby',turn:0,totalTurns:0,drawerId:null,word:'',lastWord:'',deadline:0,strokes:[],guessed:new Set()};
+      const category=validCategories.has(payload?.category) ? payload.category : 'all';
+      const r={code,expanded,category,questionDeck:[],deckIndex:0,players:new Map(),order:[socket.id],ownerId:socket.id,rounds,seconds,status:'lobby',turn:0,totalTurns:0,drawerId:null,word:'',deadline:0,strokes:[],guessed:new Set()};
       r.players.set(socket.id,{id:socket.id,name,score:0,lastChat:0});
       rooms.set(code,r);socket.join(code);socket.data.drawGuessRoom=code;
       ack(done,{ok:true,code});broadcast(r);
@@ -137,7 +147,10 @@ module.exports = function attachDrawGuess(io) {
       if(!['lobby','finished'].includes(r.status))return ack(done,{ok:false,error:'遊戲已開始'});
       if(r.players.size<2)return ack(done,{ok:false,error:'至少需要兩位玩家'});
       for(const p of r.players.values())p.score=0;
-      r.order=Array.from(r.players.keys());r.turn=0;r.totalTurns=r.order.length*r.rounds;
+      r.order=Array.from(r.players.keys());r.turn=0;
+      r.questionDeck=shuffled(questionPool(r.category));r.deckIndex=0;
+      r.totalTurns=Math.min(r.order.length*r.rounds,r.questionDeck.length);
+      if(!r.totalTurns)return ack(done,{ok:false,error:'這個分類目前沒有題目，請修改題庫'});
       nextTurn(r);ack(done,{ok:true});
     });
     socket.on('draw-stroke',(s)=>{

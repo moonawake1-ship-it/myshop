@@ -72,6 +72,11 @@ html[data-theme="sky"] .footer{color:#6e83a4}
 @media(max-width:760px){.top{padding:14px 17px;align-items:flex-start}.brand-title strong{font-size:17px}.brand-mark{width:37px;height:37px}.theme-controls{gap:5px;max-width:215px}.mini-action{font-size:11px;padding:6px;min-height:30px}.connection{font-size:10px}.small-link{font-size:10px}.shell{padding:0 13px 24px}.hero{grid-template-columns:1fr;margin:15px auto 12px;gap:0;min-height:0}.hero-copy{padding:10px 5px}.hero h1{font-size:clamp(47px,11vw,73px);letter-spacing:-3px;margin:16px 0}.hero p{font-size:13px}.hero-art{min-height:225px;max-width:400px;margin:8px auto}.art-paper{left:36px;right:32px;top:7px;bottom:10px}.art-pin{right:8px}.section-stripe{margin:10px 5px 16px}.section-stripe .handmark{display:none}.gateway{grid-template-columns:1fr;gap:16px}.gate-panel{padding:23px 18px}.gate-panel h2{font-size:25px}.play-layout{grid-template-columns:1fr;gap:16px}.chat-panel{grid-column:auto;height:320px}.panel{padding:15px}.board-wrap{padding:12px 10px}.toolbar{margin-bottom:15px}.tools{gap:6px}.swatch{height:27px;width:27px}.spaced{margin-left:0}}
 @media(max-width:440px){.top{display:block}.theme-controls{max-width:none;justify-content:flex-start;margin-top:10px}.hero-art{min-height:215px}.mode-choice span{min-height:84px;padding:9px}.mode-choice b{font-size:12px}.mode-choice small{font-size:10px}.art-pin{font-size:10px}.stat-box{gap:6px}.stat strong{font-size:20px}.room-title{font-size:15px}.board-head{margin:1px 2px 11px}.word-mask{font-size:17px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+/* 題目分類只需一個小選單，保留原本畫畫聚會的樣子。 */
+#topicField{margin:4px 0 16px}
+#topicField select{max-width:100%;font-weight:750;cursor:pointer}
+.topic-note{font-size:11px;line-height:1.6;color:var(--dim);padding-top:1px}
+.room-title #categoryLabel{background:var(--paper);color:var(--paper-ink);border:1px dashed var(--line)}
 </style>
 <link rel="stylesheet" href="site-petals.css?v=6">
 <link rel="stylesheet" href="draw-editorial.css?v=7">
@@ -115,6 +120,10 @@ html[data-theme="sky"] .footer{color:#6e83a4}
     <h2>我來開一局。</h2><p class="gate-desc">你當房主，規則你決定。朋友來了就開畫。</p>
     <div class="field"><label for="createName">先取個綽號</label><input id="createName" maxlength="14" placeholder="像是：畫不出來的貓" autocomplete="nickname"></div>
     <div class="row"><div class="field"><label for="rounds">每個人畫幾輪？</label><select id="rounds"><option value="1">1 輪</option><option value="2" selected>2 輪</option><option value="3">3 輪</option></select></div><div class="field"><label for="seconds">每張圖畫多久？</label><select id="seconds"><option value="60">60 秒</option><option value="80" selected>80 秒</option><option value="100">100 秒</option></select></div></div>
+    <div class="field" id="topicField"><label for="topicCategory">這局要畫什麼？</label>
+      <select id="topicCategory" aria-label="題庫分類"><option value="all">綜合（全部主題混合）</option><option value="anime">動漫</option><option value="games">遊戲</option><option value="film">電影・影視</option><option value="daily">日常生活</option><option value="memes">網路趣味</option></select>
+      <small class="topic-note">每人畫 1～3 輪；同一場不會抽到重複題目。</small>
+    </div>
     <div class="field" style="margin-bottom:1px"><label>這局想怎麼畫？</label></div><div class="mode-choice" role="radiogroup" aria-label="繪圖玩法">
       <label><input type="radio" name="drawingMode" value="standard" checked><span><svg viewBox="0 0 40 36" aria-hidden="true"><path d="M6 27l7-2 21-21 4 4-20 21-8 5z" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M6 27l7 2M15 18l7 6" fill="none" stroke="currentColor" stroke-width="2.5"/></svg><b>經典亂畫</b><small>畫筆就夠了，純靠實力（？）</small></span></label>
       <label><input type="radio" name="drawingMode" value="expanded"><span><svg viewBox="0 0 40 36" aria-hidden="true"><path d="M8 22q1-17 16-16t11 17" fill="none" stroke="currentColor" stroke-width="2.5"/><circle cx="16" cy="21" r="2" fill="currentColor"/><circle cx="28" cy="21" r="2" fill="currentColor"/><path d="M18 29q5 4 9-1" stroke="currentColor" fill="none" stroke-width="2.5"/><path d="M3 9l6 2M5 2l2 5" stroke="currentColor" stroke-width="2.5"/></svg><b>幫我一筆</b><small>多幾個素材，畫不出就拼一下</small></span></label>
@@ -133,7 +142,7 @@ html[data-theme="sky"] .footer{color:#6e83a4}
   </div><p class="hint center" style="margin:20px 0 7px">2–8 人一起亂畫　／　電腦・手機都可以　／　朋友來了最好玩</p>
  </section>
  <section id="game" class="hide">
-  <div class="toolbar"><div class="room-title">這一局 <span id="roomLabel">------</span> <span id="modeLabel" class="mode-tag">經典亂畫</span> <button id="copyBtn" class="btn" style="padding:6px 9px;font-size:12px">複製邀請連結 ↗</button></div><div class="stat-box"><div class="stat"><strong id="turnLabel">－</strong><small>第幾回</small></div><div class="stat"><strong id="timeLabel">80</strong><small>秒倒數</small></div><button id="leaveBtn" class="btn">離開房間 ↗</button></div></div>
+  <div class="toolbar"><div class="room-title">這一局 <span id="roomLabel">------</span> <span id="modeLabel" class="mode-tag">經典亂畫</span> <span id="categoryLabel" class="mode-tag">綜合</span> <button id="copyBtn" class="btn" style="padding:6px 9px;font-size:12px">複製邀請連結 ↗</button></div><div class="stat-box"><div class="stat"><strong id="turnLabel">－</strong><small>第幾回</small></div><div class="stat"><strong id="timeLabel">80</strong><small>秒倒數</small></div><button id="leaveBtn" class="btn">離開房間 ↗</button></div></div>
   <div id="waiting" class="notice waiting center"><h2 id="waitingTitle">再等等朋友吧。</h2><p id="waitingDesc">房號分享出去，至少兩人才能開始。</p><div class="row"><button id="startBtn" class="btn btn-main" disabled>大家好了，開畫！</button></div></div>
   <div id="gameNotice" class="notice hide" role="status"></div>
   <div class="play-layout">
@@ -180,7 +189,8 @@ function tone(freq,delay=.0,duration=.11,vol=.023,type='sine'){
 function pop(){if(soundEnabled){tone(510,0,.095,.026);tone(720,.05,.085,.015);}}
 document.addEventListener('click',e=>{if(e.target.closest('button'))pop();});
 function stopMusic(){if(musicLoop){clearInterval(musicLoop);musicLoop=null;}$('musicBtn').textContent='音樂 OFF';$('musicBtn').setAttribute('aria-pressed','false');}
-function musicBeat(){const notes=[261.63,329.63,392,329.63,293.66,349.23,440,349.23,246.94,329.63,392,329.63,220,293.66,349.23,293.66];tone(notes[melodyTick%notes.length],0,.26,.008,'sine');if(melodyTick%4===0)tone(notes[melodyTick%notes.length]/2,.03,.43,.006,'triangle');melodyTick++;}
+function musicBeat(){const notes=[261.63,329.63,392,329.63,293.66,349.23,440,349.23,246.94,329.63,392,329.63,220,293.66,349.23,293.66];tone(notes[melodyTick%notes.length],0,.26,.018,'sine');if(melodyTick%4===0)tone(notes[melodyTick%notes.length]/2,.03,.43,.011,'triangle');melodyTick++;}
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&musicLoop)stopMusic();});
 $('musicBtn').onclick=()=>{if(musicLoop){stopMusic();return;}musicBeat();musicLoop=setInterval(musicBeat,500);$('musicBtn').textContent='♫ 背景音樂 ON';$('musicBtn').setAttribute('aria-pressed','true');};
 $('soundBtn').onclick=()=>{soundEnabled=!soundEnabled;$('soundBtn').textContent=soundEnabled?'音效 ON':'♪ 音效 OFF';$('soundBtn').setAttribute('aria-pressed',String(soundEnabled));};
 function themeSet(v){document.documentElement.dataset.theme=v;$('themeBtn').textContent=v==='sky'?'藍白配色':'黑綠配色';try{localStorage.setItem('drawGuessTheme',v);localStorage.setItem('junyi-theme',v==='sky'?'light':'dark')}catch{}}
@@ -231,7 +241,7 @@ function paintTools(){
  $('canvasShell').querySelector('.canvas-note').textContent=state.game?.status==='playing'?'只有畫家可以畫圖':'等候下一回合';
 }
 function syncView(s){state.game=s;state.room=s.code;state.myId=state.demo?'demo':state.socket?.id;
- $('gateway').classList.add('hide');$('game').classList.remove('hide');$('roomLabel').textContent=s.code; $('modeLabel').textContent=s.expanded?'幫我一筆':'經典亂畫';
+ $('gateway').classList.add('hide');$('game').classList.remove('hide');$('roomLabel').textContent=s.code; $('modeLabel').textContent=s.expanded?'幫我一筆':'經典亂畫'; $('categoryLabel').textContent=s.categoryLabel||'綜合';
  $('playerCount').textContent=s.players.length+' / 8';$('turnLabel').textContent=s.totalTurns?`${Math.min(s.currentTurn,s.totalTurns)}/${s.totalTurns}`:'－';$('timeLabel').textContent=s.remaining;
  $('players').replaceChildren();s.players.slice().sort((a,b)=>b.score-a.score).forEach((p,i)=>{let row=document.createElement('div');row.className='player'+(p.id===s.drawerId?' draw':'')+(p.guessed?' answered':'');let n=document.createElement('span');n.className='who';n.textContent=(i===0?'🥇 ':'')+(p.id===s.drawerId?'🎨 ':'')+p.name+(p.id===state.myId?' (你)':'')+(p.guessed?' ✓':'');let sc=document.createElement('strong');sc.className='score';sc.textContent=p.score;row.append(n,sc);$('players').append(row);});
  const me=s.players.find(p=>p.id===state.myId);
@@ -250,7 +260,7 @@ function syncView(s){state.game=s;state.room=s.code;state.myId=state.demo?'demo'
  paintTools();
 }
 function respond(event,payload,cb){if(!state.socket?.connected){toast('尚未連上伺服器，請稍候或確認已部署後端');return;}state.socket.emit(event,payload,(res)=>{if(!res?.ok){toast(res?.error||'操作失敗');return;}cb?.(res);});}
-$('createBtn').onclick=()=>{const name=$('createName').value.trim();if(!name){toast('請先輸入暱稱');return;}respond('create-room',{name,rounds:Number($('rounds').value),seconds:Number($('seconds').value),expanded:document.querySelector('input[name=drawingMode]:checked').value==='expanded'},()=>say('房間建立成功，分享房號邀請朋友！',null,'system'));};
+$('createBtn').onclick=()=>{const name=$('createName').value.trim();if(!name){toast('請先輸入暱稱');return;}respond('create-room',{name,rounds:Number($('rounds').value),seconds:Number($('seconds').value),category:$('topicCategory').value,expanded:document.querySelector('input[name=drawingMode]:checked').value==='expanded'},()=>say('房間建立成功，分享房號邀請朋友！',null,'system'));};
 $('joinBtn').onclick=()=>{const name=$('joinName').value.trim();const code=$('roomCode').value.trim().toUpperCase();if(!name||code.length!==6){toast('請輸入暱稱與 6 位房號');return;}respond('join-room',{name,code},()=>say('你已加入房間，等房主開始。',null,'system'));};
 $('startBtn').onclick=()=>respond('start-game',{},()=>{$('waiting').classList.add('hide');say('遊戲開始！請看畫布猜題。',null,'system');});
 $('leaveBtn').onclick=()=>{if(!state.demo)state.socket?.emit('leave-room');state.demo=false;state.room=null;state.game=null;state.myWord='';state.activeStamp=null;$('game').classList.add('hide');$('gateway').classList.remove('hide');$('messages').replaceChildren();resetBoard();};
@@ -268,7 +278,7 @@ function rotateSticker(offset){state.stampRotation=((state.stampRotation+offset+
 $('rotateLeft').onclick=()=>rotateSticker(-30);$('rotateRight').onclick=()=>rotateSticker(30);
 $('previewBtn').onclick=()=>{$('toast').classList.remove('show');state.demo=true;state.myId='demo';state.myWord='自由畫畫';resetBoard();state.activeStamp=null;state.eraser=false;
  const expanded=document.querySelector('input[name=drawingMode]:checked').value==='expanded';
- syncView({code:'DEMO',status:'playing',ownerId:'demo',expanded,players:[{id:'demo',name:'試畫玩家',score:0,guessed:false}],seconds:80,rounds:1,currentTurn:1,totalTurns:1,drawerId:'demo',masked:'',remaining:0});
+ syncView({code:'DEMO',status:'playing',ownerId:'demo',expanded,category:$('topicCategory').value,categoryLabel:$('topicCategory').selectedOptions[0].textContent.replace(/（.*$/, ''),questionCount:0,players:[{id:'demo',name:'試畫玩家',score:0,guessed:false}],seconds:80,rounds:1,currentTurn:1,totalTurns:1,drawerId:'demo',masked:'',remaining:0});
  $('roomLabel').textContent='試畫室';$('turnLabel').textContent='試玩';$('timeLabel').textContent='—';$('wordLabel').textContent='自由畫畫';$('drawerLabel').textContent='✏️ 畫布試玩';say('這是免連線的繪圖試玩，沒有其他玩家。可按「退出」返回大廳。',null,'system');};
 function position(e){const r=$('board').getBoundingClientRect();return{x:Math.max(0,Math.min(1,(e.clientX-r.left)/r.width)),y:Math.max(0,Math.min(1,(e.clientY-r.top)/r.height))};}
 function drawFrom(a,b){const s={id:state.strokeId,x0:a.x,y0:a.y,x1:b.x,y1:b.y,color:state.eraser?'#ffffff':state.color,size:state.eraser?Math.min(70,Math.max(18,state.size*3)):state.size};drawSegment(s);state.strokes.push(s);if(!state.demo)state.socket?.emit('draw-stroke',s);}

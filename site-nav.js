@@ -7,27 +7,60 @@ const themeBtn=q('site-theme-toggle');let stored='dark';try{stored=localStorage.
 if(stored==='dark'||stored==='light')document.documentElement.dataset.theme=stored;
 function themeUI(){if(themeBtn){const light=document.documentElement.dataset.theme==='light';themeBtn.textContent=light?'☀':'☾';themeBtn.title=light?'切換到黑綠模式':'切換到藍白模式';themeBtn.setAttribute('aria-label',themeBtn.title)}}
 themeUI();themeBtn?.addEventListener('click',()=>{const next=document.documentElement.dataset.theme==='light'?'dark':'light';document.documentElement.dataset.theme=next;try{localStorage.setItem('junyi-theme',next)}catch(_){}themeUI();});
-let audio=q('bg-music');if(!audio){audio=document.createElement('audio');audio.id='bg-music';audio.src='music.mp3';document.body.append(audio)}
-if(!audio.getAttribute('src'))audio.src='music.mp3';audio.loop=true;audio.preload='metadata';
-let state={};try{state=JSON.parse(sessionStorage.getItem('junyi-music')||'{}')||{}}catch(_){};
-let volume=.52;try{const n=Number(localStorage.getItem('junyi-volume'));if(Number.isFinite(n)&&n>=0&&n<=1)volume=n}catch(_){}audio.volume=volume;
+// 恢復最初版黑膠唱片介面；播放只使用一個 <audio> 實例。
+// 修正舊版 Number(null) === 0 導致所有新訪客被意外設定靜音。
+let audio=q('bg-music');
+if(!audio){audio=document.createElement('audio');audio.id='bg-music';document.body.append(audio);}
+if(!audio.getAttribute('src'))audio.src='music.mp3';
+audio.loop=true;audio.preload='metadata';audio.muted=false;
+// 原始唱片模板並沒有音量旋鈕，採舒適的預設音量，避免先前儲存的錯誤 0 音量。
+let savedVolume=null;try{savedVolume=localStorage.getItem('junyi-volume')}catch(_){ }
+let volume=savedVolume!==null ? Number(savedVolume) : .72;
+if(!Number.isFinite(volume)||volume<=0||volume>1)volume=.72;
+audio.volume=volume;
 const disc=q('site-music-toggle'),seek=q('site-seek-bar'),current=q('site-current-time'),total=q('site-total-time'),player=nav.querySelector('.site-player');
 const fmt=n=>Number.isFinite(n)&&n>=0?`${String(Math.floor(n/60)).padStart(2,'0')}:${String(Math.floor(n%60)).padStart(2,'0')}`:'--:--';
-let seeking=false,restored=false;
-if(disc){disc.innerHTML='<span aria-hidden="true">▶</span>';}
-if(player){const title=document.createElement('span');title.className='site-player-note';title.textContent='LISTEN · 音樂';title.setAttribute('aria-hidden','true');const t=player.querySelector('.site-progress');t?.prepend(title);
-const vb=document.createElement('button');vb.type='button';vb.className='site-volume-toggle';vb.title='調整音量';vb.setAttribute('aria-label','調整背景音樂音量');vb.textContent='◖))';player.append(vb);
-const pop=document.createElement('div');pop.className='site-volume';pop.innerHTML='<label for="junyi-music-volume">背景音樂音量</label><input id="junyi-music-volume" type="range" min="0" max="100" value="'+Math.round(volume*100)+'" aria-label="背景音樂音量">';player.append(pop);vb.addEventListener('click',()=>{pop.classList.toggle('is-open');vb.setAttribute('aria-expanded',String(pop.classList.contains('is-open')))});
-pop.querySelector('input').addEventListener('input',e=>{audio.volume=Number(e.target.value)/100;try{localStorage.setItem('junyi-volume',String(audio.volume))}catch(_){} });
-document.addEventListener('pointerdown',e=>{if(!player.contains(e.target))pop.classList.remove('is-open')},{passive:true});}
-function restore(){if(restored)return;restored=true;if(Number.isFinite(audio.duration)&&audio.duration>0&&Number.isFinite(state.position)&&Date.now()-state.when<8*60*1000){try{audio.currentTime=Math.max(0,Math.min(state.position,audio.duration-.2))}catch(_){}}}
-function display(){if(!disc)return;const playing=!audio.paused;disc.classList.toggle('playing',playing);disc.setAttribute('aria-pressed',String(playing));disc.setAttribute('aria-label',playing?'暫停背景音樂':'播放背景音樂');disc.querySelector('span').textContent=playing?'Ⅱ':'▶';if(current)current.textContent=fmt(audio.currentTime);if(total)total.textContent=fmt(audio.duration);if(seek){if(Number.isFinite(audio.duration)&&audio.duration>0){seek.disabled=false;if(!seeking)seek.value=String(Math.round(100*audio.currentTime/audio.duration))}else{seek.disabled=true;seek.value=0}}}
-audio.addEventListener('loadedmetadata',()=>{restore();display()});['timeupdate','play','pause','durationchange','ended','canplay'].forEach(evt=>audio.addEventListener(evt,display));
-audio.addEventListener('error',()=>{if(total)total.textContent='--:--';if(disc)disc.title='背景音樂載入失敗：請確認 music.mp3';});
-disc?.addEventListener('click',async()=>{if(!audio.paused){audio.pause();display();return}try{await audio.play();restore()}catch(e){console.warn('音樂未播放',e);disc.title='瀏覽器未允許播放；請再次點擊'}display()});
-seek?.addEventListener('input',()=>{seeking=true;if(Number.isFinite(audio.duration)&&audio.duration>0){audio.currentTime=audio.duration*Number(seek.value)/100;display()}});seek?.addEventListener('change',()=>{seeking=false;display()});
-window.addEventListener('pagehide',()=>{try{sessionStorage.setItem('junyi-music',JSON.stringify({position:audio.currentTime,when:Date.now(),playing:!audio.paused}))}catch(_){} });
-if(state.playing&&Date.now()-state.when<8*60*1000){document.addEventListener('pointerdown',e=>{if(e.target.closest('#site-music-toggle'))return;if(audio.paused)audio.play().catch(()=>{});},{once:true,passive:true});}
+let seeking=false,restored=false,playPromise=null;
+if(disc){disc.innerHTML='<span aria-hidden="true"></span>';disc.title='播放背景音樂';}
+let state={};try{state=JSON.parse(sessionStorage.getItem('junyi-music')||'{}')||{}}catch(_){ }
+function restore(){
+ if(restored||!Number.isFinite(audio.duration)||audio.duration<=0)return;
+ restored=true;
+ if(Number.isFinite(state.position)&&Date.now()-state.when<8*60*1000){
+   try{audio.currentTime=Math.max(0,Math.min(state.position,audio.duration-.15))}catch(_){ }
+ }
+}
+function display(){
+ if(disc){const playing=!audio.paused;disc.classList.toggle('playing',playing);
+   disc.setAttribute('aria-pressed',String(playing));disc.setAttribute('aria-label',playing?'暫停背景音樂':'播放背景音樂');
+   disc.title=playing?'暫停背景音樂':'播放背景音樂';}
+ if(current)current.textContent=fmt(audio.currentTime);
+ if(total)total.textContent=fmt(audio.duration);
+ if(seek){const d=audio.duration;if(Number.isFinite(d)&&d>0){seek.disabled=false;if(!seeking)seek.value=String(Math.round(100*audio.currentTime/d));}else{seek.disabled=true;seek.value='0';}}
+}
+function audioNotice(message){
+ if(!player)return;
+ let el=player.querySelector('.music-feedback');
+ if(!el){el=document.createElement('span');el.className='music-feedback';el.setAttribute('role','status');player.append(el);}
+ el.textContent=message;
+ clearTimeout(audioNotice.timer);
+ audioNotice.timer=setTimeout(()=>{if(el.textContent===message)el.textContent=''},5000);
+}
+async function playMusic(){
+ try{if(audio.muted)audio.muted=false;if(audio.volume===0)audio.volume=.72;
+   await audio.play();display();return true;
+ }catch(err){console.warn('背景音樂無法播放',err);
+   audioNotice(err?.name==='NotAllowedError'?'請再點唱片啟動音樂':'音樂未能載入，請檢查 music.mp3');display();return false;}
+}
+audio.addEventListener('loadedmetadata',()=>{restore();display()});
+['timeupdate','play','pause','durationchange','ended','canplay','volumechange'].forEach(evt=>audio.addEventListener(evt,display));
+audio.addEventListener('error',()=>{audioNotice('music.mp3 載入失敗');display();});
+disc?.addEventListener('click',()=>{if(!audio.paused){audio.pause();display();return;}if(!playPromise){playPromise=playMusic().finally(()=>playPromise=null);}});
+seek?.addEventListener('input',()=>{seeking=true;if(Number.isFinite(audio.duration)&&audio.duration>0){audio.currentTime=audio.duration*Number(seek.value)/100;display();}});
+seek?.addEventListener('change',()=>{seeking=false;display();});
+window.addEventListener('pagehide',()=>{try{sessionStorage.setItem('junyi-music',JSON.stringify({position:audio.currentTime,when:Date.now(),playing:!audio.paused}))}catch(_){}});
+// 瀏覽器不允許換頁時自動播放；保留時間點，在下次使用者點擊後恢復。
+if(state.playing&&Date.now()-state.when<8*60*1000){document.addEventListener('pointerdown',e=>{if(e.target.closest('#site-music-toggle'))return;if(audio.paused)void playMusic();},{once:true,passive:true});}
 display();
 // 10KB POP：Web Audio 預解碼，降低連續點擊與影片同時播放時的卡頓；失敗才使用 MP3 備援。
 let ctx=null,buffer=null,loading=null,last=0;const fallback=new Audio('pop.mp3');fallback.preload='none';fallback.volume=.34;
