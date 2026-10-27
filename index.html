@@ -105,8 +105,30 @@ nav a:hover{color:var(--primary-light)}
 @media(max-width:768px){.main-layout{flex-direction:column;margin:10px auto 30px;gap:25px}}
 </style>
 <link rel="stylesheet" href="site-nav.css?v=7">
-<link rel="stylesheet" href="site-petals.css?v=6">
+<link rel="stylesheet" href="site-petals.css?v=6" media="(min-width: 769px)">
 <link rel="stylesheet" href="site-editorial.css?v=8">
+<style>
+/* 手機版精簡：不要櫻花、雪花或全頁裝飾圖層（不隱藏畫布、首頁影片及功能按鈕）。 */
+@media (max-width:768px) {
+  #fx-canvas,
+  #petals-layer,
+  #petal-container,
+  #petals-container,
+  #sakura-container,
+  #snow-container,
+  .petal,
+  .petals,
+  .sakura,
+  .snowflake,
+  .falling-petal,
+  .falling-snow,
+  .site-petals,
+  .site-petals-layer {
+    display:none!important;
+    animation:none!important;
+  }
+}
+</style>
 </head>
 <body>
 
@@ -220,6 +242,15 @@ async function sendMsg(){const text=input.value.trim();if(!text)return;await add
 send.onclick=e=>{e.stopPropagation();sendMsg()};input.onkeypress=e=>{if(e.key==="Enter")sendMsg()};
 </script>
 <script src="site-nav.js?v=8"></script>
-<script src="site-petals.js?v=6"></script>
+<!-- 手機版停用櫻花、雪花等飄落特效；電腦版維持原有效果。 -->
+<script>
+(function () {
+  if (window.innerWidth > 768) {
+    var petalsScript = document.createElement('script');
+    petalsScript.src = 'site-petals.js?v=6';
+    document.body.appendChild(petalsScript);
+  }
+})();
+</script>
 </body>
 </html>
