@@ -181,6 +181,26 @@ html[data-theme="dark"] .party-board{box-shadow:0 19px 0 #08234c9e,0 35px 65px #
 #game .canvas-disabled .canvas-note{background:#223e63}
 @media(max-width:730px){#game .toolbar{padding:10px}#game .panel{padding:13px}#game .board-wrap{padding:11px 9px!important}}
 @media(prefers-reduced-motion:reduce){.party-mascot,.party-step,.party-ribbon{transform:none!important}}
+
+/* 2026-10-27: 手機版精簡視覺；保留電腦版的原有特效與所有遊戲功能。 */
+@media (max-width: 767px), (max-width: 1100px) and (pointer: coarse) {
+  /* 若從電腦版縮放到手機尺寸，立即隱藏已建立的特效圖層。 */
+  #junyi-atmosphere,
+  #junyi-petal-layer { display: none !important; }
+  /* 移除首頁鋪滿畫面的 SVG 塗鴉圖案。 */
+  body:has(#gateway:not(.hide))::after {
+    content: none !important;
+    background-image: none !important;
+  }
+  /* 只拿掉首頁裝飾插畫；不影響遊戲畫布與可操作的繪圖素材。 */
+  #gateway .party-portrait-line,
+  #gateway .party-join-illustration,
+  #gateway .party-heading-spark { display: none !important; }
+  /* 移走插圖後收緊留白，讓開房／加入房間更早出現在畫面上。 */
+  #gateway .party-half { padding-top: 32px; }
+  #gateway .party-host { padding-top: 38px; }
+  #gateway .party-join-lead { margin-top: 13px; }
+}
 </style>
 </head>
 <body>
@@ -422,6 +442,15 @@ function connect(){const scr=document.createElement('script');scr.src=API_BASE+'
 const preset=new URLSearchParams(location.search).get('room');if(preset)$('roomCode').value=preset.toUpperCase().slice(0,6);
 connect();
 </script>
-<script src="site-petals.js?v=6"></script>
+<script>
+/* Desktop-only decor: mobile skips loading the falling petals/snow engine entirely. */
+(function () {
+  const mobileLayout = window.matchMedia('(max-width: 767px), (max-width: 1100px) and (pointer: coarse)').matches;
+  if (mobileLayout) return;
+  const effectsScript = document.createElement('script');
+  effectsScript.src = 'site-petals.js?v=6';
+  document.body.appendChild(effectsScript);
+})();
+</script>
 </body>
 </html>
